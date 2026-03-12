@@ -33,7 +33,7 @@
 | Schema | Purpose |
 |--------|---------|
 | `RAW` | Raw ingestion layer — 9 tables for robot telemetry, maintenance, customers, deployments, incidents, knowledge base, firmware |
-| `ANALYTICS` | Analytical layer — 8 views, 4 semantic views, 1 Cortex Search service, 6 agent UDFs |
+| `ANALYTICS` | Analytical layer — 8 views, 4 semantic views, 3 Cortex Search services, 6 agent UDFs |
 
 ### Tables (RAW Schema)
 
@@ -71,11 +71,13 @@
 | BD_MAINTENANCE_INTELLIGENCE_SV | MAINTENANCE_ANALYSIS | Maintenance costs, scheduling |
 | BD_INCIDENT_ANALYSIS_SV | INCIDENT_DASHBOARD | Incident tracking, downtime |
 
-### Cortex Search Service
+### Cortex Search Services
 
 | Service | Source | Description |
 |---------|--------|-------------|
 | BD_KNOWLEDGE_SEARCH | KNOWLEDGE_BASE | RAG search over 80 technical articles covering Atlas, Spot, and Stretch documentation |
+| BD_MAINTENANCE_SEARCH | MAINTENANCE_RECORDS + ROBOTS | RAG search over 2,000 maintenance event descriptions, parts replaced, and service outcomes |
+| BD_INCIDENT_SEARCH | INCIDENTS + ROBOTS | RAG search over 500 incident descriptions, resolutions, and root cause analyses |
 
 ### Agent Functions (SQL UDFs)
 
@@ -101,7 +103,7 @@
 ## Agent Configuration
 
 - **Name:** `SNOWFLAKE_INTELLIGENCE.AGENTS.BOSTON_DYNAMICS_AGENT`
-- **Tools:** 11 total (4 Cortex Analyst + 1 Cortex Search + 6 Custom UDFs)
+- **Tools:** 13 total (4 Cortex Analyst + 3 Cortex Search + 6 Custom UDFs)
 - **Warehouse:** `BOSTON_DYNAMICS_WH` (X-SMALL, auto-suspend 300s)
 - **Access:** Granted to PUBLIC role
 

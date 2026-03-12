@@ -18,7 +18,7 @@ Boston Dynamics is the global leader in mobile robots. This project builds a **S
 
 The agent combines:
 - **Cortex Analyst** — Text-to-SQL over 4 semantic views for structured data queries
-- **Cortex Search** — RAG-based retrieval over 80+ technical knowledge base articles
+- **Cortex Search** — RAG-based retrieval over technical docs, maintenance records, and incident reports (3 search services)
 - **Custom UDFs** — 6 agent functions for fleet health, anomaly detection, predictive maintenance, cost analysis, incident reporting, and remaining useful life estimation
 - **ML Models** — Predictive maintenance, anomaly detection, and RUL estimation (notebook)
 
@@ -92,7 +92,7 @@ After deployment, navigate to **AI & ML > Snowflake Intelligence** in Snowsight.
     │   ├── 04_create_views.sql           # 8 analytical views
     │   └── 05_create_semantic_views.sql  # 4 semantic views
     ├── search/
-    │   └── 06_create_cortex_search.sql   # Cortex Search service
+    │   └── 06_create_cortex_search.sql   # 3 Cortex Search services
     ├── models/
     │   └── 08_ml_model_functions.sql     # 6 agent UDFs
     └── agent/
@@ -142,7 +142,7 @@ After deployment, navigate to **AI & ML > Snowflake Intelligence** in Snowsight.
 
 ## Agent Tools
 
-The `BOSTON_DYNAMICS_AGENT` has access to 11 tools:
+The `BOSTON_DYNAMICS_AGENT` has access to 13 tools:
 
 | Tool | Type | Purpose |
 |------|------|---------|
@@ -151,6 +151,8 @@ The `BOSTON_DYNAMICS_AGENT` has access to 11 tools:
 | MaintenanceAnalytics | Cortex Analyst | Maintenance costs, scheduling |
 | IncidentAnalytics | Cortex Analyst | Incidents, downtime, resolution |
 | KnowledgeSearch | Cortex Search | Technical docs, procedures, specs |
+| MaintenanceSearch | Cortex Search | Maintenance event descriptions, service notes |
+| IncidentSearch | Cortex Search | Incident descriptions, resolutions, root causes |
 | GetFleetHealth | Custom UDF | Fleet health summary + score |
 | GetAnomalySummary | Custom UDF | Anomalous sensor readings |
 | GetPredictiveMaintenance | Custom UDF | Components needing service |

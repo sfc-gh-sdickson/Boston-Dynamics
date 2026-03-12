@@ -21,7 +21,7 @@ This document provides step-by-step instructions for deploying the Boston Dynami
 
 The agent uses four tool categories:
 - **Cortex Analyst (Text-to-SQL)** — 4 semantic views for structured data queries
-- **Cortex Search (RAG)** — Knowledge base search over 80+ technical articles
+- **Cortex Search (RAG)** — 3 search services: knowledge base, maintenance records, and incident reports
 - **Custom UDFs** — 6 agent functions for fleet health, anomalies, predictions, costs, incidents, and RUL
 - **ML Models** — Predictive maintenance, anomaly detection, and remaining useful life estimation
 
@@ -118,11 +118,14 @@ Verify:
 SHOW SEMANTIC VIEWS IN SCHEMA BD_INTELLIGENCE.ANALYTICS;
 ```
 
-### Step 6: Create Cortex Search Service
+### Step 6: Create Cortex Search Services
 
 ```sql
 -- Execute: sql/search/06_create_cortex_search.sql
--- Creates: BD_KNOWLEDGE_SEARCH Cortex Search service
+-- Creates: 3 Cortex Search services
+--   BD_KNOWLEDGE_SEARCH  - Technical documentation (80 articles)
+--   BD_MAINTENANCE_SEARCH - Maintenance record descriptions (2,000 records)
+--   BD_INCIDENT_SEARCH   - Incident descriptions and resolutions (500 records)
 ```
 
 Verify:
