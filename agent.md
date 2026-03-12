@@ -309,7 +309,47 @@ $$;
 - What sample questions should the agent answer?
 - Are there any existing working examples to reference?
 
-### 5. VERIFY GIT MERGE CONFLICTS
+### 5. SEMANTIC VIEWS USE TABLES/DIMENSIONS/METRICS — NOT SELECT...FROM
+
+**What went wrong:** Used regular view syntax (`SELECT ... FROM`) for `CREATE SEMANTIC VIEW`, causing compilation errors (`unexpected 'COMMENT'`, `unexpected 'AS'`).
+
+**Correct approach:**
+- Semantic views use `TABLES (...)`, `DIMENSIONS (...)`, and `METRICS (...)` clauses
+- They do NOT use `SELECT ... FROM` like regular views
+- Each table is declared with `alias AS fully.qualified.table PRIMARY KEY (...)`
+- Dimensions are categorical/descriptive columns: `alias.col AS COL_NAME`
+- Metrics are numeric/aggregatable columns: `alias.col AS AGG_FUNC(COL_NAME)`
+- Synonyms on columns use `WITH SYNONYMS = (...)` (with `=`), on tables use `WITH SYNONYMS (...)` (no `=`)
+- ALWAYS use `snowflake_product_docs` to look up `CREATE SEMANTIC VIEW` syntax before writing
+
+### 6. SNOWFLAKE NOTEBOOKS — SESSION AND SQL CELL RULES
+
+**What went wrong:** Wrote Snowflake Notebooks using wrong session management and SQL patterns:
+- Used `Session.builder.configs(...).create()` to create sessions (fails in Snowflake Notebooks)
+- Used `session.sql("...").to_pandas()` for data queries instead of dedicated SQL cells
+
+**Correct approach:**
+- **Session:** ALWAYS use `get_active_session()` — NEVER use `Session.builder`:
+  ```python
+  from snowflake.snowpark.context import get_active_session
+  session = get_active_session()
+  ```
+- **SQL queries:** ALWAYS use dedicated SQL cells (cell_type: "sql") with `result_variable_name` — NEVER use `session.sql()`
+- SQL cell results are automatically available as pandas DataFrames in subsequent Python cells via the `result_variable_name`
+- Do NOT call `.to_pandas()` on SQL cell results — they are already DataFrames
+- Use `session` only when Snowpark DataFrame operations are genuinely needed (e.g., writing to tables, ML model registry)
+- ALWAYS call `get_notebook_guide` before writing any notebook code
+
+**Snowflake Notebook cell pattern:**
+```
+# SQL cell (cell_type: "sql", result_variable_name: "df_telemetry")
+SELECT * FROM BD_INTELLIGENCE.RAW.ROBOT_TELEMETRY
+
+# Python cell — reference SQL result directly as pandas DataFrame
+print(f'Rows: {len(df_telemetry)}')
+```
+
+### 7. VERIFY GIT MERGE CONFLICTS
 
 **What went wrong:** Left merge conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`) in SQL files.
 
@@ -360,16 +400,51 @@ AS
 
 ```sql
 CREATE OR REPLACE SEMANTIC VIEW {SEMANTIC_VIEW_NAME}
-  COMMENT = 'Semantic view description'
-AS
-  SELECT
-    {table}.{column} AS {alias}
+
+  TABLES (
+    {alias} AS {database}.{schema}.{table}
+      PRIMARY KEY ({primary_key_column})
       WITH SYNONYMS ('{synonym1}', '{synonym2}')
-      COMMENT = '{Column description}',
-    ...
-  FROM {database}.{schema}.{table}
-  ...;
+      COMMENT = '{Table description}'
+  )
+
+  DIMENSIONS (
+    {alias}.{column} AS {COLUMN_NAME}
+      WITH SYNONYMS = ('{synonym1}', '{synonym2}')
+      COMMENT = '{Column description}'
+  )
+
+  METRICS (
+    {alias}.{column} AS {AGG_FUNC}({COLUMN_NAME})
+      WITH SYNONYMS = ('{synonym1}', '{synonym2}')
+      COMMENT = '{Metric description}'
+  )
+
+  COMMENT = '{Semantic view description}';
 ```
+
+**IMPORTANT: Semantic views do NOT use SELECT...FROM syntax. They use TABLES, DIMENSIONS, and METRICS clauses.**
+
+### Snowflake Notebook (07_ml_models.ipynb)
+
+```python
+# Cell 1 (Python): Session setup — ONLY way to get session in Snowflake Notebooks
+from snowflake.snowpark.context import get_active_session
+session = get_active_session()
+```
+
+```sql
+-- Cell 2 (SQL, result_variable_name: "df_data"): Load data via SQL cell — NOT session.sql()
+SELECT * FROM {DATABASE}.{SCHEMA}.{TABLE}
+```
+
+```python
+# Cell 3 (Python): Use SQL cell result directly as pandas DataFrame
+# df_data is already a pandas DataFrame — do NOT call .to_pandas()
+print(f'Rows: {len(df_data)}')
+```
+
+**IMPORTANT: NEVER use `Session.builder` or `session.sql()` in Snowflake Notebooks. Use `get_active_session()` and dedicated SQL cells.**
 
 ---
 
@@ -423,6 +498,10 @@ AS
 6. Mark tasks complete before verifying they work
 7. Assume you know Snowflake syntax without checking
 8. Use text based graphics
+9. Use `SELECT ... FROM` syntax in `CREATE SEMANTIC VIEW` — use `TABLES`, `DIMENSIONS`, `METRICS` instead
+10. Use `Session.builder.configs(...).create()` in Snowflake Notebooks — use `get_active_session()` instead
+11. Use `session.sql()` in Snowflake Notebooks for standard queries — use dedicated SQL cells instead
+12. Call `.to_pandas()` on SQL cell results in notebooks — they are already pandas DataFrames
 
 ## DO:
 1. Use `snowflake_product_docs` before writing SQL
@@ -436,3 +515,5 @@ AS
 9. Always generate SVG images for the documentation.
 10. Always generate all files and never placeholders
 11. Always put this line of code at the top of all documentation files: <img src="Snowflake_Logo.svg" width="200">
+12. In Snowflake Notebooks, ALWAYS use `get_active_session()` for session and dedicated SQL cells for queries
+13. ALWAYS call `get_notebook_guide` before writing any notebook code

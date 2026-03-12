@@ -7,8 +7,6 @@
                schemas, plus the BOSTON_DYNAMICS_WH warehouse.
 =============================================================================*/
 
-USE ROLE SYSADMIN;
-
 CREATE DATABASE IF NOT EXISTS BD_INTELLIGENCE;
 USE DATABASE BD_INTELLIGENCE;
 
