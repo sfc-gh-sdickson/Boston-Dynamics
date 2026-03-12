@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-4%" y="-4%" width="110%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.48"/>
+    </filter>
+    <filter id="textSh" x="-5%" y="-10%" width="115%" height="130%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1100" height="720" fill="#FFFFFF"/>
+
+  <text x="550" y="38" text-anchor="middle" fill="#1A2744" font-size="22" font-weight="bold" filter="url(#textSh)">Deployment Workflow — Boston Dynamics Intelligence</text>
+  <line x1="220" y1="50" x2="880" y2="50" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
+
+  <!-- Step 1 -->
+  <rect x="30" y="75" width="220" height="85" rx="10" fill="#2E7D32" filter="url(#sh)"/>
+  <text x="140" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 1</text>
+  <text x="140" y="123" text-anchor="middle" fill="#C8E6C9" font-size="12">Database &amp; Schema</text>
+  <text x="140" y="143" text-anchor="middle" fill="#A5D6A7" font-size="9">01_database_and_schema.sql</text>
+
+  <path d="M250,117 L280,117" stroke="#4CAF50" stroke-width="2"/>
+  <polygon points="280,117 272,112 272,122" fill="#4CAF50"/>
+
+  <!-- Step 2 -->
+  <rect x="285" y="75" width="220" height="85" rx="10" fill="#2E7D32" filter="url(#sh)"/>
+  <text x="395" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 2</text>
+  <text x="395" y="123" text-anchor="middle" fill="#C8E6C9" font-size="12">Create Tables</text>
+  <text x="395" y="143" text-anchor="middle" fill="#A5D6A7" font-size="9">02_create_tables.sql</text>
+
+  <path d="M505,117 L535,117" stroke="#4CAF50" stroke-width="2"/>
+  <polygon points="535,117 527,112 527,122" fill="#4CAF50"/>
+
+  <!-- Step 3 -->
+  <rect x="540" y="75" width="220" height="85" rx="10" fill="#E65100" filter="url(#sh)"/>
+  <text x="650" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 3</text>
+  <text x="650" y="123" text-anchor="middle" fill="#FFCC80" font-size="12">Generate Data</text>
+  <text x="650" y="143" text-anchor="middle" fill="#FFE0B2" font-size="9">03_generate_synthetic_data.sql</text>
+
+  <path d="M760,117 L790,117" stroke="#FF9800" stroke-width="2"/>
+  <polygon points="790,117 782,112 782,122" fill="#FF9800"/>
+
+  <!-- Step 4 -->
+  <rect x="795" y="75" width="220" height="85" rx="10" fill="#1565C0" filter="url(#sh)"/>
+  <text x="905" y="103" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 4</text>
+  <text x="905" y="123" text-anchor="middle" fill="#BBDEFB" font-size="12">Create Views</text>
+  <text x="905" y="143" text-anchor="middle" fill="#90CAF9" font-size="9">04_create_views.sql</text>
+
+  <!-- Arrow down from Step 4 -->
+  <path d="M905,160 L905,200" stroke="#42A5F5" stroke-width="2"/>
+  <polygon points="905,205 900,197 910,197" fill="#42A5F5"/>
+
+  <!-- Step 5 -->
+  <rect x="795" y="210" width="220" height="85" rx="10" fill="#1565C0" filter="url(#sh)"/>
+  <text x="905" y="238" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 5</text>
+  <text x="905" y="258" text-anchor="middle" fill="#BBDEFB" font-size="12">Semantic Views</text>
+  <text x="905" y="278" text-anchor="middle" fill="#90CAF9" font-size="9">05_create_semantic_views.sql</text>
+
+  <path d="M795,252 L765,252" stroke="#42A5F5" stroke-width="2"/>
+  <polygon points="765,252 773,247 773,257" fill="#42A5F5"/>
+
+  <!-- Step 6 -->
+  <rect x="540" y="210" width="220" height="85" rx="10" fill="#6A1B9A" filter="url(#sh)"/>
+  <text x="650" y="238" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 6</text>
+  <text x="650" y="258" text-anchor="middle" fill="#E1BEE7" font-size="12">Cortex Search</text>
+  <text x="650" y="278" text-anchor="middle" fill="#CE93D8" font-size="9">06_create_cortex_search.sql</text>
+
+  <path d="M540,252 L510,252" stroke="#AB47BC" stroke-width="2"/>
+  <polygon points="510,252 518,247 518,257" fill="#AB47BC"/>
+
+  <!-- Step 7 -->
+  <rect x="285" y="210" width="220" height="85" rx="10" fill="#AD1457" filter="url(#sh)"/>
+  <text x="395" y="238" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 7</text>
+  <text x="395" y="258" text-anchor="middle" fill="#F8BBD0" font-size="12">ML Models</text>
+  <text x="395" y="278" text-anchor="middle" fill="#F48FB1" font-size="9">07_ml_models.ipynb</text>
+
+  <path d="M285,252 L255,252" stroke="#E91E63" stroke-width="2"/>
+  <polygon points="255,252 263,247 263,257" fill="#E91E63"/>
+
+  <!-- Step 8 -->
+  <rect x="30" y="210" width="220" height="85" rx="10" fill="#AD1457" filter="url(#sh)"/>
+  <text x="140" y="238" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Step 8</text>
+  <text x="140" y="258" text-anchor="middle" fill="#F8BBD0" font-size="12">ML Functions</text>
+  <text x="140" y="278" text-anchor="middle" fill="#F48FB1" font-size="9">08_ml_model_functions.sql</text>
+
+  <!-- Arrow down to Step 9 -->
+  <path d="M140,295 L140,340 L550,340 L550,370" stroke="#29B5E8" stroke-width="3" fill="none"/>
+  <polygon points="550,375 544,365 556,365" fill="#29B5E8"/>
+
+  <!-- Step 9 - Agent -->
+  <rect x="320" y="380" width="460" height="105" rx="12" fill="#29B5E8" filter="url(#sh)"/>
+  <text x="550" y="415" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Step 9: Create Agent</text>
+  <text x="550" y="440" text-anchor="middle" fill="#E0F7FA" font-size="13">09_create_agent.sql</text>
+  <text x="550" y="465" text-anchor="middle" fill="#B2EBF2" font-size="11">BOSTON_DYNAMICS_AGENT — Snowflake Intelligence</text>
+
+  <!-- Arrow to Verification -->
+  <path d="M550,485 L550,515" stroke="#546E7A" stroke-width="2" fill="none"/>
+  <polygon points="550,520 544,510 556,510" fill="#546E7A"/>
+
+  <!-- Verification -->
+  <rect x="320" y="525" width="460" height="75" rx="10" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" filter="url(#sh)"/>
+  <text x="550" y="555" text-anchor="middle" fill="#2E7D32" font-size="16" font-weight="bold">Verification &amp; Testing</text>
+  <text x="550" y="578" text-anchor="middle" fill="#388E3C" font-size="12">45 Test Questions | Agent Responses | Data Validation</text>
+
+  <!-- Legend -->
+  <rect x="50" y="640" width="1000" height="55" rx="8" fill="#F5F5F5" stroke="#CFD8DC" stroke-width="1" filter="url(#sh)"/>
+  <rect x="80" y="660" width="18" height="14" rx="3" fill="#2E7D32"/>
+  <text x="106" y="672" fill="#2E7D32" font-size="11">Infrastructure</text>
+  <rect x="220" y="660" width="18" height="14" rx="3" fill="#E65100"/>
+  <text x="246" y="672" fill="#E65100" font-size="11">Data Loading</text>
+  <rect x="370" y="660" width="18" height="14" rx="3" fill="#1565C0"/>
+  <text x="396" y="672" fill="#1565C0" font-size="11">Views &amp; Semantics</text>
+  <rect x="540" y="660" width="18" height="14" rx="3" fill="#6A1B9A"/>
+  <text x="566" y="672" fill="#6A1B9A" font-size="11">Cortex Search</text>
+  <rect x="700" y="660" width="18" height="14" rx="3" fill="#AD1457"/>
+  <text x="726" y="672" fill="#AD1457" font-size="11">ML Models</text>
+  <rect x="840" y="660" width="18" height="14" rx="3" fill="#29B5E8"/>
+  <text x="866" y="672" fill="#1565C0" font-size="11">Agent</text>
+</svg>

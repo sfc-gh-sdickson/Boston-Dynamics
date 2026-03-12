@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 680" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-4%" y="-4%" width="110%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.48"/>
+    </filter>
+    <filter id="textSh" x="-5%" y="-10%" width="115%" height="130%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1120" height="680" fill="#FFFFFF"/>
+
+  <text x="560" y="38" text-anchor="middle" fill="#1A2744" font-size="22" font-weight="bold" filter="url(#textSh)">ML Pipeline — Boston Dynamics Predictive Analytics</text>
+  <line x1="230" y1="50" x2="890" y2="50" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
+
+  <!-- Data Sources -->
+  <rect x="40" y="75" width="320" height="160" rx="10" fill="#2E7D32" filter="url(#sh)"/>
+  <text x="200" y="105" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Data Sources</text>
+  <text x="200" y="130" text-anchor="middle" fill="#C8E6C9" font-size="12">Robot Telemetry Streams</text>
+  <text x="200" y="150" text-anchor="middle" fill="#C8E6C9" font-size="12">Sensor Readings (Temp, Vibration, Load)</text>
+  <text x="200" y="170" text-anchor="middle" fill="#C8E6C9" font-size="12">Maintenance History</text>
+  <text x="200" y="190" text-anchor="middle" fill="#C8E6C9" font-size="12">Component Lifecycle Data</text>
+
+  <path d="M360,155 L410,155" stroke="#4CAF50" stroke-width="2"/>
+  <polygon points="410,155 402,150 402,160" fill="#4CAF50"/>
+
+  <!-- Feature Engineering -->
+  <rect x="415" y="75" width="280" height="160" rx="10" fill="#1565C0" filter="url(#sh)"/>
+  <text x="555" y="105" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Feature Engineering</text>
+  <text x="555" y="130" text-anchor="middle" fill="#BBDEFB" font-size="12">Rolling Averages (1h, 24h, 7d)</text>
+  <text x="555" y="150" text-anchor="middle" fill="#BBDEFB" font-size="12">Anomaly Score Calculation</text>
+  <text x="555" y="170" text-anchor="middle" fill="#BBDEFB" font-size="12">Component Age &amp; Usage Metrics</text>
+  <text x="555" y="190" text-anchor="middle" fill="#BBDEFB" font-size="12">Operational Pattern Features</text>
+
+  <path d="M695,155 L745,155" stroke="#42A5F5" stroke-width="2"/>
+  <polygon points="745,155 737,150 737,160" fill="#42A5F5"/>
+
+  <!-- Model Training -->
+  <rect x="750" y="75" width="330" height="160" rx="10" fill="#6A1B9A" filter="url(#sh)"/>
+  <text x="915" y="105" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Model Training</text>
+  <text x="915" y="130" text-anchor="middle" fill="#E1BEE7" font-size="12">Snowpark ML (Python)</text>
+  <text x="915" y="150" text-anchor="middle" fill="#E1BEE7" font-size="12">XGBoost / Random Forest</text>
+  <text x="915" y="170" text-anchor="middle" fill="#E1BEE7" font-size="12">Cross-Validation &amp; Tuning</text>
+  <text x="915" y="190" text-anchor="middle" fill="#E1BEE7" font-size="12">Snowflake Model Registry</text>
+
+  <!-- Section Label -->
+  <text x="560" y="278" text-anchor="middle" fill="#E65100" font-size="16" font-weight="bold" filter="url(#textSh)">Prediction Models</text>
+
+  <!-- Model 1: Predictive Maintenance -->
+  <rect x="30" y="298" width="340" height="150" rx="10" fill="#4527A0" filter="url(#sh)"/>
+  <text x="200" y="328" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Predictive Maintenance</text>
+  <line x1="70" y1="340" x2="330" y2="340" stroke="#9575CD" stroke-width="0.5" opacity="0.6"/>
+  <text x="200" y="362" text-anchor="middle" fill="#D1C4E9" font-size="11">Predicts component failure probability</text>
+  <text x="200" y="382" text-anchor="middle" fill="#D1C4E9" font-size="11">Features: vibration, temp, runtime hours</text>
+  <text x="200" y="402" text-anchor="middle" fill="#D1C4E9" font-size="11">Output: Failure risk score (0-1)</text>
+  <text x="200" y="430" text-anchor="middle" fill="#B39DDB" font-size="11" font-weight="bold">Target Accuracy: 92%+</text>
+
+  <!-- Model 2: Anomaly Detection -->
+  <rect x="390" y="298" width="340" height="150" rx="10" fill="#4527A0" filter="url(#sh)"/>
+  <text x="560" y="328" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Anomaly Detection</text>
+  <line x1="430" y1="340" x2="690" y2="340" stroke="#9575CD" stroke-width="0.5" opacity="0.6"/>
+  <text x="560" y="362" text-anchor="middle" fill="#D1C4E9" font-size="11">Identifies abnormal telemetry patterns</text>
+  <text x="560" y="382" text-anchor="middle" fill="#D1C4E9" font-size="11">Features: sensor deviations, Z-scores</text>
+  <text x="560" y="402" text-anchor="middle" fill="#D1C4E9" font-size="11">Output: Anomaly flag + severity</text>
+  <text x="560" y="430" text-anchor="middle" fill="#B39DDB" font-size="11" font-weight="bold">Target Precision: 90%+</text>
+
+  <!-- Model 3: Remaining Useful Life -->
+  <rect x="750" y="298" width="340" height="150" rx="10" fill="#4527A0" filter="url(#sh)"/>
+  <text x="920" y="328" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Remaining Useful Life</text>
+  <line x1="790" y1="340" x2="1050" y2="340" stroke="#9575CD" stroke-width="0.5" opacity="0.6"/>
+  <text x="920" y="362" text-anchor="middle" fill="#D1C4E9" font-size="11">Estimates component lifespan remaining</text>
+  <text x="920" y="382" text-anchor="middle" fill="#D1C4E9" font-size="11">Features: usage, maintenance history</text>
+  <text x="920" y="402" text-anchor="middle" fill="#D1C4E9" font-size="11">Output: Days until replacement</text>
+  <text x="920" y="430" text-anchor="middle" fill="#B39DDB" font-size="11" font-weight="bold">Target RMSE: &lt;15 days</text>
+
+  <!-- Arrows to Agent Functions -->
+  <path d="M200,448 L200,495 L560,495 L560,520" stroke="#9575CD" stroke-width="2" fill="none"/>
+  <path d="M560,448 L560,520" stroke="#9575CD" stroke-width="2" fill="none"/>
+  <path d="M920,448 L920,495 L560,495" stroke="#9575CD" stroke-width="2" fill="none"/>
+  <polygon points="560,525 554,515 566,515" fill="#9575CD"/>
+
+  <!-- Agent Functions Box -->
+  <rect x="210" y="530" width="700" height="100" rx="10" fill="#29B5E8" filter="url(#sh)"/>
+  <text x="560" y="562" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Agent ML Functions (SQL UDFs)</text>
+  <text x="560" y="588" text-anchor="middle" fill="#E0F7FA" font-size="11">AGENT_GET_PREDICTIVE_MAINTENANCE</text>
+  <text x="560" y="606" text-anchor="middle" fill="#E0F7FA" font-size="11">AGENT_GET_ANOMALY_SUMMARY | AGENT_GET_RUL_ESTIMATES</text>
+  <text x="560" y="622" text-anchor="middle" fill="#B2EBF2" font-size="10">Exposed to BOSTON_DYNAMICS_AGENT via Generic Tool Type</text>
+</svg>

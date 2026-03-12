@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="110%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.48"/>
+    </filter>
+    <filter id="textSh" x="-5%" y="-10%" width="115%" height="130%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <linearGradient id="snowflakeBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#29B5E8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1B9CD9;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="820" fill="#FFFFFF"/>
+
+  <text x="600" y="42" text-anchor="middle" fill="#1A2744" font-size="24" font-weight="bold" filter="url(#textSh)">Boston Dynamics — Snowflake Intelligence Architecture</text>
+  <line x1="250" y1="54" x2="950" y2="54" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
+
+  <!-- DATA SOURCES label -->
+  <text x="80" y="90" fill="#546E7A" font-size="13" font-weight="bold" letter-spacing="2" filter="url(#textSh)">DATA SOURCES</text>
+
+  <!-- Source box 1: Atlas -->
+  <rect x="40" y="105" width="170" height="75" rx="8" fill="#2E7D32" filter="url(#shadow)"/>
+  <text x="125" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Atlas Telemetry</text>
+  <text x="125" y="155" text-anchor="middle" fill="#C8E6C9" font-size="11">Humanoid Sensors</text>
+
+  <!-- Source box 2: Spot -->
+  <rect x="230" y="105" width="170" height="75" rx="8" fill="#2E7D32" filter="url(#shadow)"/>
+  <text x="315" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Spot Telemetry</text>
+  <text x="315" y="155" text-anchor="middle" fill="#C8E6C9" font-size="11">Quadruped Sensors</text>
+
+  <!-- Source box 3: Stretch -->
+  <rect x="420" y="105" width="170" height="75" rx="8" fill="#2E7D32" filter="url(#shadow)"/>
+  <text x="505" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Stretch Telemetry</text>
+  <text x="505" y="155" text-anchor="middle" fill="#C8E6C9" font-size="11">Warehouse Robot</text>
+
+  <!-- Source box 4: Maintenance -->
+  <rect x="610" y="105" width="170" height="75" rx="8" fill="#455A64" filter="url(#shadow)"/>
+  <text x="695" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Maintenance Logs</text>
+  <text x="695" y="155" text-anchor="middle" fill="#CFD8DC" font-size="11">Service Records</text>
+
+  <!-- Source box 5: Customer -->
+  <rect x="800" y="105" width="170" height="75" rx="8" fill="#455A64" filter="url(#shadow)"/>
+  <text x="885" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Customer Data</text>
+  <text x="885" y="155" text-anchor="middle" fill="#CFD8DC" font-size="11">Deployments &amp; Sites</text>
+
+  <!-- Source box 6: KB -->
+  <rect x="990" y="105" width="170" height="75" rx="8" fill="#455A64" filter="url(#shadow)"/>
+  <text x="1075" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Knowledge Base</text>
+  <text x="1075" y="155" text-anchor="middle" fill="#CFD8DC" font-size="11">Docs &amp; Procedures</text>
+
+  <!-- Arrows from sources to Snowflake platform -->
+  <path d="M125,180 L125,220 L580,220 L580,265" stroke="#4CAF50" stroke-width="2" fill="none"/>
+  <path d="M315,180 L315,225 L580,225 L580,265" stroke="#4CAF50" stroke-width="2" fill="none"/>
+  <path d="M505,180 L505,230 L580,230 L580,265" stroke="#4CAF50" stroke-width="2" fill="none"/>
+  <path d="M695,180 L695,225 L620,225 L620,265" stroke="#78909C" stroke-width="2" fill="none"/>
+  <path d="M885,180 L885,220 L620,220 L620,265" stroke="#78909C" stroke-width="2" fill="none"/>
+  <path d="M1075,180 L1075,215 L620,215 L620,265" stroke="#78909C" stroke-width="2" fill="none"/>
+
+  <text x="600" y="252" text-anchor="middle" fill="#2E7D32" font-size="11" font-weight="bold" filter="url(#textSh)">Streaming Ingestion</text>
+
+  <!-- SNOWFLAKE PLATFORM outer box -->
+  <rect x="60" y="265" width="1080" height="280" rx="12" fill="#F0F4F8" stroke="#29B5E8" stroke-width="2" filter="url(#shadow)"/>
+  <text x="600" y="294" text-anchor="middle" fill="#1565C0" font-size="16" font-weight="bold">SNOWFLAKE DATA CLOUD — BD_INTELLIGENCE</text>
+
+  <!-- RAW Schema -->
+  <rect x="90" y="310" width="240" height="100" rx="8" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1" filter="url(#shadow)"/>
+  <text x="210" y="336" text-anchor="middle" fill="#37474F" font-size="13" font-weight="bold">RAW Schema</text>
+  <text x="210" y="358" text-anchor="middle" fill="#546E7A" font-size="11">robot_telemetry</text>
+  <text x="210" y="376" text-anchor="middle" fill="#546E7A" font-size="11">maintenance_records</text>
+  <text x="210" y="394" text-anchor="middle" fill="#546E7A" font-size="11">customer_deployments</text>
+
+  <!-- ANALYTICS Schema -->
+  <rect x="360" y="310" width="240" height="100" rx="8" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1" filter="url(#shadow)"/>
+  <text x="480" y="336" text-anchor="middle" fill="#37474F" font-size="13" font-weight="bold">ANALYTICS Schema</text>
+  <text x="480" y="358" text-anchor="middle" fill="#546E7A" font-size="11">Analytical Views</text>
+  <text x="480" y="376" text-anchor="middle" fill="#546E7A" font-size="11">Semantic Views</text>
+  <text x="480" y="394" text-anchor="middle" fill="#546E7A" font-size="11">ML Prediction Views</text>
+
+  <!-- Cortex Services -->
+  <rect x="630" y="310" width="240" height="100" rx="8" fill="#E3F2FD" stroke="#42A5F5" stroke-width="1" filter="url(#shadow)"/>
+  <text x="750" y="336" text-anchor="middle" fill="#1565C0" font-size="13" font-weight="bold">Cortex Services</text>
+  <text x="750" y="358" text-anchor="middle" fill="#1976D2" font-size="11">Cortex Search Service</text>
+  <text x="750" y="376" text-anchor="middle" fill="#1976D2" font-size="11">Cortex Analyst</text>
+  <text x="750" y="394" text-anchor="middle" fill="#1976D2" font-size="11">ML Model Registry</text>
+
+  <!-- Warehouse -->
+  <rect x="900" y="310" width="210" height="100" rx="8" fill="#E8F5E9" stroke="#66BB6A" stroke-width="1" filter="url(#shadow)"/>
+  <text x="1005" y="336" text-anchor="middle" fill="#2E7D32" font-size="13" font-weight="bold">Compute</text>
+  <text x="1005" y="358" text-anchor="middle" fill="#388E3C" font-size="11">BOSTON_DYNAMICS_WH</text>
+  <text x="1005" y="376" text-anchor="middle" fill="#388E3C" font-size="11">X-SMALL / Auto-Scale</text>
+  <text x="1005" y="394" text-anchor="middle" fill="#388E3C" font-size="11">Auto-Suspend 300s</text>
+
+  <!-- Agent Functions -->
+  <rect x="90" y="430" width="500" height="60" rx="8" fill="#EFEBE9" stroke="#8D6E63" stroke-width="1" filter="url(#shadow)"/>
+  <text x="340" y="455" text-anchor="middle" fill="#4E342E" font-size="13" font-weight="bold">Agent Functions (SQL UDFs)</text>
+  <text x="340" y="475" text-anchor="middle" fill="#6D4C41" font-size="10">fleet_health | anomaly_summary | maintenance_schedule | predictive_insights</text>
+
+  <!-- Knowledge Base Search -->
+  <rect x="610" y="430" width="500" height="60" rx="8" fill="#EDE7F6" stroke="#7E57C2" stroke-width="1" filter="url(#shadow)"/>
+  <text x="860" y="455" text-anchor="middle" fill="#4527A0" font-size="13" font-weight="bold">Knowledge Base Search</text>
+  <text x="860" y="475" text-anchor="middle" fill="#5E35B1" font-size="10">BD_KNOWLEDGE_SEARCH — Procedures, Specs &amp; Documentation</text>
+
+  <!-- Arrow down to Agent -->
+  <path d="M600,545 L600,585" stroke="#29B5E8" stroke-width="3" fill="none"/>
+  <polygon points="600,590 594,580 606,580" fill="#29B5E8"/>
+
+  <!-- AGENT BOX -->
+  <rect x="270" y="595" width="660" height="100" rx="12" fill="url(#snowflakeBlue)" filter="url(#shadow)"/>
+  <text x="600" y="630" text-anchor="middle" fill="white" font-size="18" font-weight="bold">BOSTON_DYNAMICS_AGENT</text>
+  <text x="600" y="654" text-anchor="middle" fill="#E0F7FA" font-size="12">Snowflake Intelligence — Natural Language Interface</text>
+  <text x="600" y="676" text-anchor="middle" fill="#B2EBF2" font-size="11">Cortex Analyst (Text-to-SQL) | Cortex Search (RAG) | Custom UDFs | ML Predictions</text>
+
+  <!-- Arrow to Users -->
+  <path d="M600,695 L600,725" stroke="#546E7A" stroke-width="2" fill="none"/>
+  <polygon points="600,730 594,720 606,720" fill="#546E7A"/>
+
+  <!-- Users -->
+  <rect x="320" y="735" width="560" height="60" rx="8" fill="#37474F" filter="url(#shadow)"/>
+  <text x="600" y="760" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Users: Engineers | Operations | Fleet Managers | Executives</text>
+  <text x="600" y="780" text-anchor="middle" fill="#B0BEC5" font-size="11">Natural Language Queries via Snowflake Intelligence UI</text>
+</svg>
