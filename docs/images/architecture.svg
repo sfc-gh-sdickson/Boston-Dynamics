@@ -14,7 +14,7 @@
 
   <rect width="1200" height="820" fill="#FFFFFF"/>
 
-  <text x="600" y="42" text-anchor="middle" fill="#1A2744" font-size="24" font-weight="bold" filter="url(#textSh)">Boston Dynamics — Snowflake Intelligence Architecture</text>
+  <text x="600" y="42" text-anchor="middle" fill="#1A2744" font-size="24" font-weight="bold" filter="url(#textSh)">Boston Dynamics &#x2014; Snowflake Intelligence Architecture</text>
   <line x1="250" y1="54" x2="950" y2="54" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
 
   <!-- DATA SOURCES label -->
@@ -62,7 +62,7 @@
 
   <!-- SNOWFLAKE PLATFORM outer box -->
   <rect x="60" y="265" width="1080" height="280" rx="12" fill="#F0F4F8" stroke="#29B5E8" stroke-width="2" filter="url(#shadow)"/>
-  <text x="600" y="294" text-anchor="middle" fill="#1565C0" font-size="16" font-weight="bold">SNOWFLAKE DATA CLOUD — BD_INTELLIGENCE</text>
+  <text x="600" y="294" text-anchor="middle" fill="#1565C0" font-size="16" font-weight="bold">SNOWFLAKE DATA CLOUD &#x2014; BD_INTELLIGENCE</text>
 
   <!-- RAW Schema -->
   <rect x="90" y="310" width="240" height="100" rx="8" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1" filter="url(#shadow)"/>
@@ -100,7 +100,7 @@
   <!-- Knowledge Base Search -->
   <rect x="610" y="430" width="500" height="60" rx="8" fill="#EDE7F6" stroke="#7E57C2" stroke-width="1" filter="url(#shadow)"/>
   <text x="860" y="455" text-anchor="middle" fill="#4527A0" font-size="13" font-weight="bold">Knowledge Base Search</text>
-  <text x="860" y="475" text-anchor="middle" fill="#5E35B1" font-size="10">BD_KNOWLEDGE_SEARCH — Procedures, Specs &amp; Documentation</text>
+  <text x="860" y="475" text-anchor="middle" fill="#5E35B1" font-size="10">BD_KNOWLEDGE_SEARCH &#x2014; Procedures, Specs &amp; Documentation</text>
 
   <!-- Arrow down to Agent -->
   <path d="M600,545 L600,585" stroke="#29B5E8" stroke-width="3" fill="none"/>
@@ -109,7 +109,7 @@
   <!-- AGENT BOX -->
   <rect x="270" y="595" width="660" height="100" rx="12" fill="url(#snowflakeBlue)" filter="url(#shadow)"/>
   <text x="600" y="630" text-anchor="middle" fill="white" font-size="18" font-weight="bold">BOSTON_DYNAMICS_AGENT</text>
-  <text x="600" y="654" text-anchor="middle" fill="#E0F7FA" font-size="12">Snowflake Intelligence — Natural Language Interface</text>
+  <text x="600" y="654" text-anchor="middle" fill="#E0F7FA" font-size="12">Snowflake Intelligence &#x2014; Natural Language Interface</text>
   <text x="600" y="676" text-anchor="middle" fill="#B2EBF2" font-size="11">Cortex Analyst (Text-to-SQL) | Cortex Search (RAG) | Custom UDFs | ML Predictions</text>
 
   <!-- Arrow to Users -->

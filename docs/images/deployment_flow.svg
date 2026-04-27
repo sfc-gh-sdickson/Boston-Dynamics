@@ -10,7 +10,7 @@
 
   <rect width="1100" height="720" fill="#FFFFFF"/>
 
-  <text x="550" y="38" text-anchor="middle" fill="#1A2744" font-size="22" font-weight="bold" filter="url(#textSh)">Deployment Workflow — Boston Dynamics Intelligence</text>
+  <text x="550" y="38" text-anchor="middle" fill="#1A2744" font-size="22" font-weight="bold" filter="url(#textSh)">Deployment Workflow &#x2014; Boston Dynamics Intelligence</text>
   <line x1="220" y1="50" x2="880" y2="50" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
 
   <!-- Step 1 -->
@@ -91,7 +91,7 @@
   <rect x="320" y="380" width="460" height="105" rx="12" fill="#29B5E8" filter="url(#sh)"/>
   <text x="550" y="415" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Step 9: Create Agent</text>
   <text x="550" y="440" text-anchor="middle" fill="#E0F7FA" font-size="13">09_create_agent.sql</text>
-  <text x="550" y="465" text-anchor="middle" fill="#B2EBF2" font-size="11">BOSTON_DYNAMICS_AGENT — Snowflake Intelligence</text>
+  <text x="550" y="465" text-anchor="middle" fill="#B2EBF2" font-size="11">BOSTON_DYNAMICS_AGENT &#x2014; Snowflake Intelligence</text>
 
   <!-- Arrow to Verification -->
   <path d="M550,485 L550,515" stroke="#546E7A" stroke-width="2" fill="none"/>

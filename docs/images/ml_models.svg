@@ -10,7 +10,7 @@
 
   <rect width="1120" height="680" fill="#FFFFFF"/>
 
-  <text x="560" y="38" text-anchor="middle" fill="#1A2744" font-size="22" font-weight="bold" filter="url(#textSh)">ML Pipeline — Boston Dynamics Predictive Analytics</text>
+  <text x="560" y="38" text-anchor="middle" fill="#1A2744" font-size="22" font-weight="bold" filter="url(#textSh)">ML Pipeline &#x2014; Boston Dynamics Predictive Analytics</text>
   <line x1="230" y1="50" x2="890" y2="50" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
 
   <!-- Data Sources -->

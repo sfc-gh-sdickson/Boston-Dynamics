@@ -32,20 +32,48 @@ CREATE OR REPLACE AGENT SNOWFLAKE_INTELLIGENCE.AGENTS.BOSTON_DYNAMICS_AGENT
       "response": "Respond in a professional, data-driven manner. When presenting numeric data, use tables or structured formatting. For fleet health questions, always include the health score. For maintenance questions, include costs. For incidents, include severity and resolution status. When discussing individual robots, reference them by name and model. Suggest follow-up questions when appropriate.",
       "sample_questions": [
         {
-          "question": "What is the current fleet health status?",
-          "answer": "I will check the fleet health function to provide an overall summary including active robots, maintenance status, component health, and the fleet health score."
+          "question": "Show me a bar chart of total maintenance cost by robot model (Atlas, Spot, Stretch).",
+          "answer": "I will query maintenance analytics to break down total spending by model and present it as a bar chart you can save as an artifact."
         },
         {
-          "question": "Which robots have anomalous sensor readings?",
-          "answer": "I will check the anomaly summary for any robots showing abnormal temperature, vibration, or battery levels in the past 7 days."
+          "question": "Show the monthly maintenance cost trend for the past 6 months as a line chart.",
+          "answer": "I will query maintenance analytics for monthly cost totals and display a time-series line chart you can save as an artifact."
         },
         {
-          "question": "What is the total maintenance cost by robot model?",
-          "answer": "I will query the maintenance analytics to break down total spending by Atlas, Spot, and Stretch models."
+          "question": "What is the breakdown of robots by status (Active, Maintenance, Decommissioned)? Show as a table.",
+          "answer": "I will query fleet data to show robot counts grouped by status in a table you can save as an artifact."
         },
         {
-          "question": "How do I calibrate the LiDAR sensor on Spot?",
-          "answer": "I will search the knowledge base for the LiDAR calibration procedure for Spot robots."
+          "question": "Show total downtime hours by incident severity level as a chart.",
+          "answer": "I will query incident analytics for downtime grouped by severity and display the results as a chart you can save as an artifact."
+        },
+        {
+          "question": "Show the top 10 robots by average motor temperature over the past 30 days.",
+          "answer": "I will query telemetry data for the highest average motor temperatures and present a ranked chart you can save as an artifact."
+        },
+        {
+          "question": "Compare incident counts by robot model. Which model has the most incidents?",
+          "answer": "I will query incident analytics to compare incident volume across Atlas, Spot, and Stretch models in a chart you can save as an artifact."
+        },
+        {
+          "question": "Show the distribution of robots across deployment sites as a pie chart.",
+          "answer": "I will query fleet data for robot counts per deployment site and display a pie chart showing the percentage distribution you can save as an artifact."
+        },
+        {
+          "question": "Plot average battery level versus average motor temperature for each robot as a scatter chart.",
+          "answer": "I will query telemetry data for per-robot averages and present a scatter chart so you can spot correlations and save it as an artifact."
+        },
+        {
+          "question": "Show a stacked bar chart of maintenance events by type (Corrective, Preventive, Predictive) for each robot model.",
+          "answer": "I will query maintenance analytics for event counts grouped by type and model and display a stacked bar chart you can save as an artifact."
+        },
+        {
+          "question": "Show the remaining useful life in days for all components currently in Degraded status as a horizontal bar chart, sorted shortest to longest.",
+          "answer": "I will query predictive maintenance data for degraded components and present a horizontal bar chart ranked by urgency you can save as an artifact."
+        },
+        {
+          "question": "Show a heatmap-style table of average vibration levels by robot model and deployment site.",
+          "answer": "I will query telemetry data to create a cross-tabulation of vibration by model and site, displayed as a color-coded table you can save as an artifact."
         }
       ]
     },
