@@ -1,3 +1,5 @@
+-- Expanded maintenance data window from 90 days to 12 months to support trend queries
+-- Co-authored with CoCo
 /*=============================================================================
   Boston Dynamics Intelligence Agent
   Step 3: Synthetic Data Generation
@@ -297,7 +299,7 @@ SELECT
         WHEN 6 THEN 'Taylor Kim'
         WHEN 7 THEN 'Jamie O''Connor'
     END AS PERFORMED_BY,
-    DATEADD(HOUR, -1 * UNIFORM(1, 2160, RANDOM()), CURRENT_TIMESTAMP()) AS PERFORMED_AT,
+    DATEADD(HOUR, -1 * UNIFORM(1, 8760, RANDOM()), CURRENT_TIMESTAMP()) AS PERFORMED_AT,
     UNIFORM(15, 480, RANDOM()) AS DURATION_MINUTES,
     ROUND(UNIFORM(50.0, 12000.0, RANDOM())::FLOAT, 2) AS COST_USD,
     CASE WHEN UNIFORM(1, 10, RANDOM()) <= 4 THEN

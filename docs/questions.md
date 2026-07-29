@@ -1,3 +1,5 @@
+<!-- Updated maintenance trend question to 12 months to match data availability -->
+<!-- Co-authored with CoCo -->
 <img src="Snowflake_Logo.svg" width="200">
 
 # Boston Dynamics Intelligence Agent — Test Questions
@@ -54,7 +56,7 @@ This document contains 35+ complex test questions to validate the BOSTON_DYNAMIC
 
 19. **Which maintenance technician has performed the most maintenance events, and what is their average event duration?**
 
-20. **Show the maintenance cost trend by month for the past 6 months. Is spending increasing or decreasing?**
+20. **Show the maintenance cost trend by month for the past 12 months. Is spending increasing or decreasing?**
 
 ---
 

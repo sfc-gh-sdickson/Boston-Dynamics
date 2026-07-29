@@ -1,3 +1,5 @@
+-- Added MAINTENANCE_MONTHLY_TREND view for time-series maintenance cost analysis
+-- Co-authored with CoCo
 /*=============================================================================
   Boston Dynamics Intelligence Agent
   Step 4: Analytical Views
@@ -100,6 +102,30 @@ JOIN BD_INTELLIGENCE.RAW.ROBOTS r ON m.ROBOT_ID = r.ROBOT_ID
 LEFT JOIN BD_INTELLIGENCE.RAW.DEPLOYMENTS d ON r.DEPLOYMENT_ID = d.DEPLOYMENT_ID
 LEFT JOIN BD_INTELLIGENCE.RAW.CUSTOMERS c ON d.CUSTOMER_ID = c.CUSTOMER_ID
 GROUP BY m.ROBOT_ID, r.ROBOT_NAME, r.ROBOT_MODEL, d.SITE_NAME, c.CUSTOMER_NAME, m.MAINTENANCE_TYPE;
+
+-- ============================================================================
+-- Maintenance Monthly Trend: Event-level maintenance with month granularity
+-- ============================================================================
+CREATE OR REPLACE VIEW MAINTENANCE_MONTHLY_TREND AS
+SELECT
+    DATE_TRUNC('MONTH', m.PERFORMED_AT)::DATE AS MAINTENANCE_MONTH,
+    r.ROBOT_MODEL,
+    m.MAINTENANCE_TYPE,
+    d.SITE_NAME,
+    c.CUSTOMER_NAME,
+    m.PERFORMED_BY AS TECHNICIAN,
+    COUNT(*) AS EVENT_COUNT,
+    ROUND(SUM(m.COST_USD), 2) AS TOTAL_COST_USD,
+    ROUND(AVG(m.COST_USD), 2) AS AVG_COST_USD,
+    SUM(m.DURATION_MINUTES) AS TOTAL_DURATION_MINUTES,
+    ROUND(AVG(m.DURATION_MINUTES), 0) AS AVG_DURATION_MINUTES,
+    SUM(CASE WHEN m.PARTS_REPLACED IS NOT NULL THEN 1 ELSE 0 END) AS PARTS_REPLACEMENT_COUNT
+FROM BD_INTELLIGENCE.RAW.MAINTENANCE_RECORDS m
+JOIN BD_INTELLIGENCE.RAW.ROBOTS r ON m.ROBOT_ID = r.ROBOT_ID
+LEFT JOIN BD_INTELLIGENCE.RAW.DEPLOYMENTS d ON r.DEPLOYMENT_ID = d.DEPLOYMENT_ID
+LEFT JOIN BD_INTELLIGENCE.RAW.CUSTOMERS c ON d.CUSTOMER_ID = c.CUSTOMER_ID
+GROUP BY DATE_TRUNC('MONTH', m.PERFORMED_AT)::DATE, r.ROBOT_MODEL, m.MAINTENANCE_TYPE,
+         d.SITE_NAME, c.CUSTOMER_NAME, m.PERFORMED_BY;
 
 -- ============================================================================
 -- Incident Dashboard: Incident frequency and severity analysis

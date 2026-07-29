@@ -1,3 +1,5 @@
+-- Added BD_MAINTENANCE_TRENDS_SV semantic view for monthly maintenance trend queries
+-- Co-authored with CoCo
 /*=============================================================================
   Boston Dynamics Intelligence Agent
   Step 5: Semantic Views for Cortex Analyst
@@ -229,6 +231,63 @@ CREATE OR REPLACE SEMANTIC VIEW BD_MAINTENANCE_INTELLIGENCE_SV
   )
 
   COMMENT = 'Semantic view for Boston Dynamics maintenance records including costs, frequency, duration, and scheduling across the robot fleet';
+
+-- ============================================================================
+-- Semantic View: Maintenance Monthly Trends
+-- Enables questions about maintenance cost trends over time
+-- ============================================================================
+CREATE OR REPLACE SEMANTIC VIEW BD_MAINTENANCE_TRENDS_SV
+
+  TABLES (
+    mt AS BD_INTELLIGENCE.ANALYTICS.MAINTENANCE_MONTHLY_TREND
+      PRIMARY KEY (MAINTENANCE_MONTH, ROBOT_MODEL, MAINTENANCE_TYPE, TECHNICIAN)
+      WITH SYNONYMS ('maintenance trends', 'maintenance over time', 'monthly maintenance')
+      COMMENT = 'Monthly maintenance trends including costs, event counts, and duration over time by robot model, type, site, and technician'
+  )
+
+  DIMENSIONS (
+    mt.maintenance_month AS MAINTENANCE_MONTH
+      WITH SYNONYMS = ('month', 'date', 'period', 'time period')
+      COMMENT = 'Month of the maintenance events (first day of month)',
+    mt.robot_model AS ROBOT_MODEL
+      WITH SYNONYMS = ('model', 'type', 'platform')
+      COMMENT = 'Robot model: Atlas, Spot, or Stretch',
+    mt.maintenance_type AS MAINTENANCE_TYPE
+      WITH SYNONYMS = ('type', 'service type', 'maintenance category')
+      COMMENT = 'Type of maintenance: Preventive, Corrective, Predictive, Firmware Update, or Calibration',
+    mt.site_name AS SITE_NAME
+      WITH SYNONYMS = ('site', 'location', 'facility')
+      COMMENT = 'Deployment site name',
+    mt.customer_name AS CUSTOMER_NAME
+      WITH SYNONYMS = ('customer', 'client', 'account')
+      COMMENT = 'Customer organization name',
+    mt.technician AS TECHNICIAN
+      WITH SYNONYMS = ('tech', 'engineer', 'performed by', 'maintenance technician', 'service engineer')
+      COMMENT = 'Name of the technician who performed the maintenance'
+  )
+
+  METRICS (
+    mt.event_count AS SUM(EVENT_COUNT)
+      WITH SYNONYMS = ('count', 'number of events', 'how many', 'frequency')
+      COMMENT = 'Number of maintenance events in the month',
+    mt.total_cost_usd AS SUM(TOTAL_COST_USD)
+      WITH SYNONYMS = ('total cost', 'cost', 'expense', 'spending', 'money spent', 'maintenance cost')
+      COMMENT = 'Total maintenance cost in US dollars for the month',
+    mt.avg_cost_usd AS AVG(AVG_COST_USD)
+      WITH SYNONYMS = ('average cost', 'cost per event')
+      COMMENT = 'Average cost per maintenance event in US dollars',
+    mt.total_duration_minutes AS SUM(TOTAL_DURATION_MINUTES)
+      WITH SYNONYMS = ('total time', 'total duration', 'hours spent')
+      COMMENT = 'Total time spent on maintenance in minutes for the month',
+    mt.avg_duration_minutes AS AVG(AVG_DURATION_MINUTES)
+      WITH SYNONYMS = ('average duration', 'time per event', 'average time')
+      COMMENT = 'Average duration of maintenance events in minutes',
+    mt.parts_replacement_count AS SUM(PARTS_REPLACEMENT_COUNT)
+      WITH SYNONYMS = ('parts replaced', 'replacement count', 'components swapped')
+      COMMENT = 'Number of events involving parts replacement in the month'
+  )
+
+  COMMENT = 'Semantic view for Boston Dynamics monthly maintenance trends enabling time-series analysis of costs, frequency, and duration';
 
 -- ============================================================================
 -- Semantic View: Incident Analysis

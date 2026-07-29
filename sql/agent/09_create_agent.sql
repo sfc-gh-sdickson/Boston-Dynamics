@@ -1,3 +1,5 @@
+-- Added MaintenanceTrends tool and fixed sample questions to match available data
+-- Co-authored with CoCo
 /*=============================================================================
   Boston Dynamics Intelligence Agent
   Step 9: Agent Creation
@@ -28,7 +30,7 @@ CREATE OR REPLACE AGENT SNOWFLAKE_INTELLIGENCE.AGENTS.BOSTON_DYNAMICS_AGENT
 
     "instructions": {
       "system": "You are the Boston Dynamics Intelligence Assistant, an expert on the Boston Dynamics robot fleet including Atlas (humanoid), Spot (quadruped), and Stretch (warehouse) robots. You help engineers, operations teams, fleet managers, and executives understand fleet health, telemetry data, maintenance schedules, incidents, and predictive analytics. Always provide data-driven answers with specific numbers and actionable insights.",
-      "orchestration": "Route questions as follows: Use FleetAnalytics for structured data questions about robots, telemetry, maintenance costs, incidents, customers, and deployments. Use TelemetryAnalytics for sensor data questions about battery, temperature, vibration, speed, and errors. Use MaintenanceAnalytics for maintenance cost, frequency, and scheduling questions. Use IncidentAnalytics for incident tracking, severity, downtime, and resolution questions. Use KnowledgeSearch for technical documentation, procedures, troubleshooting guides, and product specifications. Use MaintenanceSearch to find specific maintenance event descriptions, service notes, parts replaced, and technician outcomes by searching maintenance record text. Use IncidentSearch to find specific incident descriptions, resolutions, and root cause analyses by searching incident record text. Use GetFleetHealth for a quick overall fleet health summary. Use GetAnomalySummary for current anomalous sensor readings. Use GetPredictiveMaintenance for components predicted to need service soon. Use GetMaintenanceCosts for maintenance spending breakdowns. Use GetIncidentReport for active incident summaries. Use GetRULEstimates for remaining useful life predictions on components.",
+      "orchestration": "Route questions as follows: Use FleetAnalytics for structured data questions about robots, telemetry, maintenance costs, incidents, customers, and deployments. Use TelemetryAnalytics for sensor data questions about battery, temperature, vibration, speed, and errors. Use MaintenanceAnalytics for maintenance cost, frequency, and scheduling questions grouped by robot or type. Use MaintenanceTrends for maintenance cost trends over time, monthly spending, month-over-month changes, and technician workload. Use IncidentAnalytics for incident tracking, severity, downtime, and resolution questions. Use KnowledgeSearch for technical documentation, procedures, troubleshooting guides, and product specifications. Use MaintenanceSearch to find specific maintenance event descriptions, service notes, parts replaced, and technician outcomes by searching maintenance record text. Use IncidentSearch to find specific incident descriptions, resolutions, and root cause analyses by searching incident record text. Use GetFleetHealth for a quick overall fleet health summary. Use GetAnomalySummary for current anomalous sensor readings. Use GetPredictiveMaintenance for components predicted to need service soon. Use GetMaintenanceCosts for maintenance spending breakdowns. Use GetIncidentReport for active incident summaries. Use GetRULEstimates for remaining useful life predictions on components.",
       "response": "Respond in a professional, data-driven manner. When presenting numeric data, use tables or structured formatting. For fleet health questions, always include the health score. For maintenance questions, include costs. For incidents, include severity and resolution status. When discussing individual robots, reference them by name and model. Suggest follow-up questions when appropriate.",
       "sample_questions": [
         {
@@ -36,8 +38,8 @@ CREATE OR REPLACE AGENT SNOWFLAKE_INTELLIGENCE.AGENTS.BOSTON_DYNAMICS_AGENT
           "answer": "I will query maintenance analytics to break down total spending by model and present it as a bar chart you can save as an artifact."
         },
         {
-          "question": "Show the monthly maintenance cost trend for the past 6 months as a line chart.",
-          "answer": "I will query maintenance analytics for monthly cost totals and display a time-series line chart you can save as an artifact."
+          "question": "Show the monthly maintenance cost trend for the past 12 months as a line chart.",
+          "answer": "I will query maintenance trend data for monthly cost totals and display a time-series line chart you can save as an artifact."
         },
         {
           "question": "What is the breakdown of robots by status (Active, Maintenance, Decommissioned)? Show as a table.",
@@ -98,6 +100,13 @@ CREATE OR REPLACE AGENT SNOWFLAKE_INTELLIGENCE.AGENTS.BOSTON_DYNAMICS_AGENT
           "type": "cortex_analyst_text_to_sql",
           "name": "MaintenanceAnalytics",
           "description": "Query maintenance records including costs, frequency, duration, parts replacements, and scheduling. Use for questions about maintenance spending, service history, and maintenance types."
+        }
+      },
+      {
+        "tool_spec": {
+          "type": "cortex_analyst_text_to_sql",
+          "name": "MaintenanceTrends",
+          "description": "Query monthly maintenance trends over time including costs, event counts, duration, and parts replacements. Use for questions about maintenance cost trends, month-over-month changes, spending over time, and which technician performed the most events."
         }
       },
       {
@@ -189,6 +198,13 @@ CREATE OR REPLACE AGENT SNOWFLAKE_INTELLIGENCE.AGENTS.BOSTON_DYNAMICS_AGENT
       },
       "MaintenanceAnalytics": {
         "semantic_view": "BD_INTELLIGENCE.ANALYTICS.BD_MAINTENANCE_INTELLIGENCE_SV",
+        "execution_environment": {
+          "type": "warehouse",
+          "warehouse": "BOSTON_DYNAMICS_WH"
+        }
+      },
+      "MaintenanceTrends": {
+        "semantic_view": "BD_INTELLIGENCE.ANALYTICS.BD_MAINTENANCE_TRENDS_SV",
         "execution_environment": {
           "type": "warehouse",
           "warehouse": "BOSTON_DYNAMICS_WH"
