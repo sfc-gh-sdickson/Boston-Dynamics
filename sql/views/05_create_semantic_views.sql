@@ -52,10 +52,10 @@ CREATE OR REPLACE SEMANTIC VIEW BD_FLEET_OPERATIONS_SV
       COMMENT = 'Name of the deployment site where the robot operates',
     fo.site_type AS SITE_TYPE
       WITH SYNONYMS = ('facility type', 'location type')
-      COMMENT = 'Type of deployment site: Manufacturing Floor, Warehouse, Outdoor, etc.',
+      COMMENT = 'Type of deployment site: Manufacturing Floor, Warehouse, Laboratory, Underground, Hazardous Area, or Outdoor Industrial',
     fo.primary_use_case AS PRIMARY_USE_CASE
       WITH SYNONYMS = ('use case', 'application', 'purpose', 'task')
-      COMMENT = 'Primary operational use case at the deployment site',
+      COMMENT = 'Primary job at the site: Autonomous Inspection, Remote Monitoring, Material Handling, Security Patrol, Hazardous Environment Inspection, Inventory Management, Truck Unloading, Data Collection, or Quality Assurance',
     fo.deployment_environment AS DEPLOYMENT_ENVIRONMENT
       WITH SYNONYMS = ('environment', 'operating environment')
       COMMENT = 'Operating environment: Indoor, Outdoor, Mixed, or Hazardous',
@@ -64,10 +64,10 @@ CREATE OR REPLACE SEMANTIC VIEW BD_FLEET_OPERATIONS_SV
       COMMENT = 'Name of the customer organization',
     fo.customer_industry AS CUSTOMER_INDUSTRY
       WITH SYNONYMS = ('industry', 'sector', 'vertical')
-      COMMENT = 'Industry vertical of the customer',
+      COMMENT = 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing, or Mining & Resources',
     fo.customer_region AS CUSTOMER_REGION
       WITH SYNONYMS = ('region', 'geography', 'area')
-      COMMENT = 'Geographic region of the customer',
+      COMMENT = 'Customer HQ region: North America, Europe, Asia Pacific, South America, or Middle East & Africa',
     fo.support_tier AS SUPPORT_TIER
       WITH SYNONYMS = ('support level', 'service tier', 'SLA tier')
       COMMENT = 'Customer support tier: Platinum, Gold, Silver, or Bronze'
@@ -76,7 +76,7 @@ CREATE OR REPLACE SEMANTIC VIEW BD_FLEET_OPERATIONS_SV
   METRICS (
     fo.age_days AS SUM(AGE_DAYS)
       WITH SYNONYMS = ('age', 'days old', 'robot age')
-      COMMENT = 'Number of days since the robot was manufactured',
+      COMMENT = 'Days since the robot was manufactured (summed across robots; divide by robot count for average age)',
     fo.total_components AS SUM(TOTAL_COMPONENTS)
       WITH SYNONYMS = ('component count', 'parts count', 'number of components')
       COMMENT = 'Total number of components installed on the robot',
@@ -319,10 +319,10 @@ CREATE OR REPLACE SEMANTIC VIEW BD_INCIDENT_ANALYSIS_SV
       COMMENT = 'Customer organization name',
     id.customer_industry AS CUSTOMER_INDUSTRY
       WITH SYNONYMS = ('industry', 'sector')
-      COMMENT = 'Industry vertical of the customer',
+      COMMENT = 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing, or Mining & Resources',
     id.incident_type AS INCIDENT_TYPE
       WITH SYNONYMS = ('type', 'incident category', 'failure type', 'issue type')
-      COMMENT = 'Category of incident: Hardware Failure, Software Error, Communication Loss, etc.',
+      COMMENT = 'Incident category: Hardware Failure, Battery Critical, Sensor Malfunction, Emergency Stop, Environmental Hazard, Communication Loss, Software Error, or Navigation Error',
     id.severity AS SEVERITY
       WITH SYNONYMS = ('priority', 'criticality', 'impact level')
       COMMENT = 'Incident severity: Critical, High, Medium, or Low',
@@ -381,10 +381,13 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
 
   FACTS (
     c360.arr_at_risk AS IFF(CHURN_RISK_TIER = 'High', CURRENT_ARR_USD, 0)
-      COMMENT = 'Current ARR if the customer is High churn risk, else 0',
-    srv.is_nps_response AS IFF(SURVEY_TYPE = 'NPS', 1, 0),
-    srv.is_nps_promoter AS IFF(SURVEY_TYPE = 'NPS' AND SCORE >= 9, 1, 0),
+      COMMENT = 'Current ARR if the customer is High churn risk (score above 0.6), else 0',
+    srv.is_nps_response AS IFF(SURVEY_TYPE = 'NPS', 1, 0)
+      COMMENT = '1 if the response is an NPS survey (0-10 scale), else 0; denominator of the NPS metric',
+    srv.is_nps_promoter AS IFF(SURVEY_TYPE = 'NPS' AND SCORE >= 9, 1, 0)
+      COMMENT = '1 if the response is an NPS Promoter (score 9-10), else 0',
     srv.is_nps_detractor AS IFF(SURVEY_TYPE = 'NPS' AND SCORE <= 6, 1, 0)
+      COMMENT = '1 if the response is an NPS Detractor (score 0-6), else 0'
   )
 
   DIMENSIONS (
@@ -395,15 +398,15 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
       COMMENT = 'Customer organization name',
     c360.industry AS INDUSTRY
       WITH SYNONYMS = ('vertical', 'sector')
-      COMMENT = 'Industry vertical',
+      COMMENT = 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing, or Mining & Resources',
     c360.segment AS SEGMENT
       WITH SYNONYMS = ('customer segment', 'tier', 'account segment')
-      COMMENT = 'Customer segment: Strategic, Enterprise, or Commercial',
+      COMMENT = 'Go-to-market segment by customer annual revenue: Strategic (largest), Enterprise, or Commercial',
     c360.company_size AS COMPANY_SIZE
-      COMMENT = 'Company size band: Enterprise, Large, Mid-Market',
+      COMMENT = 'Legacy company size band: Enterprise, Large, Mid-Market (prefer SEGMENT)',
     c360.region AS REGION
       WITH SYNONYMS = ('geography', 'geo')
-      COMMENT = 'Geographic region',
+      COMMENT = 'Customer HQ region: North America, Europe, Asia Pacific, South America, or Middle East & Africa',
     c360.country AS COUNTRY
       COMMENT = 'Headquarters country',
     c360.support_tier AS SUPPORT_TIER
@@ -417,13 +420,13 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
       COMMENT = 'Assigned customer success manager',
     c360.lifecycle_stage AS LIFECYCLE_STAGE
       WITH SYNONYMS = ('stage', 'customer stage', 'lifecycle')
-      COMMENT = 'Lifecycle stage: Onboarding, Adopting, Mature, Renewal Due, or Churned',
+      COMMENT = 'Lifecycle stage: Onboarding, Adopting, Mature, Renewal Due, or Churned. Exclude Churned for current-customer questions',
     c360.customer_since AS CUSTOMER_SINCE
       WITH SYNONYMS = ('start date', 'first contract date')
       COMMENT = 'Date of the first contract',
     c360.contract_end_date AS CONTRACT_END_DATE
       WITH SYNONYMS = ('renewal date', 'contract expiry', 'expiration date')
-      COMMENT = 'End date of the current contract (renewal date)',
+      COMMENT = 'End date of the current contract (renewal date); the churn date for churned customers',
     c360.primary_contract_type AS PRIMARY_CONTRACT_TYPE
       WITH SYNONYMS = ('contract type', 'commercial model')
       COMMENT = 'Contract type: RaaS Subscription, Lease, or Purchase + Support',
@@ -439,16 +442,16 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
       COMMENT = 'Type of the most recent customer interaction',
     c360.churn_risk_tier AS CHURN_RISK_TIER
       WITH SYNONYMS = ('churn risk', 'risk tier', 'at risk')
-      COMMENT = 'ML churn risk tier: High, Medium, or Low',
+      COMMENT = 'ML churn risk tier from churn probability: High (above 0.6), Medium (0.3-0.6), or Low (0.3 or below)',
     c360.health_band AS HEALTH_BAND
       WITH SYNONYMS = ('health', 'account health', 'health status')
       COMMENT = 'ML health score band: Healthy (75-100), Monitor (50-74), At Risk (<50)',
     c360.expansion_tier AS EXPANSION_TIER
       WITH SYNONYMS = ('expansion potential', 'upsell potential')
-      COMMENT = 'ML expansion propensity tier: High, Medium, or Low',
+      COMMENT = 'ML expansion propensity tier: High (above 0.6), Medium (0.3-0.6), or Low (0.3 or below)',
     c360.top_risk_drivers AS TOP_RISK_DRIVERS
       WITH SYNONYMS = ('risk drivers', 'why at risk', 'churn reasons')
-      COMMENT = 'Top factors driving churn risk for the customer',
+      COMMENT = 'Features pushing churn risk up most for the customer (SHAP contributions), or No significant risk drivers',
     srv.survey_type AS SURVEY_TYPE
       COMMENT = 'Survey type: NPS or CSAT',
     srv.nps_category AS NPS_CATEGORY
@@ -458,7 +461,7 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
       WITH SYNONYMS = ('comment', 'feedback', 'verbatim comment')
       COMMENT = 'Free-text survey comment',
     srv.contact_role AS CONTACT_ROLE
-      COMMENT = 'Role of the survey respondent',
+      COMMENT = 'Buying role of the respondent: Champion, Economic Buyer, Technical User, or Procurement',
     srv.response_date AS RESPONSE_DATE
       WITH SYNONYMS = ('survey date', 'date')
       COMMENT = 'Date of the survey response',
@@ -473,7 +476,7 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
       COMMENT = 'Number of customers',
     c360.total_arr_usd AS SUM(CURRENT_ARR_USD)
       WITH SYNONYMS = ('ARR', 'annual recurring revenue', 'recurring revenue', 'revenue')
-      COMMENT = 'Current annual recurring revenue from active contracts in USD',
+      COMMENT = 'Current annual recurring revenue from Active contracts in USD (0 for churned customers)',
     c360.churned_arr_usd AS SUM(CHURNED_ARR_USD)
       WITH SYNONYMS = ('lost ARR', 'churned revenue')
       COMMENT = 'ARR lost from churned contracts in USD',
@@ -488,7 +491,7 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
       COMMENT = 'Number of deployment sites',
     c360.days_to_renewal AS MIN(DAYS_TO_RENEWAL)
       WITH SYNONYMS = ('days until renewal', 'renewal in days')
-      COMMENT = 'Days until the current contract ends',
+      COMMENT = 'Days from today until the current contract ends (NULL for churned customers)',
     c360.avg_churn_risk AS AVG(CHURN_RISK_SCORE)
       WITH SYNONYMS = ('churn probability', 'churn risk score', 'likelihood to churn')
       COMMENT = 'ML churn risk probability (0-1)',
@@ -521,10 +524,10 @@ CREATE OR REPLACE SEMANTIC VIEW BD_CUSTOMER_360_SV
       COMMENT = 'Support tickets opened in the last 90 days',
     c360.open_tickets AS SUM(OPEN_TICKETS)
       WITH SYNONYMS = ('open cases', 'unresolved tickets')
-      COMMENT = 'Currently open support tickets',
+      COMMENT = 'Tickets opened in the last 90 days that are still Open',
     c360.avg_sla_met_pct AS AVG(SLA_MET_PCT_90D)
       WITH SYNONYMS = ('SLA attainment', 'SLA met')
-      COMMENT = 'Percent of closed tickets meeting SLA, last 90 days',
+      COMMENT = 'Percent of tickets opened in the last 90 days that met SLA (0-100)',
     c360.incidents_90d AS SUM(INCIDENTS_90D)
       WITH SYNONYMS = ('incidents', 'robot incidents')
       COMMENT = 'Robot incidents in the last 90 days',
@@ -589,16 +592,16 @@ CREATE OR REPLACE SEMANTIC VIEW BD_REVENUE_SV
       COMMENT = 'Customer name',
     rev.industry AS INDUSTRY
       WITH SYNONYMS = ('vertical', 'sector')
-      COMMENT = 'Industry vertical',
+      COMMENT = 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing, or Mining & Resources',
     rev.segment AS SEGMENT
-      COMMENT = 'Customer segment: Strategic, Enterprise, Commercial',
+      COMMENT = 'Go-to-market segment by customer annual revenue: Strategic (largest), Enterprise, or Commercial',
     rev.region AS REGION
-      COMMENT = 'Geographic region',
+      COMMENT = 'Customer HQ region: North America, Europe, Asia Pacific, South America, or Middle East & Africa',
     rev.account_manager AS ACCOUNT_MANAGER
       WITH SYNONYMS = ('AE', 'sales rep')
       COMMENT = 'Account manager',
     rev.lifecycle_stage AS LIFECYCLE_STAGE
-      COMMENT = 'Customer lifecycle stage'
+      COMMENT = 'Customer lifecycle stage: Onboarding, Adopting, Mature, Renewal Due, or Churned'
   )
 
   METRICS (
@@ -625,7 +628,7 @@ CREATE OR REPLACE SEMANTIC VIEW BD_REVENUE_SV
       COMMENT = 'Invoices paid late or overdue',
     rev.avg_days_late AS AVG(AVG_DAYS_LATE)
       WITH SYNONYMS = ('days late', 'DSO')
-      COMMENT = 'Average days late per invoice'
+      COMMENT = 'Average days late per invoice (0 for on-time and not-yet-due invoices)'
   )
 
   COMMENT = 'Semantic view for Boston Dynamics customer billing and collections by month';
@@ -644,9 +647,12 @@ CREATE OR REPLACE SEMANTIC VIEW BD_SUPPORT_SV
   )
 
   FACTS (
-    tk.is_open AS IFF(STATUS = 'Open', 1, 0),
-    tk.is_closed AS IFF(STATUS = 'Closed', 1, 0),
+    tk.is_open AS IFF(STATUS = 'Open', 1, 0)
+      COMMENT = '1 if the ticket is Open, else 0',
+    tk.is_closed AS IFF(STATUS = 'Closed', 1, 0)
+      COMMENT = '1 if the ticket is Closed, else 0; denominator of SLA met percent',
     tk.is_sla_met AS IFF(SLA_MET, 1, 0)
+      COMMENT = '1 if the ticket was resolved within the SLA for its priority and support tier, else 0'
   )
 
   DIMENSIONS (
@@ -656,11 +662,11 @@ CREATE OR REPLACE SEMANTIC VIEW BD_SUPPORT_SV
       WITH SYNONYMS = ('customer', 'account', 'client')
       COMMENT = 'Customer name',
     tk.industry AS INDUSTRY
-      COMMENT = 'Industry vertical',
+      COMMENT = 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing, or Mining & Resources',
     tk.segment AS SEGMENT
-      COMMENT = 'Customer segment',
+      COMMENT = 'Go-to-market segment by customer annual revenue: Strategic (largest), Enterprise, or Commercial',
     tk.region AS REGION
-      COMMENT = 'Geographic region',
+      COMMENT = 'Customer HQ region: North America, Europe, Asia Pacific, South America, or Middle East & Africa',
     tk.support_tier AS SUPPORT_TIER
       WITH SYNONYMS = ('support level')
       COMMENT = 'Customer support tier',
@@ -668,10 +674,10 @@ CREATE OR REPLACE SEMANTIC VIEW BD_SUPPORT_SV
       WITH SYNONYMS = ('CSM')
       COMMENT = 'Customer success manager',
     tk.robot_id AS ROBOT_ID
-      COMMENT = 'Robot referenced by the ticket, if any',
+      COMMENT = 'Robot referenced by the ticket. Currently NULL on every ticket, so tickets cannot be analysed by robot',
     tk.robot_model AS ROBOT_MODEL
       WITH SYNONYMS = ('model', 'product')
-      COMMENT = 'Robot model referenced by the ticket',
+      COMMENT = 'Robot model referenced by the ticket. Currently NULL on every ticket; use CATEGORY instead',
     tk.category AS CATEGORY
       WITH SYNONYMS = ('ticket category', 'issue type', 'topic')
       COMMENT = 'Ticket category: Hardware, Software, Navigation, Battery, Connectivity, Integration, Billing, Training',
@@ -730,11 +736,16 @@ CREATE OR REPLACE SEMANTIC VIEW BD_PIPELINE_SV
   )
 
   FACTS (
-    op.open_amount AS IFF(NOT IS_CLOSED, AMOUNT_USD, 0),
-    op.open_weighted_amount AS IFF(NOT IS_CLOSED, WEIGHTED_AMOUNT_USD, 0),
-    op.won_amount AS IFF(IS_WON, AMOUNT_USD, 0),
-    op.won_flag AS IFF(IS_WON, 1, 0),
+    op.open_amount AS IFF(NOT IS_CLOSED, AMOUNT_USD, 0)
+      COMMENT = 'Opportunity amount in USD if still open, else 0',
+    op.open_weighted_amount AS IFF(NOT IS_CLOSED, WEIGHTED_AMOUNT_USD, 0)
+      COMMENT = 'Amount x win probability / 100 in USD if still open, else 0',
+    op.won_amount AS IFF(IS_WON, AMOUNT_USD, 0)
+      COMMENT = 'Opportunity amount in USD if Closed Won, else 0',
+    op.won_flag AS IFF(IS_WON, 1, 0)
+      COMMENT = '1 if Closed Won, else 0; numerator of win rate',
     op.closed_flag AS IFF(IS_CLOSED, 1, 0)
+      COMMENT = '1 if Closed Won or Closed Lost, else 0; denominator of win rate'
   )
 
   DIMENSIONS (
@@ -747,13 +758,13 @@ CREATE OR REPLACE SEMANTIC VIEW BD_PIPELINE_SV
       WITH SYNONYMS = ('customer', 'account', 'client')
       COMMENT = 'Customer name',
     op.industry AS INDUSTRY
-      COMMENT = 'Industry vertical',
+      COMMENT = 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing, or Mining & Resources',
     op.segment AS SEGMENT
-      COMMENT = 'Customer segment',
+      COMMENT = 'Go-to-market segment by customer annual revenue: Strategic (largest), Enterprise, or Commercial',
     op.region AS REGION
-      COMMENT = 'Geographic region',
+      COMMENT = 'Customer HQ region: North America, Europe, Asia Pacific, South America, or Middle East & Africa',
     op.lifecycle_stage AS LIFECYCLE_STAGE
-      COMMENT = 'Customer lifecycle stage',
+      COMMENT = 'Customer lifecycle stage: Onboarding, Adopting, Mature, Renewal Due, or Churned',
     op.opportunity_type AS OPPORTUNITY_TYPE
       WITH SYNONYMS = ('deal type', 'type')
       COMMENT = 'Renewal, Expansion, Upsell, New Site, or Services',
@@ -768,7 +779,7 @@ CREATE OR REPLACE SEMANTIC VIEW BD_PIPELINE_SV
       COMMENT = 'Opportunity owner',
     op.close_date AS CLOSE_DATE
       WITH SYNONYMS = ('expected close', 'close')
-      COMMENT = 'Expected or actual close date',
+      COMMENT = 'Expected close date for open opportunities, actual close date for closed ones',
     op.close_quarter AS CLOSE_QUARTER
       WITH SYNONYMS = ('quarter')
       COMMENT = 'Quarter of close date',
@@ -780,7 +791,7 @@ CREATE OR REPLACE SEMANTIC VIEW BD_PIPELINE_SV
       COMMENT = 'True if the opportunity was won',
     op.loss_reason AS LOSS_REASON
       WITH SYNONYMS = ('why lost', 'lost reason')
-      COMMENT = 'Reason the opportunity was lost'
+      COMMENT = 'Reason lost: Budget cuts, Insufficient ROI, Moved to competitor, Project cancelled, or Unresolved reliability issues (NULL unless Closed Lost)'
   )
 
   METRICS (
@@ -832,13 +843,13 @@ CREATE OR REPLACE SEMANTIC VIEW BD_PRODUCT_USAGE_SV
       WITH SYNONYMS = ('customer', 'account', 'client')
       COMMENT = 'Customer name',
     us.industry AS INDUSTRY
-      COMMENT = 'Industry vertical',
+      COMMENT = 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing, or Mining & Resources',
     us.segment AS SEGMENT
-      COMMENT = 'Customer segment',
+      COMMENT = 'Go-to-market segment by customer annual revenue: Strategic (largest), Enterprise, or Commercial',
     us.region AS REGION
-      COMMENT = 'Geographic region',
+      COMMENT = 'Customer HQ region: North America, Europe, Asia Pacific, South America, or Middle East & Africa',
     us.lifecycle_stage AS LIFECYCLE_STAGE
-      COMMENT = 'Customer lifecycle stage'
+      COMMENT = 'Customer lifecycle stage: Onboarding, Adopting, Mature, Renewal Due, or Churned'
   )
 
   METRICS (
