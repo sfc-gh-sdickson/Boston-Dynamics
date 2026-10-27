@@ -17,7 +17,34 @@ USE WAREHOUSE BOSTON_DYNAMICS_WH;
 -- ============================================================================
 -- Fleet Overview: Summary of all robots with their current status
 -- ============================================================================
-CREATE OR REPLACE VIEW FLEET_OVERVIEW AS
+CREATE OR REPLACE VIEW FLEET_OVERVIEW
+-- @cols-begin
+(
+    ROBOT_ID               COMMENT 'Robot identifier (BOT-00000 format). Joins to RAW.ROBOTS.',
+    ROBOT_NAME             COMMENT 'Human-readable robot name, model plus sequence (for example Spot-019).',
+    ROBOT_MODEL            COMMENT 'Robot platform: Atlas (humanoid), Spot (quadruped) or Stretch (warehouse case handling).',
+    SERIAL_NUMBER          COMMENT 'Manufacturer serial number (BD-...).',
+    ROBOT_STATUS           COMMENT 'Robot status: Active, Idle, Maintenance or Decommissioned.',
+    FIRMWARE_VERSION       COMMENT 'Firmware version currently installed on the robot (major.minor.patch).',
+    MANUFACTURE_DATE       COMMENT 'Date the robot was manufactured.',
+    AGE_DAYS               COMMENT 'Days since the robot was manufactured.',
+    DEPLOYMENT_ID          COMMENT 'Deployment site identifier (DEP-0000 format). Joins to RAW.DEPLOYMENTS.',
+    SITE_NAME              COMMENT 'Name of the deployment site (facility and city).',
+    SITE_TYPE              COMMENT 'Site environment category: Manufacturing Floor, Warehouse, Laboratory, Underground, Hazardous Area or Outdoor Industrial.',
+    PRIMARY_USE_CASE       COMMENT 'Main job the robots perform at the site, for example Autonomous Inspection, Material Handling, Truck Unloading, Security Patrol or Inventory Management.',
+    DEPLOYMENT_ENVIRONMENT COMMENT 'Operating environment of the site: Indoor, Outdoor, Mixed or Hazardous.',
+    CUSTOMER_NAME          COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    CUSTOMER_INDUSTRY      COMMENT 'Industry of the customer that owns the site (same values as CUSTOMERS.INDUSTRY).',
+    CUSTOMER_REGION        COMMENT 'Headquarters region of the customer that owns the site.',
+    SUPPORT_TIER           COMMENT 'Purchased support entitlement: Platinum, Gold, Silver or Bronze. Higher tiers have tighter SLAs.',
+    TOTAL_COMPONENTS       COMMENT 'Number of components installed on the robot.',
+    HEALTHY_COMPONENTS     COMMENT 'Components with status Operational.',
+    DEGRADED_COMPONENTS    COMMENT 'Components with status Degraded.',
+    CRITICAL_COMPONENTS    COMMENT 'Components with status Needs Replacement or Failed.'
+)
+COMMENT = 'One row per robot with its deployment site, customer and a roll-up of component condition. Source for the BD_FLEET_OPERATIONS_SV semantic view.'
+-- @cols-end
+AS
 SELECT
     r.ROBOT_ID,
     r.ROBOT_NAME,
@@ -53,7 +80,32 @@ GROUP BY
 -- ============================================================================
 -- Telemetry Summary: Aggregated telemetry stats per robot per day
 -- ============================================================================
-CREATE OR REPLACE VIEW TELEMETRY_DAILY_SUMMARY AS
+CREATE OR REPLACE VIEW TELEMETRY_DAILY_SUMMARY
+-- @cols-begin
+(
+    ROBOT_ID          COMMENT 'Robot identifier (BOT-00000 format). Joins to RAW.ROBOTS.',
+    ROBOT_NAME        COMMENT 'Human-readable robot name, model plus sequence (for example Spot-019).',
+    ROBOT_MODEL       COMMENT 'Robot platform: Atlas (humanoid), Spot (quadruped) or Stretch (warehouse case handling).',
+    TELEMETRY_DATE    COMMENT 'Calendar day of the readings.',
+    READING_COUNT     COMMENT 'Number of telemetry readings on the day.',
+    AVG_BATTERY_LEVEL COMMENT 'Average battery state of charge for the day, percent.',
+    MIN_BATTERY_LEVEL COMMENT 'Lowest battery state of charge for the day, percent.',
+    AVG_CPU_TEMP_C    COMMENT 'Average compute temperature for the day, degrees Celsius.',
+    MAX_CPU_TEMP_C    COMMENT 'Highest compute temperature for the day, degrees Celsius.',
+    AVG_MOTOR_TEMP_C  COMMENT 'Average motor temperature for the day, degrees Celsius.',
+    MAX_MOTOR_TEMP_C  COMMENT 'Highest motor temperature for the day, degrees Celsius.',
+    AVG_VIBRATION     COMMENT 'Average vibration for the day, mm/s.',
+    MAX_VIBRATION     COMMENT 'Highest vibration for the day, mm/s.',
+    AVG_JOINT_LOAD    COMMENT 'Average joint load for the day, percent of rated capacity.',
+    MAX_JOINT_LOAD    COMMENT 'Highest joint load for the day, percent of rated capacity.',
+    AVG_SPEED_M_S     COMMENT 'Average speed for the day, m/s.',
+    MAX_SPEED_M_S     COMMENT 'Highest speed for the day, m/s.',
+    ERROR_COUNT       COMMENT 'Number of readings on the day that carried an error code.',
+    DISTINCT_MODES    COMMENT 'Number of distinct operating modes the robot used on the day.'
+)
+COMMENT = 'Telemetry aggregated to one row per robot per day: reading count, average/min/max of battery, temperatures, vibration, joint load and speed, plus error counts. Source for BD_TELEMETRY_ANALYTICS_SV.'
+-- @cols-end
+AS
 SELECT
     t.ROBOT_ID,
     r.ROBOT_NAME,
@@ -81,7 +133,27 @@ GROUP BY t.ROBOT_ID, r.ROBOT_NAME, r.ROBOT_MODEL, DATE_TRUNC('DAY', t.TIMESTAMP)
 -- ============================================================================
 -- Maintenance Analysis: Maintenance cost and frequency analytics
 -- ============================================================================
-CREATE OR REPLACE VIEW MAINTENANCE_ANALYSIS AS
+CREATE OR REPLACE VIEW MAINTENANCE_ANALYSIS
+-- @cols-begin
+(
+    ROBOT_ID                COMMENT 'Robot identifier (BOT-00000 format). Joins to RAW.ROBOTS.',
+    ROBOT_NAME              COMMENT 'Human-readable robot name, model plus sequence (for example Spot-019).',
+    ROBOT_MODEL             COMMENT 'Robot platform: Atlas (humanoid), Spot (quadruped) or Stretch (warehouse case handling).',
+    SITE_NAME               COMMENT 'Name of the deployment site (facility and city).',
+    CUSTOMER_NAME           COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    MAINTENANCE_TYPE        COMMENT 'Kind of maintenance: Preventive, Corrective, Predictive, Calibration or Firmware Update.',
+    MAINTENANCE_COUNT       COMMENT 'Number of maintenance events for the robot and maintenance type.',
+    TOTAL_COST_USD          COMMENT 'Total maintenance cost for the group in US dollars.',
+    AVG_COST_USD            COMMENT 'Average cost per maintenance event in US dollars.',
+    AVG_DURATION_MINUTES    COMMENT 'Average labour time per event in minutes.',
+    TOTAL_DURATION_MINUTES  COMMENT 'Total labour time in minutes.',
+    FIRST_MAINTENANCE_DATE  COMMENT 'Date of the earliest maintenance event in the group.',
+    LAST_MAINTENANCE_DATE   COMMENT 'Date of the most recent maintenance event in the group.',
+    PARTS_REPLACEMENT_COUNT COMMENT 'Number of events in the group where parts were replaced.'
+)
+COMMENT = 'Maintenance aggregated per robot and maintenance type over all history: event count, total/average cost and duration, first/last service date and parts replacements. Source for BD_MAINTENANCE_INTELLIGENCE_SV.'
+-- @cols-end
+AS
 SELECT
     m.ROBOT_ID,
     r.ROBOT_NAME,
@@ -106,7 +178,25 @@ GROUP BY m.ROBOT_ID, r.ROBOT_NAME, r.ROBOT_MODEL, d.SITE_NAME, c.CUSTOMER_NAME, 
 -- ============================================================================
 -- Maintenance Monthly Trend: Event-level maintenance with month granularity
 -- ============================================================================
-CREATE OR REPLACE VIEW MAINTENANCE_MONTHLY_TREND AS
+CREATE OR REPLACE VIEW MAINTENANCE_MONTHLY_TREND
+-- @cols-begin
+(
+    MAINTENANCE_MONTH       COMMENT 'First day of the month the maintenance was performed.',
+    ROBOT_MODEL             COMMENT 'Robot platform: Atlas (humanoid), Spot (quadruped) or Stretch (warehouse case handling).',
+    MAINTENANCE_TYPE        COMMENT 'Kind of maintenance: Preventive, Corrective, Predictive, Calibration or Firmware Update.',
+    SITE_NAME               COMMENT 'Name of the deployment site (facility and city).',
+    CUSTOMER_NAME           COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    TECHNICIAN              COMMENT 'Field technician who performed the work.',
+    EVENT_COUNT             COMMENT 'Number of maintenance events in the group.',
+    TOTAL_COST_USD          COMMENT 'Total maintenance cost for the group in US dollars.',
+    AVG_COST_USD            COMMENT 'Average cost per maintenance event in US dollars.',
+    TOTAL_DURATION_MINUTES  COMMENT 'Total labour time in minutes.',
+    AVG_DURATION_MINUTES    COMMENT 'Average labour time per event in minutes.',
+    PARTS_REPLACEMENT_COUNT COMMENT 'Number of events in the group where parts were replaced.'
+)
+COMMENT = 'Maintenance aggregated per month, robot model, maintenance type, site, customer and technician, for time-series analysis of cost, volume and duration. Source for BD_MAINTENANCE_TRENDS_SV.'
+-- @cols-end
+AS
 SELECT
     DATE_TRUNC('MONTH', m.PERFORMED_AT)::DATE AS MAINTENANCE_MONTH,
     r.ROBOT_MODEL,
@@ -130,7 +220,28 @@ GROUP BY DATE_TRUNC('MONTH', m.PERFORMED_AT)::DATE, r.ROBOT_MODEL, m.MAINTENANCE
 -- ============================================================================
 -- Incident Dashboard: Incident frequency and severity analysis
 -- ============================================================================
-CREATE OR REPLACE VIEW INCIDENT_DASHBOARD AS
+CREATE OR REPLACE VIEW INCIDENT_DASHBOARD
+-- @cols-begin
+(
+    ROBOT_ID               COMMENT 'Robot identifier (BOT-00000 format). Joins to RAW.ROBOTS.',
+    ROBOT_NAME             COMMENT 'Human-readable robot name, model plus sequence (for example Spot-019).',
+    ROBOT_MODEL            COMMENT 'Robot platform: Atlas (humanoid), Spot (quadruped) or Stretch (warehouse case handling).',
+    SITE_NAME              COMMENT 'Name of the deployment site (facility and city).',
+    CUSTOMER_NAME          COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    CUSTOMER_INDUSTRY      COMMENT 'Industry of the customer that owns the site (same values as CUSTOMERS.INDUSTRY).',
+    INCIDENT_TYPE          COMMENT 'Incident category: Hardware Failure, Battery Critical, Sensor Malfunction, Emergency Stop, Environmental Hazard, Communication Loss, Software Error or Navigation Error.',
+    SEVERITY               COMMENT 'Incident severity: Critical, High, Medium or Low.',
+    INCIDENT_COUNT         COMMENT 'Number of incidents in the group.',
+    TOTAL_DOWNTIME_MINUTES COMMENT 'Total incident downtime in minutes.',
+    AVG_DOWNTIME_MINUTES   COMMENT 'Average downtime per incident in minutes.',
+    RESOLVED_COUNT         COMMENT 'Incidents that have been resolved.',
+    UNRESOLVED_COUNT       COMMENT 'Incidents still open (no RESOLVED_AT).',
+    FIRST_INCIDENT_DATE    COMMENT 'Date of the earliest incident in the group.',
+    LAST_INCIDENT_DATE     COMMENT 'Date of the most recent incident in the group.'
+)
+COMMENT = 'Incidents aggregated per robot, incident type and severity: count, downtime, resolved vs unresolved and first/last occurrence. Source for BD_INCIDENT_ANALYSIS_SV.'
+-- @cols-end
+AS
 SELECT
     i.ROBOT_ID,
     r.ROBOT_NAME,
@@ -156,7 +267,31 @@ GROUP BY i.ROBOT_ID, r.ROBOT_NAME, r.ROBOT_MODEL, d.SITE_NAME, c.CUSTOMER_NAME, 
 -- ============================================================================
 -- Component Health: Component status and lifecycle tracking
 -- ============================================================================
-CREATE OR REPLACE VIEW COMPONENT_HEALTH AS
+CREATE OR REPLACE VIEW COMPONENT_HEALTH
+-- @cols-begin
+(
+    COMPONENT_ID           COMMENT 'Component identifier (COMP-00000 format). Joins to RAW.COMPONENTS.',
+    ROBOT_ID               COMMENT 'Robot identifier (BOT-00000 format). Joins to RAW.ROBOTS.',
+    ROBOT_NAME             COMMENT 'Human-readable robot name, model plus sequence (for example Spot-019).',
+    ROBOT_MODEL            COMMENT 'Robot platform: Atlas (humanoid), Spot (quadruped) or Stretch (warehouse case handling).',
+    COMPONENT_TYPE         COMMENT 'Component category: Motor, Battery, Sensor, LiDAR, Camera, Joint Actuator, Hydraulic Pump, Gripper, Controller Board or Communication Module.',
+    COMPONENT_NAME         COMMENT 'Specific component name (for example Knee Motor, Precision Gripper).',
+    COMPONENT_STATUS       COMMENT 'Condition at last inspection: Operational, Degraded, Needs Replacement or Failed.',
+    INSTALL_DATE           COMMENT 'Date the component was installed on the robot.',
+    DAYS_SINCE_INSTALL     COMMENT 'Days since the component was installed (CURRENT_DATE minus INSTALL_DATE).',
+    EXPECTED_LIFESPAN_DAYS COMMENT 'Rated design lifespan of the component in days (365-3,991).',
+    LIFECYCLE_PERCENT_USED COMMENT 'Age as a percentage of rated lifespan (DAYS_SINCE_INSTALL / EXPECTED_LIFESPAN_DAYS x 100). Above 100 means the component is past its rated life.',
+    CURRENT_RUNTIME_HOURS  COMMENT 'Cumulative operating hours on the component since installation.',
+    LAST_INSPECTION_DATE   COMMENT 'Date of the most recent technician inspection of the component.',
+    DAYS_SINCE_INSPECTION  COMMENT 'Days since the last inspection.',
+    INSPECTION_RUL_DAYS    COMMENT 'Remaining useful life in days estimated at the last inspection from observed wear (0 = worn out). Target of the BD_REMAINING_USEFUL_LIFE model. Unlike EXPECTED_LIFESPAN_DAYS minus age, it reflects actual condition.',
+    SITE_NAME              COMMENT 'Name of the deployment site (facility and city).',
+    CUSTOMER_NAME          COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    RISK_LEVEL             COMMENT 'Rule-based replacement risk: Critical (Failed), High (Needs Replacement or more than 90% of rated life used), Medium (Degraded or more than 75% used), otherwise Low.'
+)
+COMMENT = 'One row per component with age, lifecycle consumption, inspection-based remaining useful life and a rule-based risk level. Used by the RUL agent tool and the Robot RUL Streamlit dashboard.'
+-- @cols-end
+AS
 SELECT
     comp.COMPONENT_ID,
     comp.ROBOT_ID,
@@ -191,7 +326,30 @@ LEFT JOIN BD_INTELLIGENCE.RAW.CUSTOMERS c ON d.CUSTOMER_ID = c.CUSTOMER_ID;
 -- ============================================================================
 -- Customer Fleet Summary: Per-customer fleet health overview
 -- ============================================================================
-CREATE OR REPLACE VIEW CUSTOMER_FLEET_SUMMARY AS
+CREATE OR REPLACE VIEW CUSTOMER_FLEET_SUMMARY
+-- @cols-begin
+(
+    CUSTOMER_ID            COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    CUSTOMER_NAME          COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY               COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    REGION                 COMMENT 'Customer headquarters region: North America, Europe, Asia Pacific, South America or Middle East & Africa.',
+    COUNTRY                COMMENT 'Country of the customer headquarters.',
+    SUPPORT_TIER           COMMENT 'Purchased support entitlement: Platinum, Gold, Silver or Bronze. Higher tiers have tighter SLAs.',
+    ACCOUNT_MANAGER        COMMENT 'Boston Dynamics account executive who owns the commercial relationship.',
+    ACTIVE_DEPLOYMENTS     COMMENT 'Number of deployment sites for the customer (all statuses).',
+    TOTAL_ROBOTS           COMMENT 'Number of robots deployed across the customer''s sites.',
+    ACTIVE_ROBOTS          COMMENT 'Number of robots with status Active.',
+    ROBOTS_IN_MAINTENANCE  COMMENT 'Number of robots with status Maintenance.',
+    ATLAS_COUNT            COMMENT 'Number of Atlas robots.',
+    SPOT_COUNT             COMMENT 'Number of Spot robots.',
+    STRETCH_COUNT          COMMENT 'Number of Stretch robots.',
+    TOTAL_MAINTENANCE_COST COMMENT 'Total maintenance cost over all history in US dollars.',
+    TOTAL_INCIDENTS        COMMENT 'Total number of incidents over all history.',
+    TOTAL_DOWNTIME_MINUTES COMMENT 'Total incident downtime in minutes.'
+)
+COMMENT = 'One row per customer summarising deployments, robot counts by status and model, total maintenance cost, incidents and downtime over all history.'
+-- @cols-end
+AS
 SELECT
     c.CUSTOMER_ID,
     c.CUSTOMER_NAME,
@@ -228,7 +386,24 @@ GROUP BY c.CUSTOMER_ID, c.CUSTOMER_NAME, c.INDUSTRY, c.REGION, c.COUNTRY, c.SUPP
 -- ============================================================================
 -- Robot Model Performance: Comparative performance across robot models
 -- ============================================================================
-CREATE OR REPLACE VIEW ROBOT_MODEL_PERFORMANCE AS
+CREATE OR REPLACE VIEW ROBOT_MODEL_PERFORMANCE
+-- @cols-begin
+(
+    ROBOT_MODEL                    COMMENT 'Robot platform: Atlas (humanoid), Spot (quadruped) or Stretch (warehouse case handling).',
+    TOTAL_UNITS                    COMMENT 'Number of robots of the model.',
+    ACTIVE_UNITS                   COMMENT 'Number of robots of the model with status Active.',
+    AVG_AGE_DAYS                   COMMENT 'Average robot age in days since manufacture.',
+    FLEET_AVG_BATTERY              COMMENT 'Average battery level across all readings for the model, percent.',
+    FLEET_AVG_MOTOR_TEMP           COMMENT 'Average motor temperature across all readings for the model, degrees Celsius.',
+    FLEET_AVG_VIBRATION            COMMENT 'Average vibration across all readings for the model, mm/s.',
+    TOTAL_INCIDENTS                COMMENT 'Total number of incidents over all history.',
+    INCIDENTS_PER_ROBOT            COMMENT 'Total incidents divided by number of robots of the model.',
+    TOTAL_MAINTENANCE_COST         COMMENT 'Total maintenance cost over all history in US dollars.',
+    AVG_MAINTENANCE_COST_PER_ROBOT COMMENT 'Total maintenance cost divided by number of robots of the model, US dollars.'
+)
+COMMENT = 'One row per robot model (Atlas, Spot, Stretch) comparing fleet size, age, average telemetry, incident rate and maintenance cost per robot.'
+-- @cols-end
+AS
 SELECT
     r.ROBOT_MODEL,
     COUNT(DISTINCT r.ROBOT_ID) AS TOTAL_UNITS,
@@ -265,7 +440,28 @@ GROUP BY r.ROBOT_MODEL;
 -- ============================================================================
 -- Deployment Performance: Performance metrics per deployment site
 -- ============================================================================
-CREATE OR REPLACE VIEW DEPLOYMENT_PERFORMANCE AS
+CREATE OR REPLACE VIEW DEPLOYMENT_PERFORMANCE
+-- @cols-begin
+(
+    DEPLOYMENT_ID          COMMENT 'Deployment site identifier (DEP-0000 format). Joins to RAW.DEPLOYMENTS.',
+    SITE_NAME              COMMENT 'Name of the deployment site (facility and city).',
+    SITE_TYPE              COMMENT 'Site environment category: Manufacturing Floor, Warehouse, Laboratory, Underground, Hazardous Area or Outdoor Industrial.',
+    PRIMARY_USE_CASE       COMMENT 'Main job the robots perform at the site, for example Autonomous Inspection, Material Handling, Truck Unloading, Security Patrol or Inventory Management.',
+    ENVIRONMENT            COMMENT 'Operating environment: Indoor, Outdoor, Mixed or Hazardous.',
+    DEPLOYMENT_DATE        COMMENT 'Date robots were first deployed at the site.',
+    DAYS_SINCE_DEPLOYMENT  COMMENT 'Days since the site went live.',
+    DEPLOYMENT_STATUS      COMMENT 'Site status: Active, Maintenance or Decommissioned.',
+    CUSTOMER_NAME          COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY               COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    ROBOT_COUNT            COMMENT 'Number of robots assigned to the site.',
+    ACTIVE_ROBOTS          COMMENT 'Robots at the site with status Active.',
+    TOTAL_INCIDENTS        COMMENT 'Total number of incidents over all history.',
+    TOTAL_DOWNTIME_MINUTES COMMENT 'Total incident downtime in minutes.',
+    TOTAL_MAINTENANCE_COST COMMENT 'Total maintenance cost over all history in US dollars.'
+)
+COMMENT = 'One row per deployment site with customer, robot counts, total incidents, downtime and maintenance cost.'
+-- @cols-end
+AS
 SELECT
     d.DEPLOYMENT_ID,
     d.SITE_NAME,
@@ -322,7 +518,93 @@ CREATE TABLE IF NOT EXISTS CUSTOMER_ML_SCORES (
     SCORED_AT               TIMESTAMP_NTZ
 );
 
-CREATE OR REPLACE VIEW CUSTOMER_360 AS
+CREATE OR REPLACE VIEW CUSTOMER_360
+-- @cols-begin
+(
+    CUSTOMER_ID                 COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    CUSTOMER_NAME               COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY                    COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    SEGMENT                     COMMENT 'Go-to-market segment based on annual revenue: Strategic (largest), Enterprise or Commercial.',
+    COMPANY_SIZE                COMMENT 'Legacy size band: Enterprise, Large or Mid-Market. Prefer SEGMENT for Customer 360 analysis.',
+    REGION                      COMMENT 'Customer headquarters region: North America, Europe, Asia Pacific, South America or Middle East & Africa.',
+    COUNTRY                     COMMENT 'Country of the customer headquarters.',
+    HQ_CITY                     COMMENT 'City of the customer headquarters.',
+    ANNUAL_REVENUE_USD          COMMENT 'Customer company annual revenue in US dollars (the customer''s own revenue, not spend with Boston Dynamics). Log-uniform between about $2B and $386B.',
+    EMPLOYEE_COUNT              COMMENT 'Approximate number of employees at the customer company.',
+    SUPPORT_TIER                COMMENT 'Purchased support entitlement: Platinum, Gold, Silver or Bronze. Higher tiers have tighter SLAs.',
+    ACCOUNT_MANAGER             COMMENT 'Boston Dynamics account executive who owns the commercial relationship.',
+    CSM_NAME                    COMMENT 'Customer Success Manager assigned to the account.',
+    LIFECYCLE_STAGE             COMMENT 'Account lifecycle stage: Onboarding, Adopting, Mature, Renewal Due or Churned. Churned accounts have no active contract.',
+    CUSTOMER_SINCE              COMMENT 'Date the customer signed its first contract with Boston Dynamics.',
+    TENURE_DAYS                 COMMENT 'Days from CUSTOMER_SINCE to the as-of date.',
+    CONTRACT_START_DATE         COMMENT 'Start date of the customer''s current (or final, if churned) contract term.',
+    CONTRACT_END_DATE           COMMENT 'End date of the current contract term, i.e. the next renewal date. For churned customers, the churn date.',
+    DAYS_TO_RENEWAL             COMMENT 'Days from today until CONTRACT_END_DATE (negative if past due). NULL for churned customers.',
+    AS_OF_DATE                  COMMENT 'Reference date for all rolling windows: today for current customers, the churn date (CONTRACT_END_DATE) for churned customers.',
+    SITE_COUNT                  COMMENT 'Number of deployment sites for the customer.',
+    TOTAL_ROBOTS                COMMENT 'Number of robots deployed across the customer''s sites.',
+    ACTIVE_ROBOTS               COMMENT 'Number of robots with status Active.',
+    ATLAS_COUNT                 COMMENT 'Number of Atlas robots.',
+    SPOT_COUNT                  COMMENT 'Number of Spot robots.',
+    STRETCH_COUNT               COMMENT 'Number of Stretch robots.',
+    CURRENT_ARR_USD             COMMENT 'Annual recurring revenue from the customer''s Active contracts, US dollars. 0 for churned customers.',
+    CHURNED_ARR_USD             COMMENT 'ARR of the customer''s contracts with status Churned, US dollars.',
+    LIFETIME_CONTRACT_VALUE_USD COMMENT 'Sum of total contract value across all of the customer''s contracts, US dollars.',
+    CONTRACT_COUNT              COMMENT 'Number of contracts (all terms and expansions) for the customer.',
+    RENEWAL_COUNT               COMMENT 'Number of past contract terms that were renewed.',
+    PRIMARY_CONTRACT_TYPE       COMMENT 'Main commercial model of the account (RaaS Subscription, Purchase + Support or Lease), excluding Expansion add-ons.',
+    PRIMARY_PRODUCT_LINE        COMMENT 'Main robot product line under contract (Atlas, Spot or Stretch).',
+    AUTO_RENEW                  COMMENT 'TRUE if any Active contract auto-renews.',
+    INCIDENTS_90D               COMMENT 'Robot incidents at the customer''s sites in the 90 days before the as-of date.',
+    CRITICAL_INCIDENTS_90D      COMMENT 'Critical-severity incidents in the 90 days before the as-of / snapshot date.',
+    DOWNTIME_MINUTES_90D        COMMENT 'Incident downtime in minutes in the 90 days before the as-of date.',
+    INCIDENTS_PER_ROBOT_90D     COMMENT 'INCIDENTS_90D divided by TOTAL_ROBOTS.',
+    TICKETS_90D                 COMMENT 'Support tickets opened in the 90 days before the as-of date.',
+    HIGH_PRIORITY_TICKETS_90D   COMMENT 'Critical or High priority tickets opened in the 90 days before the as-of / snapshot date.',
+    OPEN_TICKETS                COMMENT 'Tickets opened in the last 90 days that are still Open.',
+    TICKETS_PER_ROBOT_90D       COMMENT 'Tickets opened in the last 90 days divided by TOTAL_ROBOTS.',
+    SLA_MET_PCT_90D             COMMENT 'Percentage of tickets opened in the last 90 days that met SLA (0-100).',
+    AVG_TICKET_CSAT_90D         COMMENT 'Average ticket CSAT (1-5) for tickets opened in the last 90 days.',
+    AVG_RESOLUTION_HOURS_90D    COMMENT 'Average hours to resolve tickets opened in the last 90 days.',
+    LATEST_NPS                  COMMENT 'Most recent NPS score (0-10) from any contact at the customer.',
+    LATEST_NPS_CATEGORY         COMMENT 'Category of the most recent NPS response: Promoter, Passive or Detractor.',
+    AVG_NPS_6M                  COMMENT 'Average NPS score (0-10, not the -100 to +100 index) over the 180 days before the as-of / snapshot date.',
+    AVG_NPS_PRIOR_6M            COMMENT 'Average NPS score (0-10) for responses older than 180 days before the as-of date.',
+    NPS_TREND                   COMMENT 'Change in average NPS score: recent period minus earlier period. Negative means sentiment is falling.',
+    AVG_ACTIVE_ROBOTS_30D       COMMENT 'Average daily active robots over the last 30 days.',
+    AVG_ACTIVE_ROBOTS_PRIOR_90D COMMENT 'Average daily active robots over the 90 days before the last 30 (days 31-120).',
+    UTILIZATION_PCT_30D         COMMENT 'Average daily active robots over the last 30 days as a percentage of TOTAL_ROBOTS.',
+    USAGE_TREND_PCT             COMMENT 'Percent change in average daily active robots, last 30 days versus the prior 90 days. Negative means declining adoption.',
+    OPERATING_HOURS_30D         COMMENT 'Total robot operating hours over the last 30 days.',
+    MISSIONS_30D                COMMENT 'Missions completed over the last 30 days.',
+    AUTONOMY_PCT_30D            COMMENT 'Average autonomy rate (percent of time operating autonomously) over the last 30 days.',
+    LAST_USAGE_DATE             COMMENT 'Most recent day with recorded usage.',
+    LATE_PAYMENT_PCT_12M        COMMENT 'Percentage of invoices in the last 12 months that were paid late or are overdue (0-100).',
+    OVERDUE_AMOUNT_USD          COMMENT 'Total amount of invoices currently Overdue in the last 12 months, US dollars.',
+    AVG_DAYS_LATE_12M           COMMENT 'Average days late across invoices in the last 12 months.',
+    OPEN_PIPELINE_USD           COMMENT 'Total amount of open (not closed) opportunities, US dollars, including renewals.',
+    OPEN_EXPANSION_PIPELINE_USD COMMENT 'Total amount of open non-renewal opportunities (Expansion, Upsell, New Site, Services), US dollars.',
+    EXPANSION_WON_12M_USD       COMMENT 'Value of non-renewal opportunities won in the last 12 months, US dollars.',
+    EXPANSION_WINS_12M          COMMENT 'Number of non-renewal opportunities won in the last 12 months.',
+    RENEWAL_STAGE               COMMENT 'Sales stage of the open renewal opportunity, if any.',
+    RENEWAL_PROBABILITY_PCT     COMMENT 'Win probability of the open renewal opportunity, percent.',
+    INTERACTIONS_90D            COMMENT 'Customer interactions in the 90 days before the as-of / snapshot date.',
+    NEGATIVE_SENTIMENT_PCT_90D  COMMENT 'Percentage of interactions in the last 90 days with Negative sentiment (0-100).',
+    LAST_INTERACTION_DATE       COMMENT 'Date of the most recent interaction.',
+    LAST_INTERACTION_TYPE       COMMENT 'Type of the most recent interaction.',
+    DAYS_SINCE_LAST_INTERACTION COMMENT 'Days from the last interaction to the as-of date.',
+    CHURN_RISK_SCORE            COMMENT 'Predicted probability (0-1) that the customer churns within 180 days, from the BD_CHURN_RISK XGBoost model.',
+    CHURN_RISK_TIER             COMMENT 'Churn risk band from CHURN_RISK_SCORE: High (above 0.6), Medium (0.3-0.6) or Low (0.3 or below).',
+    HEALTH_SCORE                COMMENT 'Customer health score 0-100 from the BD_CUSTOMER_HEALTH_SCORE model; higher is healthier.',
+    HEALTH_BAND                 COMMENT 'Health band from HEALTH_SCORE: Healthy (75 or more), Monitor (50-75) or At Risk (below 50).',
+    EXPANSION_PROPENSITY        COMMENT 'Predicted probability (0-1) that the customer wins an expansion within 180 days, from the BD_EXPANSION_PROPENSITY model.',
+    EXPANSION_TIER              COMMENT 'Expansion band from EXPANSION_PROPENSITY: High (above 0.6), Medium (0.3-0.6) or Low (0.3 or below).',
+    TOP_RISK_DRIVERS            COMMENT 'Features pushing churn risk up most for this customer (SHAP contributions), or ''No significant risk drivers''.',
+    ML_SCORED_AT                COMMENT 'Timestamp the ML scores were produced.'
+)
+COMMENT = 'Customer 360: one row per customer combining firmographics, contracts and ARR, renewals, fleet, incidents, support, NPS, usage, billing, pipeline, interaction sentiment and ML scores. Rolling windows (30/90/180/365 days) end at AS_OF_DATE (today, or the churn date for churned customers). Source for BD_CUSTOMER_360_SV and the Customer 360 agent UDFs.'
+-- @cols-end
+AS
 WITH base AS (
     SELECT c.*,
         IFF(c.LIFECYCLE_STAGE = 'Churned', c.CONTRACT_END_DATE, CURRENT_DATE()) AS AS_OF_DATE
@@ -488,7 +770,39 @@ LEFT JOIN BD_INTELLIGENCE.ANALYTICS.CUSTOMER_ML_SCORES ml ON ml.CUSTOMER_ID = b.
 -- the 180-day outcome window has not fully elapsed.
 -- Grain: CUSTOMER_ID, SNAPSHOT_K
 -- ----------------------------------------------------------------------------
-CREATE OR REPLACE VIEW CUSTOMER_ML_FEATURES AS
+CREATE OR REPLACE VIEW CUSTOMER_ML_FEATURES
+-- @cols-begin
+(
+    CUSTOMER_ID                COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    SNAPSHOT_K                 COMMENT 'Snapshot index: 0 is the scoring row at the as-of date; 1-9 are training snapshots 30, 60 ... 270 days earlier.',
+    SNAPSHOT_DATE              COMMENT 'Point-in-time date the features are computed as of. All windows end on this date, so there is no look-ahead.',
+    LIFECYCLE_STAGE            COMMENT 'Account lifecycle stage: Onboarding, Adopting, Mature, Renewal Due or Churned. Churned accounts have no active contract.',
+    IS_SCORING_ROW             COMMENT 'TRUE for SNAPSHOT_K = 0, the row used for current scoring (no label).',
+    TENURE_DAYS                COMMENT 'Days from CUSTOMER_SINCE to SNAPSHOT_DATE.',
+    TOTAL_ROBOTS               COMMENT 'Number of robots deployed across the customer''s sites.',
+    SITE_COUNT                 COMMENT 'Number of deployment sites for the customer.',
+    INCIDENTS_PER_ROBOT_90D    COMMENT 'Incidents in the 90 days before SNAPSHOT_DATE divided by TOTAL_ROBOTS.',
+    CRITICAL_INCIDENTS_90D     COMMENT 'Critical-severity incidents in the 90 days before the as-of / snapshot date.',
+    TICKETS_PER_ROBOT_90D      COMMENT 'Tickets opened in the 90 days before SNAPSHOT_DATE divided by TOTAL_ROBOTS.',
+    HIGH_PRIORITY_TICKETS_90D  COMMENT 'Critical or High priority tickets opened in the 90 days before the as-of / snapshot date.',
+    SLA_MET_PCT_90D            COMMENT 'Percentage of tickets opened in the 90 days before SNAPSHOT_DATE and closed by then that met SLA.',
+    AVG_TICKET_CSAT_90D        COMMENT 'Average CSAT of tickets opened in the 90 days before SNAPSHOT_DATE and closed by then.',
+    AVG_RESOLUTION_HOURS_90D   COMMENT 'Average resolution hours of tickets opened in the 90 days before SNAPSHOT_DATE and closed by then.',
+    AVG_NPS_6M                 COMMENT 'Average NPS score (0-10, not the -100 to +100 index) over the 180 days before the as-of / snapshot date.',
+    NPS_TREND                  COMMENT 'Average NPS in the 90 days before SNAPSHOT_DATE minus average NPS in the 90 days before that.',
+    UTILIZATION_PCT_30D        COMMENT 'Average daily active robots in the 30 days before SNAPSHOT_DATE as a percentage of TOTAL_ROBOTS.',
+    USAGE_TREND_PCT            COMMENT 'Percent change in average daily active robots, 30 days before SNAPSHOT_DATE versus the 90 days before that.',
+    AUTONOMY_PCT_30D           COMMENT 'Average autonomy rate in the 30 days before SNAPSHOT_DATE.',
+    LATE_PAYMENT_PCT_12M       COMMENT 'Percentage of invoices due in the 12 months before SNAPSHOT_DATE that were paid late.',
+    AVG_DAYS_LATE_12M          COMMENT 'Average days late of invoices due in the 12 months before SNAPSHOT_DATE.',
+    NEGATIVE_SENTIMENT_PCT_90D COMMENT 'Percentage of interactions in the 90 days before SNAPSHOT_DATE with Negative sentiment.',
+    INTERACTIONS_90D           COMMENT 'Customer interactions in the 90 days before the as-of / snapshot date.',
+    CHURN_NEXT_180D            COMMENT 'Training label: 1 if the customer churned within 180 days after SNAPSHOT_DATE, 0 if not, NULL for the scoring row or when the 180-day window has not elapsed.',
+    EXPANSION_NEXT_180D        COMMENT 'Training label: 1 if a non-renewal opportunity was won within 180 days after SNAPSHOT_DATE, 0 if not, NULL for the scoring row or when the window has not elapsed.'
+)
+COMMENT = 'Point-in-time training and scoring features for the customer ML models. Grain is CUSTOMER_ID + SNAPSHOT_K. SNAPSHOT_K = 0 is the scoring row at the as-of date; 1-9 step back 30 days each and carry 180-day forward churn and expansion labels (NULL until the outcome window has elapsed). Used by notebooks/07_ml_models.'
+-- @cols-end
+AS
 WITH base AS (
     SELECT c.CUSTOMER_ID, c.CUSTOMER_SINCE, c.LIFECYCLE_STAGE,
         IFF(c.LIFECYCLE_STAGE = 'Churned', c.CONTRACT_END_DATE, NULL) AS CHURN_DATE,
@@ -621,7 +935,29 @@ WHERE s.SNAPSHOT_DATE >= s.CUSTOMER_SINCE;
 -- Customer Revenue Monthly: invoiced, paid, late and overdue per customer-month
 -- Grain: CUSTOMER_ID, REVENUE_MONTH
 -- ----------------------------------------------------------------------------
-CREATE OR REPLACE VIEW CUSTOMER_REVENUE_MONTHLY AS
+CREATE OR REPLACE VIEW CUSTOMER_REVENUE_MONTHLY
+-- @cols-begin
+(
+    CUSTOMER_ID        COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    REVENUE_MONTH      COMMENT 'First day of the invoice month.',
+    CUSTOMER_NAME      COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY           COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    SEGMENT            COMMENT 'Go-to-market segment based on annual revenue: Strategic (largest), Enterprise or Commercial.',
+    REGION             COMMENT 'Customer headquarters region: North America, Europe, Asia Pacific, South America or Middle East & Africa.',
+    ACCOUNT_MANAGER    COMMENT 'Boston Dynamics account executive who owns the commercial relationship.',
+    LIFECYCLE_STAGE    COMMENT 'Account lifecycle stage: Onboarding, Adopting, Mature, Renewal Due or Churned. Churned accounts have no active contract.',
+    INVOICE_COUNT      COMMENT 'Number of invoices issued in the month.',
+    INVOICED_USD       COMMENT 'Total amount invoiced in the month, US dollars.',
+    COLLECTED_USD      COMMENT 'Amount from the month''s invoices that has been paid (on time or late), US dollars.',
+    PAID_LATE_USD      COMMENT 'Amount from the month''s invoices that was paid after the due date, US dollars.',
+    OVERDUE_USD        COMMENT 'Amount from the month''s invoices that is past due and unpaid, US dollars.',
+    OPEN_USD           COMMENT 'Amount from the month''s invoices that is unpaid but not yet due, US dollars.',
+    LATE_INVOICE_COUNT COMMENT 'Number of the month''s invoices that were paid late or are overdue.',
+    AVG_DAYS_LATE      COMMENT 'Average days late across the month''s invoices.'
+)
+COMMENT = 'Billing and collections per customer per invoice month: invoiced, collected, paid late, overdue and open amounts, with late-invoice counts. Source for BD_REVENUE_SV.'
+-- @cols-end
+AS
 SELECT
     v.CUSTOMER_ID,
     DATE_TRUNC('MONTH', v.INVOICE_DATE)::DATE AS REVENUE_MONTH,
@@ -643,7 +979,35 @@ GROUP BY v.CUSTOMER_ID, DATE_TRUNC('MONTH', v.INVOICE_DATE)::DATE,
 -- Support Ticket Analysis: one row per ticket with customer context
 -- Grain: TICKET_ID
 -- ----------------------------------------------------------------------------
-CREATE OR REPLACE VIEW SUPPORT_TICKET_ANALYSIS AS
+CREATE OR REPLACE VIEW SUPPORT_TICKET_ANALYSIS
+-- @cols-begin
+(
+    TICKET_ID        COMMENT 'Support ticket identifier. Primary key of RAW.SUPPORT_TICKETS.',
+    CUSTOMER_ID      COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    CUSTOMER_NAME    COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY         COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    SEGMENT          COMMENT 'Go-to-market segment based on annual revenue: Strategic (largest), Enterprise or Commercial.',
+    REGION           COMMENT 'Customer headquarters region: North America, Europe, Asia Pacific, South America or Middle East & Africa.',
+    SUPPORT_TIER     COMMENT 'Purchased support entitlement: Platinum, Gold, Silver or Bronze. Higher tiers have tighter SLAs.',
+    CSM_NAME         COMMENT 'Customer Success Manager assigned to the account.',
+    ROBOT_ID         COMMENT 'Robot the ticket relates to. Currently NULL on every ticket (not populated in the source data).',
+    ROBOT_MODEL      COMMENT 'Model of the robot the ticket relates to. Currently NULL because ROBOT_ID is not populated on tickets.',
+    CATEGORY         COMMENT 'Ticket category: Hardware, Software, Navigation, Battery, Connectivity, Integration, Training or Billing.',
+    PRIORITY         COMMENT 'Ticket priority: Critical, High, Medium or Low. Drives the SLA target.',
+    CHANNEL          COMMENT 'Channel the ticket was raised through: Portal, Email, Phone or Field Engineer.',
+    STATUS           COMMENT 'Ticket status: Open or Closed.',
+    SUBJECT          COMMENT 'Short ticket subject line.',
+    ASSIGNED_TO      COMMENT 'Support engineer who owns the ticket.',
+    OPENED_AT        COMMENT 'Timestamp the ticket was opened.',
+    OPENED_MONTH     COMMENT 'First day of the month the ticket was opened.',
+    CLOSED_AT        COMMENT 'Timestamp the ticket was closed; NULL while open.',
+    RESOLUTION_HOURS COMMENT 'Hours from open to close; NULL while open.',
+    SLA_MET          COMMENT 'TRUE if the ticket was resolved within the SLA for its priority and the customer''s support tier.',
+    CSAT_SCORE       COMMENT 'Customer satisfaction rating for the ticket, 1 (very dissatisfied) to 5 (very satisfied); NULL if not rated.'
+)
+COMMENT = 'One row per support ticket enriched with customer and robot context, for volume, SLA, resolution-time and CSAT analysis. Source for BD_SUPPORT_SV.'
+-- @cols-end
+AS
 SELECT
     t.TICKET_ID, t.CUSTOMER_ID, c.CUSTOMER_NAME, c.INDUSTRY, c.SEGMENT, c.REGION, c.SUPPORT_TIER, c.CSM_NAME,
     t.ROBOT_ID, r.ROBOT_MODEL,
@@ -658,7 +1022,29 @@ LEFT JOIN BD_INTELLIGENCE.RAW.ROBOTS r ON r.ROBOT_ID = t.ROBOT_ID;
 -- Customer Usage Trend: monthly product adoption per customer
 -- Grain: CUSTOMER_ID, USAGE_MONTH
 -- ----------------------------------------------------------------------------
-CREATE OR REPLACE VIEW CUSTOMER_USAGE_TREND AS
+CREATE OR REPLACE VIEW CUSTOMER_USAGE_TREND
+-- @cols-begin
+(
+    CUSTOMER_ID        COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    USAGE_MONTH        COMMENT 'First day of the usage month.',
+    CUSTOMER_NAME      COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY           COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    SEGMENT            COMMENT 'Go-to-market segment based on annual revenue: Strategic (largest), Enterprise or Commercial.',
+    REGION             COMMENT 'Customer headquarters region: North America, Europe, Asia Pacific, South America or Middle East & Africa.',
+    LIFECYCLE_STAGE    COMMENT 'Account lifecycle stage: Onboarding, Adopting, Mature, Renewal Due or Churned. Churned accounts have no active contract.',
+    TOTAL_ROBOTS       COMMENT 'Number of robots deployed across the customer''s sites.',
+    DAYS_REPORTED      COMMENT 'Number of days in the month with usage data.',
+    AVG_ACTIVE_ROBOTS  COMMENT 'Average daily active robots in the month.',
+    UTILIZATION_PCT    COMMENT 'Average daily active robots as a percentage of the customer''s total robots.',
+    OPERATING_HOURS    COMMENT 'Total robot operating hours in the month.',
+    MISSIONS_COMPLETED COMMENT 'Total missions completed in the month.',
+    AVG_AUTONOMY_PCT   COMMENT 'Average daily autonomy rate in the month, percent.',
+    AVG_FEATURES_USED  COMMENT 'Average number of distinct features used per day in the month.',
+    APP_LOGINS         COMMENT 'Total fleet app logins in the month.'
+)
+COMMENT = 'Product adoption per customer per month: average active robots, utilisation against fleet size, operating hours, missions, autonomy, features used and logins. Source for BD_PRODUCT_USAGE_SV.'
+-- @cols-end
+AS
 SELECT
     u.CUSTOMER_ID,
     DATE_TRUNC('MONTH', u.USAGE_DATE)::DATE AS USAGE_MONTH,
@@ -687,7 +1073,35 @@ GROUP BY u.CUSTOMER_ID, DATE_TRUNC('MONTH', u.USAGE_DATE)::DATE,
 -- Sales Pipeline: one row per opportunity with customer context
 -- Grain: OPPORTUNITY_ID
 -- ----------------------------------------------------------------------------
-CREATE OR REPLACE VIEW SALES_PIPELINE AS
+CREATE OR REPLACE VIEW SALES_PIPELINE
+-- @cols-begin
+(
+    OPPORTUNITY_ID      COMMENT 'Sales opportunity identifier. Primary key of RAW.OPPORTUNITIES.',
+    CUSTOMER_ID         COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    CUSTOMER_NAME       COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY            COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    SEGMENT             COMMENT 'Go-to-market segment based on annual revenue: Strategic (largest), Enterprise or Commercial.',
+    REGION              COMMENT 'Customer headquarters region: North America, Europe, Asia Pacific, South America or Middle East & Africa.',
+    LIFECYCLE_STAGE     COMMENT 'Account lifecycle stage: Onboarding, Adopting, Mature, Renewal Due or Churned. Churned accounts have no active contract.',
+    OPPORTUNITY_NAME    COMMENT 'Opportunity name: customer, opportunity type and product line.',
+    OPPORTUNITY_TYPE    COMMENT 'Opportunity type: Renewal, Expansion, Upsell, New Site or Services.',
+    PRODUCT_LINE        COMMENT 'Robot product line covered: Atlas, Spot or Stretch.',
+    STAGE               COMMENT 'Sales stage: Discovery, Qualification, Proposal, Negotiation, Commit, Closed Won or Closed Lost.',
+    OWNER               COMMENT 'Account executive who owns the opportunity.',
+    AMOUNT_USD          COMMENT 'Opportunity value in US dollars.',
+    PROBABILITY_PCT     COMMENT 'Win probability in percent for the current stage (0-100; 100 for Closed Won, 0 for Closed Lost).',
+    WEIGHTED_AMOUNT_USD COMMENT 'AMOUNT_USD multiplied by PROBABILITY_PCT / 100, US dollars.',
+    CREATED_DATE        COMMENT 'Date the opportunity was created.',
+    CLOSE_DATE          COMMENT 'Expected close date for open opportunities, actual close date for closed ones.',
+    CLOSE_QUARTER       COMMENT 'First day of the calendar quarter of CLOSE_DATE.',
+    IS_CLOSED           COMMENT 'TRUE if the opportunity is Closed Won or Closed Lost.',
+    IS_WON              COMMENT 'TRUE if the opportunity is Closed Won.',
+    LOSS_REASON         COMMENT 'Reason the opportunity was lost: Budget cuts, Insufficient ROI, Moved to competitor, Project cancelled or Unresolved reliability issues. NULL unless Closed Lost.',
+    SALES_CYCLE_DAYS    COMMENT 'Days from CREATED_DATE to CLOSE_DATE.'
+)
+COMMENT = 'One row per opportunity enriched with customer context, weighted amount, close quarter and sales-cycle length. Source for BD_PIPELINE_SV.'
+-- @cols-end
+AS
 SELECT
     o.OPPORTUNITY_ID, o.CUSTOMER_ID, c.CUSTOMER_NAME, c.INDUSTRY, c.SEGMENT, c.REGION, c.LIFECYCLE_STAGE,
     o.OPPORTUNITY_NAME, o.OPPORTUNITY_TYPE, o.PRODUCT_LINE, o.STAGE, o.OWNER,
@@ -704,7 +1118,29 @@ JOIN BD_INTELLIGENCE.RAW.CUSTOMERS c ON c.CUSTOMER_ID = o.CUSTOMER_ID;
 -- Customer Survey Results: one row per NPS / CSAT response
 -- Grain: SURVEY_ID
 -- ----------------------------------------------------------------------------
-CREATE OR REPLACE VIEW CUSTOMER_SURVEY_RESULTS AS
+CREATE OR REPLACE VIEW CUSTOMER_SURVEY_RESULTS
+-- @cols-begin
+(
+    SURVEY_ID       COMMENT 'Survey response identifier. Primary key of RAW.SURVEYS.',
+    CUSTOMER_ID     COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    CUSTOMER_NAME   COMMENT 'Customer company name (for example Siemens Energy, Tesla Gigafactory).',
+    INDUSTRY        COMMENT 'Customer industry: Automotive Manufacturing, Logistics & Warehousing, Energy & Utilities, Aerospace & Defense, Industrial Manufacturing or Mining & Resources.',
+    SEGMENT         COMMENT 'Go-to-market segment based on annual revenue: Strategic (largest), Enterprise or Commercial.',
+    REGION          COMMENT 'Customer headquarters region: North America, Europe, Asia Pacific, South America or Middle East & Africa.',
+    CSM_NAME        COMMENT 'Customer Success Manager assigned to the account.',
+    LIFECYCLE_STAGE COMMENT 'Account lifecycle stage: Onboarding, Adopting, Mature, Renewal Due or Churned. Churned accounts have no active contract.',
+    CONTACT_NAME    COMMENT 'Full name of the contact who answered the survey.',
+    CONTACT_ROLE    COMMENT 'Buying-group role: Champion, Economic Buyer, Technical User or Procurement.',
+    SURVEY_TYPE     COMMENT 'Survey type: NPS (likelihood to recommend, 0-10) or CSAT (satisfaction, 1-5).',
+    SCORE           COMMENT 'Survey score: 0-10 for NPS, 1-5 for CSAT.',
+    NPS_CATEGORY    COMMENT 'Score category. NPS: Promoter (9-10), Passive (7-8), Detractor (0-6). CSAT: Satisfied (4-5), Neutral (3), Dissatisfied (1-2).',
+    VERBATIM        COMMENT 'Free-text comment left by the respondent. Searchable via BD_CUSTOMER_FEEDBACK_SEARCH.',
+    RESPONSE_DATE   COMMENT 'Date the survey was answered.',
+    RESPONSE_MONTH  COMMENT 'First day of the month of RESPONSE_DATE.'
+)
+COMMENT = 'One row per NPS or CSAT response enriched with customer and respondent context and the response month. Joined into BD_CUSTOMER_360_SV for survey analysis.'
+-- @cols-end
+AS
 SELECT
     s.SURVEY_ID, s.CUSTOMER_ID, c.CUSTOMER_NAME, c.INDUSTRY, c.SEGMENT, c.REGION, c.CSM_NAME, c.LIFECYCLE_STAGE,
     ct.FULL_NAME AS CONTACT_NAME, ct.CONTACT_ROLE,
@@ -713,3 +1149,18 @@ SELECT
 FROM BD_INTELLIGENCE.RAW.SURVEYS s
 JOIN BD_INTELLIGENCE.RAW.CUSTOMERS c ON c.CUSTOMER_ID = s.CUSTOMER_ID
 LEFT JOIN BD_INTELLIGENCE.RAW.CONTACTS ct ON ct.CONTACT_ID = s.CONTACT_ID;
+
+-- @comments-begin (generated by scripts/build_comments.py; do not edit by hand)
+COMMENT ON TABLE BD_INTELLIGENCE.ANALYTICS.CUSTOMER_ML_SCORES IS 'Latest batch scores from the Model Registry models BD_CHURN_RISK, BD_CUSTOMER_HEALTH_SCORE and BD_EXPANSION_PROPENSITY: one row per customer. Written by notebooks/07_ml_models and joined into CUSTOMER_360. Metrics are optimistic because the synthetic signals are clean.';
+ALTER TABLE BD_INTELLIGENCE.ANALYTICS.CUSTOMER_ML_SCORES ALTER
+    CUSTOMER_ID COMMENT 'Customer account identifier (CUST-0000 format). Joins to RAW.CUSTOMERS.',
+    CHURN_RISK_SCORE COMMENT 'Predicted probability (0-1) that the customer churns within 180 days, from the BD_CHURN_RISK XGBoost model.',
+    CHURN_RISK_TIER COMMENT 'Churn risk band from CHURN_RISK_SCORE: High (above 0.6), Medium (0.3-0.6) or Low (0.3 or below).',
+    HEALTH_SCORE COMMENT 'Customer health score 0-100 from the BD_CUSTOMER_HEALTH_SCORE model; higher is healthier.',
+    HEALTH_BAND COMMENT 'Health band from HEALTH_SCORE: Healthy (75 or more), Monitor (50-75) or At Risk (below 50).',
+    EXPANSION_PROPENSITY COMMENT 'Predicted probability (0-1) that the customer wins an expansion within 180 days, from the BD_EXPANSION_PROPENSITY model.',
+    EXPANSION_TIER COMMENT 'Expansion band from EXPANSION_PROPENSITY: High (above 0.6), Medium (0.3-0.6) or Low (0.3 or below).',
+    TOP_RISK_DRIVERS COMMENT 'Features pushing churn risk up most for this customer (SHAP contributions), or ''No significant risk drivers''.',
+    MODEL_VERSION COMMENT 'Model Registry version used for scoring (for example V1).',
+    SCORED_AT COMMENT 'Timestamp the scores were produced.';
+-- @comments-end

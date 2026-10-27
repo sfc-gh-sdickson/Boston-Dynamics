@@ -10,10 +10,13 @@ Usage:
     python scripts/deploy.py --connection AWS161 --steps 3 4     # selected steps
 """
 import argparse
+import io
 import pathlib
+import re
 import time
 
 import snowflake.connector
+from snowflake.connector.util_text import split_statements
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 STEPS = {
@@ -29,6 +32,12 @@ STEPS = {
 }
 
 
+def is_comment_only(stmt):
+    stripped = re.sub(r"/\*.*?\*/", "", stmt, flags=re.S)
+    stripped = re.sub(r"--[^\n]*", "", stripped)
+    return not stripped.strip().strip(";").strip()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--connection", default="AWS161")
@@ -41,8 +50,11 @@ def main():
             path = ROOT / STEPS[step]
             start = time.time()
             print(f"Step {step}: {path.relative_to(ROOT)} ...", flush=True)
-            for cur in conn.execute_string(path.read_text(), remove_comments=False):
-                cur.close()
+            # Split ourselves so comment-only trailers (e.g. generated block
+            # markers after the last statement) are skipped, not sent as empty SQL.
+            for stmt, _ in split_statements(io.StringIO(path.read_text()), remove_comments=False):
+                if not is_comment_only(stmt):
+                    conn.cursor().execute(stmt).close()
             print(f"  done in {time.time() - start:.1f}s")
     finally:
         conn.close()
