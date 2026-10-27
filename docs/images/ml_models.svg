@@ -1,88 +1,145 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 680" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 610" font-family="Segoe UI, Arial, sans-serif">
   <defs>
-    <filter id="sh" x="-4%" y="-4%" width="110%" height="115%">
-      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.48"/>
-    </filter>
-    <filter id="textSh" x="-5%" y="-10%" width="115%" height="130%">
-      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12"/>
     </filter>
   </defs>
+  <rect width="1200" height="610" fill="#ffffff"/>
+  <text x="600" y="32" text-anchor="middle" fill="#1a1a2e" font-size="22" font-weight="bold">ML Model Pipeline</text>
+  <text x="600" y="52" text-anchor="middle" fill="#666" font-size="11">Snowflake Model Registry | Fleet + Customer 360 Models | notebooks/07_ml_models.ipynb</text>
 
-  <rect width="1120" height="680" fill="#FFFFFF"/>
+  <rect x="20" y="75" width="200" height="230" rx="8" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="120" y="100" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">Data Sources</text>
+  <text x="120" y="122" text-anchor="middle" fill="#888" font-size="9">BD_INTELLIGENCE.ANALYTICS</text>
+  <text x="120" y="146" text-anchor="middle" fill="#555" font-size="10">COMPONENT_HEALTH</text>
+  <text x="120" y="164" text-anchor="middle" fill="#555" font-size="10">3,000 components</text>
+  <text x="120" y="190" text-anchor="middle" fill="#555" font-size="10">TELEMETRY_DAILY_SUMMARY</text>
+  <text x="120" y="208" text-anchor="middle" fill="#555" font-size="10">~109K robot-days</text>
+  <text x="120" y="234" text-anchor="middle" fill="#b33f08" font-size="10" font-weight="bold">CUSTOMER_ML_FEATURES</text>
+  <text x="120" y="252" text-anchor="middle" fill="#555" font-size="10">874 monthly snapshots</text>
+  <text x="120" y="278" text-anchor="middle" fill="#b33f08" font-size="10" font-weight="bold">100 customers</text>
 
-  <text x="560" y="38" text-anchor="middle" fill="#1A2744" font-size="22" font-weight="bold" filter="url(#textSh)">ML Pipeline &#x2014; Boston Dynamics Predictive Analytics</text>
-  <line x1="230" y1="50" x2="890" y2="50" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
+  <line x1="220" y1="190" x2="258" y2="190" stroke="#29b5e8" stroke-width="1.5"/>
+  <polygon points="256,186 266,190 256,194" fill="#29b5e8"/>
 
-  <!-- Data Sources -->
-  <rect x="40" y="75" width="320" height="160" rx="10" fill="#2E7D32" filter="url(#sh)"/>
-  <text x="200" y="105" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Data Sources</text>
-  <text x="200" y="130" text-anchor="middle" fill="#C8E6C9" font-size="12">Robot Telemetry Streams</text>
-  <text x="200" y="150" text-anchor="middle" fill="#C8E6C9" font-size="12">Sensor Readings (Temp, Vibration, Load)</text>
-  <text x="200" y="170" text-anchor="middle" fill="#C8E6C9" font-size="12">Maintenance History</text>
-  <text x="200" y="190" text-anchor="middle" fill="#C8E6C9" font-size="12">Component Lifecycle Data</text>
+  <rect x="270" y="75" width="230" height="230" rx="8" fill="#f3f0ff" stroke="#7b61ff" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="385" y="100" text-anchor="middle" fill="#5a3ec8" font-size="12" font-weight="bold">Feature Engineering</text>
+  <text x="385" y="126" text-anchor="middle" fill="#555" font-size="10">Lifecycle ratio, runtime per day</text>
+  <text x="385" y="146" text-anchor="middle" fill="#555" font-size="10">Telemetry Z-scores</text>
+  <text x="385" y="166" text-anchor="middle" fill="#555" font-size="10">19 customer signals: usage,</text>
+  <text x="385" y="182" text-anchor="middle" fill="#555" font-size="10">NPS, SLA, tickets, incidents,</text>
+  <text x="385" y="198" text-anchor="middle" fill="#555" font-size="10">payments, sentiment</text>
+  <text x="385" y="222" text-anchor="middle" fill="#555" font-size="10">Point-in-time snapshots</text>
+  <text x="385" y="242" text-anchor="middle" fill="#555" font-size="10">180-day forward labels</text>
+  <text x="385" y="262" text-anchor="middle" fill="#555" font-size="10">CV grouped by customer</text>
 
-  <path d="M360,155 L410,155" stroke="#4CAF50" stroke-width="2"/>
-  <polygon points="410,155 402,150 402,160" fill="#4CAF50"/>
+  <line x1="500" y1="190" x2="538" y2="190" stroke="#7b61ff" stroke-width="1.5"/>
+  <polygon points="536,186 546,190 536,194" fill="#7b61ff"/>
 
-  <!-- Feature Engineering -->
-  <rect x="415" y="75" width="280" height="160" rx="10" fill="#1565C0" filter="url(#sh)"/>
-  <text x="555" y="105" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Feature Engineering</text>
-  <text x="555" y="130" text-anchor="middle" fill="#BBDEFB" font-size="12">Rolling Averages (1h, 24h, 7d)</text>
-  <text x="555" y="150" text-anchor="middle" fill="#BBDEFB" font-size="12">Anomaly Score Calculation</text>
-  <text x="555" y="170" text-anchor="middle" fill="#BBDEFB" font-size="12">Component Age &amp; Usage Metrics</text>
-  <text x="555" y="190" text-anchor="middle" fill="#BBDEFB" font-size="12">Operational Pattern Features</text>
+  <rect x="550" y="75" width="260" height="40" rx="6" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="680" y="92" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">Predictive Maintenance</text>
+  <text x="680" y="107" text-anchor="middle" fill="#888" font-size="9">Random Forest | 200 trees | 6 features</text>
+  <rect x="550" y="122" width="260" height="40" rx="6" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="680" y="139" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">Remaining Useful Life</text>
+  <text x="680" y="154" text-anchor="middle" fill="#888" font-size="9">Gradient Boosting | 300 trees | 7 features</text>
+  <rect x="550" y="169" width="260" height="40" rx="6" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="680" y="186" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">Churn Risk</text>
+  <text x="680" y="201" text-anchor="middle" fill="#888" font-size="9">XGBoost Classifier | 200 trees | 19 features</text>
+  <rect x="550" y="216" width="260" height="40" rx="6" fill="#edf9f0" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="680" y="233" text-anchor="middle" fill="#007a31" font-size="12" font-weight="bold">Customer Health Score</text>
+  <text x="680" y="248" text-anchor="middle" fill="#888" font-size="9">XGBoost Regressor | 300 trees | 0-100</text>
+  <rect x="550" y="263" width="260" height="40" rx="6" fill="#f3f0ff" stroke="#7b61ff" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="680" y="280" text-anchor="middle" fill="#5a3ec8" font-size="12" font-weight="bold">Expansion Propensity</text>
+  <text x="680" y="295" text-anchor="middle" fill="#888" font-size="9">XGBoost Classifier | 200 trees | 19 features</text>
 
-  <path d="M695,155 L745,155" stroke="#42A5F5" stroke-width="2"/>
-  <polygon points="745,155 737,150 737,160" fill="#42A5F5"/>
+  <line x1="810" y1="190" x2="848" y2="190" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="846,186 856,190 846,194" fill="#e8530e"/>
 
-  <!-- Model Training -->
-  <rect x="750" y="75" width="330" height="160" rx="10" fill="#6A1B9A" filter="url(#sh)"/>
-  <text x="915" y="105" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Model Training</text>
-  <text x="915" y="130" text-anchor="middle" fill="#E1BEE7" font-size="12">Snowpark ML (Python)</text>
-  <text x="915" y="150" text-anchor="middle" fill="#E1BEE7" font-size="12">XGBoost / Random Forest</text>
-  <text x="915" y="170" text-anchor="middle" fill="#E1BEE7" font-size="12">Cross-Validation &amp; Tuning</text>
-  <text x="915" y="190" text-anchor="middle" fill="#E1BEE7" font-size="12">Snowflake Model Registry</text>
+  <rect x="860" y="75" width="320" height="230" rx="8" fill="#fff3ed" stroke="#e8530e" stroke-width="2" filter="url(#sh)"/>
+  <text x="1020" y="100" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Model Registry</text>
+  <text x="1020" y="120" text-anchor="middle" fill="#888" font-size="10">BD_INTELLIGENCE.ML</text>
+  <line x1="870" y1="130" x2="1170" y2="130" stroke="#ffd4bf" stroke-width="1"/>
+  <text x="1020" y="150" text-anchor="middle" fill="#0e7fad" font-size="10">BD_PREDICTIVE_MAINTENANCE/V1</text>
+  <text x="1020" y="168" text-anchor="middle" fill="#0e7fad" font-size="10">BD_REMAINING_USEFUL_LIFE/V1</text>
+  <text x="1020" y="186" text-anchor="middle" fill="#b33f08" font-size="10">BD_CHURN_RISK/V1</text>
+  <text x="1020" y="204" text-anchor="middle" fill="#007a31" font-size="10">BD_CUSTOMER_HEALTH_SCORE/V1</text>
+  <text x="1020" y="222" text-anchor="middle" fill="#5a3ec8" font-size="10">BD_EXPANSION_PROPENSITY/V1</text>
+  <line x1="870" y1="236" x2="1170" y2="236" stroke="#ffd4bf" stroke-width="1"/>
+  <text x="1020" y="256" text-anchor="middle" fill="#555" font-size="10">Batch scoring via ModelVersion.run</text>
+  <text x="1020" y="274" text-anchor="middle" fill="#b33f08" font-size="10" font-weight="bold">ANALYTICS.CUSTOMER_ML_SCORES</text>
+  <text x="1020" y="292" text-anchor="middle" fill="#555" font-size="10">100 rows, joined into CUSTOMER_360</text>
 
-  <!-- Section Label -->
-  <text x="560" y="278" text-anchor="middle" fill="#E65100" font-size="16" font-weight="bold" filter="url(#textSh)">Prediction Models</text>
+  <text x="600" y="345" text-anchor="middle" fill="#1a1a2e" font-size="16" font-weight="bold">Model Performance Metrics</text>
 
-  <!-- Model 1: Predictive Maintenance -->
-  <rect x="30" y="298" width="340" height="150" rx="10" fill="#4527A0" filter="url(#sh)"/>
-  <text x="200" y="328" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Predictive Maintenance</text>
-  <line x1="70" y1="340" x2="330" y2="340" stroke="#9575CD" stroke-width="0.5" opacity="0.6"/>
-  <text x="200" y="362" text-anchor="middle" fill="#D1C4E9" font-size="11">Predicts component failure probability</text>
-  <text x="200" y="382" text-anchor="middle" fill="#D1C4E9" font-size="11">Features: vibration, temp, runtime hours</text>
-  <text x="200" y="402" text-anchor="middle" fill="#D1C4E9" font-size="11">Output: Failure risk score (0-1)</text>
-  <text x="200" y="430" text-anchor="middle" fill="#B39DDB" font-size="11" font-weight="bold">Target Accuracy: 92%+</text>
+  <rect x="20" y="365" width="220" height="185" rx="8" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="130" y="390" text-anchor="middle" fill="#0e7fad" font-size="13" font-weight="bold">Predictive Maint.</text>
+  <text x="130" y="410" text-anchor="middle" fill="#888" font-size="10">Target: needs attention</text>
+  <line x1="30" y1="420" x2="230" y2="420" stroke="#b3e5fc" stroke-width="1"/>
+  <text x="32" y="440" fill="#333" font-size="11">Test ROC-AUC</text>
+  <text x="228" y="440" text-anchor="end" fill="#0e7fad" font-size="11" font-weight="bold">0.969</text>
+  <text x="32" y="462" fill="#333" font-size="11">Test rows</text>
+  <text x="228" y="462" text-anchor="end" fill="#888" font-size="11">600</text>
+  <text x="32" y="484" fill="#333" font-size="11">Class weights</text>
+  <text x="228" y="484" text-anchor="end" fill="#888" font-size="11">balanced</text>
+  <line x1="30" y1="495" x2="230" y2="495" stroke="#b3e5fc" stroke-width="0.5"/>
+  <text x="32" y="515" fill="#0e7fad" font-size="10">Age, lifespan, runtime, type</text>
+  <text x="32" y="533" fill="#888" font-size="9">RandomForestClassifier</text>
 
-  <!-- Model 2: Anomaly Detection -->
-  <rect x="390" y="298" width="340" height="150" rx="10" fill="#4527A0" filter="url(#sh)"/>
-  <text x="560" y="328" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Anomaly Detection</text>
-  <line x1="430" y1="340" x2="690" y2="340" stroke="#9575CD" stroke-width="0.5" opacity="0.6"/>
-  <text x="560" y="362" text-anchor="middle" fill="#D1C4E9" font-size="11">Identifies abnormal telemetry patterns</text>
-  <text x="560" y="382" text-anchor="middle" fill="#D1C4E9" font-size="11">Features: sensor deviations, Z-scores</text>
-  <text x="560" y="402" text-anchor="middle" fill="#D1C4E9" font-size="11">Output: Anomaly flag + severity</text>
-  <text x="560" y="430" text-anchor="middle" fill="#B39DDB" font-size="11" font-weight="bold">Target Precision: 90%+</text>
+  <rect x="255" y="365" width="220" height="185" rx="8" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="365" y="390" text-anchor="middle" fill="#0e7fad" font-size="13" font-weight="bold">Remaining Life</text>
+  <text x="365" y="410" text-anchor="middle" fill="#888" font-size="10">Target: inspection RUL days</text>
+  <line x1="265" y1="420" x2="465" y2="420" stroke="#b3e5fc" stroke-width="1"/>
+  <text x="267" y="440" fill="#333" font-size="11">R-squared</text>
+  <text x="463" y="440" text-anchor="end" fill="#0e7fad" font-size="11" font-weight="bold">0.952</text>
+  <text x="267" y="462" fill="#333" font-size="11">MAE</text>
+  <text x="463" y="462" text-anchor="end" fill="#0e7fad" font-size="11" font-weight="bold">198 days</text>
+  <text x="267" y="484" fill="#333" font-size="11">Median RUL</text>
+  <text x="463" y="484" text-anchor="end" fill="#888" font-size="11">836 days</text>
+  <line x1="265" y1="495" x2="465" y2="495" stroke="#b3e5fc" stroke-width="0.5"/>
+  <text x="267" y="515" fill="#0e7fad" font-size="10">Predicts between inspections</text>
+  <text x="267" y="533" fill="#888" font-size="9">GradientBoostingRegressor</text>
 
-  <!-- Model 3: Remaining Useful Life -->
-  <rect x="750" y="298" width="340" height="150" rx="10" fill="#4527A0" filter="url(#sh)"/>
-  <text x="920" y="328" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Remaining Useful Life</text>
-  <line x1="790" y1="340" x2="1050" y2="340" stroke="#9575CD" stroke-width="0.5" opacity="0.6"/>
-  <text x="920" y="362" text-anchor="middle" fill="#D1C4E9" font-size="11">Estimates component lifespan remaining</text>
-  <text x="920" y="382" text-anchor="middle" fill="#D1C4E9" font-size="11">Features: usage, maintenance history</text>
-  <text x="920" y="402" text-anchor="middle" fill="#D1C4E9" font-size="11">Output: Days until replacement</text>
-  <text x="920" y="430" text-anchor="middle" fill="#B39DDB" font-size="11" font-weight="bold">Target RMSE: &lt;15 days</text>
+  <rect x="490" y="365" width="220" height="185" rx="8" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="600" y="390" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Churn Risk</text>
+  <text x="600" y="410" text-anchor="middle" fill="#888" font-size="10">Target: churn in next 180 days</text>
+  <line x1="500" y1="420" x2="700" y2="420" stroke="#ffd4bf" stroke-width="1"/>
+  <text x="502" y="440" fill="#333" font-size="11">Grouped CV AUC</text>
+  <text x="698" y="440" text-anchor="end" fill="#b33f08" font-size="11" font-weight="bold">1.000</text>
+  <text x="502" y="462" fill="#333" font-size="11">Snapshots / churned</text>
+  <text x="698" y="462" text-anchor="end" fill="#888" font-size="11">366 / 50</text>
+  <text x="502" y="484" fill="#333" font-size="11">Active at-risk flagged</text>
+  <text x="698" y="484" text-anchor="end" fill="#b33f08" font-size="11" font-weight="bold">10 / 10</text>
+  <line x1="500" y1="495" x2="700" y2="495" stroke="#ffd4bf" stroke-width="0.5"/>
+  <text x="502" y="515" fill="#b33f08" font-size="10">SHAP top risk drivers</text>
+  <text x="502" y="533" fill="#888" font-size="9">XGBClassifier | High / Med / Low</text>
 
-  <!-- Arrows to Agent Functions -->
-  <path d="M200,448 L200,495 L560,495 L560,520" stroke="#9575CD" stroke-width="2" fill="none"/>
-  <path d="M560,448 L560,520" stroke="#9575CD" stroke-width="2" fill="none"/>
-  <path d="M920,448 L920,495 L560,495" stroke="#9575CD" stroke-width="2" fill="none"/>
-  <polygon points="560,525 554,515 566,515" fill="#9575CD"/>
+  <rect x="725" y="365" width="220" height="185" rx="8" fill="#edf9f0" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="835" y="390" text-anchor="middle" fill="#007a31" font-size="13" font-weight="bold">Health Score</text>
+  <text x="835" y="410" text-anchor="middle" fill="#888" font-size="10">Target: composite 0-100</text>
+  <line x1="735" y1="420" x2="935" y2="420" stroke="#b9f6ca" stroke-width="1"/>
+  <text x="737" y="440" fill="#333" font-size="11">CV R-squared</text>
+  <text x="933" y="440" text-anchor="end" fill="#007a31" font-size="11" font-weight="bold">0.963</text>
+  <text x="737" y="462" fill="#333" font-size="11">CV MAE</text>
+  <text x="933" y="462" text-anchor="end" fill="#007a31" font-size="11" font-weight="bold">2.1 pts</text>
+  <text x="737" y="484" fill="#333" font-size="11">Bands</text>
+  <text x="933" y="484" text-anchor="end" fill="#888" font-size="11">75 / 50</text>
+  <line x1="735" y1="495" x2="935" y2="495" stroke="#b9f6ca" stroke-width="0.5"/>
+  <text x="737" y="515" fill="#007a31" font-size="10">Healthy / Monitor / At Risk</text>
+  <text x="737" y="533" fill="#888" font-size="9">XGBRegressor</text>
 
-  <!-- Agent Functions Box -->
-  <rect x="210" y="530" width="700" height="100" rx="10" fill="#29B5E8" filter="url(#sh)"/>
-  <text x="560" y="562" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Agent ML Functions (SQL UDFs)</text>
-  <text x="560" y="588" text-anchor="middle" fill="#E0F7FA" font-size="11">AGENT_GET_PREDICTIVE_MAINTENANCE</text>
-  <text x="560" y="606" text-anchor="middle" fill="#E0F7FA" font-size="11">AGENT_GET_ANOMALY_SUMMARY | AGENT_GET_RUL_ESTIMATES</text>
-  <text x="560" y="622" text-anchor="middle" fill="#B2EBF2" font-size="10">Exposed to BOSTON_DYNAMICS_AGENT via Generic Tool Type</text>
+  <rect x="960" y="365" width="220" height="185" rx="8" fill="#f3f0ff" stroke="#7b61ff" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1070" y="390" text-anchor="middle" fill="#5a3ec8" font-size="13" font-weight="bold">Expansion</text>
+  <text x="1070" y="410" text-anchor="middle" fill="#888" font-size="10">Target: expansion win 180d</text>
+  <line x1="970" y1="420" x2="1170" y2="420" stroke="#d4c8ff" stroke-width="1"/>
+  <text x="972" y="440" fill="#333" font-size="11">Grouped CV AUC</text>
+  <text x="1168" y="440" text-anchor="end" fill="#5a3ec8" font-size="11" font-weight="bold">0.816</text>
+  <text x="972" y="462" fill="#333" font-size="11">Snapshots / wins</text>
+  <text x="1168" y="462" text-anchor="end" fill="#888" font-size="11">470 / 206</text>
+  <text x="972" y="484" fill="#333" font-size="11">Expanding flagged</text>
+  <text x="1168" y="484" text-anchor="end" fill="#5a3ec8" font-size="11" font-weight="bold">20 / 20</text>
+  <line x1="970" y1="495" x2="1170" y2="495" stroke="#d4c8ff" stroke-width="0.5"/>
+  <text x="972" y="515" fill="#5a3ec8" font-size="10">Upsell and new site plays</text>
+  <text x="972" y="533" fill="#888" font-size="9">XGBClassifier | High / Med / Low</text>
+
+  <text x="600" y="585" text-anchor="middle" fill="#999" font-size="10">Metrics from synthetic data with deliberately clear signals; expect lower scores on production data. Anomaly detection: Z-score &gt; 2.0 (7.9% of robot-days).</text>
 </svg>

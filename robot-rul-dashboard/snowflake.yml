@@ -3,7 +3,7 @@ definition_version: 2
 entities:
   streamlit_app:
     type: streamlit
-    query_warehouse: "AICOLLEGE"
+    query_warehouse: "BOSTON_DYNAMICS_WH"
     compute_pool: "STREAMLIT_COMPUTE_POOL"
     main_file: streamlit_app.py
     artifacts:

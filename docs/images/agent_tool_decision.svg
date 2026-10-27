@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shLg">
+      <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="1000" fill="#ffffff"/>
+  <text x="600" y="40" text-anchor="middle" fill="#1a1a2e" font-size="26" font-weight="bold">Agent Tool Decision Flow</text>
+  <text x="600" y="65" text-anchor="middle" fill="#666" font-size="13">How BOSTON_DYNAMICS_AGENT Routes Questions to the Right Tool (27 Tools)</text>
+
+  <rect x="400" y="90" width="400" height="50" rx="10" fill="#29b5e8" filter="url(#sh)"/>
+  <text x="600" y="121" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">User Asks a Natural Language Question</text>
+  <line x1="600" y1="140" x2="600" y2="165" stroke="#29b5e8" stroke-width="2"/>
+  <polygon points="596,163 604,163 600,173" fill="#29b5e8"/>
+
+  <rect x="380" y="175" width="440" height="55" rx="12" fill="#e8530e" filter="url(#shLg)"/>
+  <text x="600" y="200" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">BOSTON_DYNAMICS_AGENT</text>
+  <text x="600" y="218" text-anchor="middle" fill="#ffe0cc" font-size="11">Orchestrator reads intent, entities and time range</text>
+  <line x1="600" y1="230" x2="600" y2="250" stroke="#e8530e" stroke-width="2"/>
+  <polygon points="596,248 604,248 600,258" fill="#e8530e"/>
+
+  <polygon points="600,260 730,315 600,370 470,315" fill="#fff8f0" stroke="#e8530e" stroke-width="2" filter="url(#sh)"/>
+  <text x="600" y="311" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Classify</text>
+  <text x="600" y="328" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Intent</text>
+
+  <line x1="600" y1="370" x2="600" y2="400" stroke="#888" stroke-width="2"/>
+  <line x1="155" y1="400" x2="1055" y2="400" stroke="#888" stroke-width="2"/>
+  <line x1="155" y1="400" x2="155" y2="422" stroke="#29b5e8" stroke-width="2"/>
+  <polygon points="151,420 159,420 155,430" fill="#29b5e8"/>
+  <line x1="455" y1="400" x2="455" y2="422" stroke="#00a843" stroke-width="2"/>
+  <polygon points="451,420 459,420 455,430" fill="#00a843"/>
+  <line x1="755" y1="400" x2="755" y2="422" stroke="#7b61ff" stroke-width="2"/>
+  <polygon points="751,420 759,420 755,430" fill="#7b61ff"/>
+  <line x1="1055" y1="400" x2="1055" y2="422" stroke="#e8530e" stroke-width="2"/>
+  <polygon points="1051,420 1059,420 1055,430" fill="#e8530e"/>
+
+  <rect x="25" y="430" width="260" height="300" rx="10" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="155" y="455" text-anchor="middle" fill="#0e7fad" font-size="14" font-weight="bold">Cortex Analyst (10)</text>
+  <text x="155" y="473" text-anchor="middle" fill="#29b5e8" font-size="11">Numbers, metrics, trends</text>
+  <line x1="35" y1="483" x2="275" y2="483" stroke="#b3e5fc" stroke-width="1"/>
+  <text x="40" y="501" fill="#0e7fad" font-size="10" font-weight="bold">WHEN:</text>
+  <text x="40" y="517" fill="#444" font-size="10">"ARR by segment and industry"</text>
+  <text x="40" y="533" fill="#444" font-size="10">"NPS trend by quarter"</text>
+  <text x="40" y="549" fill="#444" font-size="10">"SLA breach rate by priority"</text>
+  <text x="40" y="565" fill="#444" font-size="10">"Pipeline win rate by stage"</text>
+  <text x="40" y="581" fill="#444" font-size="10">"Robot uptime by model"</text>
+  <line x1="35" y1="593" x2="275" y2="593" stroke="#b3e5fc" stroke-width="0.5"/>
+  <text x="40" y="611" fill="#444" font-size="10">Customer360Analytics</text>
+  <text x="40" y="626" fill="#444" font-size="10">RevenueAnalytics</text>
+  <text x="40" y="641" fill="#444" font-size="10">SupportAnalytics</text>
+  <text x="40" y="656" fill="#444" font-size="10">PipelineAnalytics</text>
+  <text x="40" y="671" fill="#444" font-size="10">ProductUsageAnalytics</text>
+  <text x="40" y="690" fill="#888" font-size="10">+ Fleet, Telemetry, Maintenance,</text>
+  <text x="40" y="705" fill="#888" font-size="10">MaintenanceTrends, Incident</text>
+
+  <rect x="325" y="430" width="260" height="300" rx="10" fill="#edf9f0" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="455" y="455" text-anchor="middle" fill="#007a31" font-size="14" font-weight="bold">Cortex Search (6)</text>
+  <text x="455" y="473" text-anchor="middle" fill="#00a843" font-size="11">Unstructured text, the why</text>
+  <line x1="335" y1="483" x2="575" y2="483" stroke="#b9f6ca" stroke-width="1"/>
+  <text x="340" y="501" fill="#007a31" font-size="10" font-weight="bold">WHEN:</text>
+  <text x="340" y="517" fill="#444" font-size="10">"What was said in the last QBR?"</text>
+  <text x="340" y="533" fill="#444" font-size="10">"Why are customers unhappy?"</text>
+  <text x="340" y="549" fill="#444" font-size="10">"Tickets about gripper faults"</text>
+  <text x="340" y="565" fill="#444" font-size="10">"Churn save playbook"</text>
+  <text x="340" y="581" fill="#444" font-size="10">"Similar past incidents"</text>
+  <line x1="335" y1="593" x2="575" y2="593" stroke="#b9f6ca" stroke-width="0.5"/>
+  <text x="340" y="611" fill="#444" font-size="10">InteractionSearch</text>
+  <text x="340" y="626" fill="#444" font-size="10">SupportTicketSearch</text>
+  <text x="340" y="641" fill="#444" font-size="10">CustomerFeedbackSearch</text>
+  <text x="340" y="656" fill="#444" font-size="10">KnowledgeSearch</text>
+  <text x="340" y="671" fill="#444" font-size="10">MaintenanceSearch</text>
+  <text x="340" y="686" fill="#444" font-size="10">IncidentSearch</text>
+
+  <rect x="625" y="430" width="260" height="300" rx="10" fill="#f3f0ff" stroke="#7b61ff" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="755" y="455" text-anchor="middle" fill="#5a3ec8" font-size="14" font-weight="bold">Fleet Tools (6 UDFs)</text>
+  <text x="755" y="473" text-anchor="middle" fill="#7b61ff" font-size="11">Pre-built fleet intelligence</text>
+  <line x1="635" y1="483" x2="875" y2="483" stroke="#d4c8ff" stroke-width="1"/>
+  <text x="640" y="501" fill="#5a3ec8" font-size="10" font-weight="bold">WHEN:</text>
+  <text x="640" y="517" fill="#444" font-size="10">"How healthy is the fleet?"</text>
+  <text x="640" y="533" fill="#444" font-size="10">"Which parts need service?"</text>
+  <text x="640" y="549" fill="#444" font-size="10">"Any telemetry anomalies?"</text>
+  <text x="640" y="565" fill="#444" font-size="10">"Remaining life of actuators"</text>
+  <text x="640" y="581" fill="#444" font-size="10">"Maintenance cost summary"</text>
+  <line x1="635" y1="593" x2="875" y2="593" stroke="#d4c8ff" stroke-width="0.5"/>
+  <text x="640" y="611" fill="#444" font-size="10">GetFleetHealth</text>
+  <text x="640" y="626" fill="#444" font-size="10">GetAnomalySummary</text>
+  <text x="640" y="641" fill="#444" font-size="10">GetPredictiveMaintenance</text>
+  <text x="640" y="656" fill="#444" font-size="10">GetMaintenanceCosts</text>
+  <text x="640" y="671" fill="#444" font-size="10">GetIncidentReport</text>
+  <text x="640" y="686" fill="#444" font-size="10">GetRULEstimates</text>
+
+  <rect x="925" y="430" width="260" height="300" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1055" y="455" text-anchor="middle" fill="#b33f08" font-size="14" font-weight="bold">Customer 360 (5 UDFs)</text>
+  <text x="1055" y="473" text-anchor="middle" fill="#e8530e" font-size="11">Account briefs + ML scores</text>
+  <line x1="935" y1="483" x2="1175" y2="483" stroke="#ffd4bf" stroke-width="1"/>
+  <text x="940" y="501" fill="#b33f08" font-size="10" font-weight="bold">WHEN:</text>
+  <text x="940" y="517" fill="#444" font-size="10">"Brief me on Siemens"</text>
+  <text x="940" y="533" fill="#444" font-size="10">"Who is likely to churn?"</text>
+  <text x="940" y="549" fill="#444" font-size="10">"Best expansion targets?"</text>
+  <text x="940" y="565" fill="#444" font-size="10">"Renewals in next 90 days"</text>
+  <text x="940" y="581" fill="#444" font-size="10">"Book of business health"</text>
+  <line x1="935" y1="593" x2="1175" y2="593" stroke="#ffd4bf" stroke-width="0.5"/>
+  <text x="940" y="611" fill="#444" font-size="10">GetCustomer360 (name filter)</text>
+  <text x="940" y="626" fill="#444" font-size="10">GetChurnRiskList</text>
+  <text x="940" y="641" fill="#444" font-size="10">GetExpansionOpportunities</text>
+  <text x="940" y="656" fill="#444" font-size="10">GetRenewalCalendar (days ahead)</text>
+  <text x="940" y="671" fill="#444" font-size="10">GetAccountHealthSummary</text>
+  <text x="940" y="690" fill="#888" font-size="10">Churn, health and expansion</text>
+  <text x="940" y="705" fill="#888" font-size="10">scores from Model Registry</text>
+
+  <rect x="25" y="760" width="1160" height="150" rx="12" fill="#f8f9fa" stroke="#dde1e6" stroke-width="1" filter="url(#sh)"/>
+  <text x="605" y="785" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="bold">Multi-Tool Example: "Prepare me for the Siemens renewal call"</text>
+  <rect x="45" y="805" width="250" height="60" rx="8" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="170" y="829" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">1. GetCustomer360</text>
+  <text x="170" y="848" text-anchor="middle" fill="#555" font-size="10">ARR, renewal date, scores</text>
+  <line x1="295" y1="835" x2="328" y2="835" stroke="#888" stroke-width="1.5"/>
+  <polygon points="326,831 336,835 326,839" fill="#888"/>
+  <rect x="338" y="805" width="250" height="60" rx="8" fill="#edf9f0" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="463" y="829" text-anchor="middle" fill="#007a31" font-size="12" font-weight="bold">2. InteractionSearch</text>
+  <text x="463" y="848" text-anchor="middle" fill="#555" font-size="10">Recent QBR and call notes</text>
+  <line x1="588" y1="835" x2="621" y2="835" stroke="#888" stroke-width="1.5"/>
+  <polygon points="619,831 629,835 619,839" fill="#888"/>
+  <rect x="631" y="805" width="250" height="60" rx="8" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="756" y="829" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">3. SupportAnalytics</text>
+  <text x="756" y="848" text-anchor="middle" fill="#555" font-size="10">Open tickets and SLA misses</text>
+  <line x1="881" y1="835" x2="914" y2="835" stroke="#888" stroke-width="1.5"/>
+  <polygon points="912,831 922,835 912,839" fill="#888"/>
+  <rect x="924" y="805" width="241" height="60" rx="8" fill="#e8530e" filter="url(#sh)"/>
+  <text x="1044" y="829" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Answer + Chart</text>
+  <text x="1044" y="848" text-anchor="middle" fill="#ffe0cc" font-size="10">Risks, talking points, asks</text>
+  <text x="605" y="892" text-anchor="middle" fill="#888" font-size="10">The orchestrator chains tools when a question needs numbers, context and scores together</text>
+
+  <text x="600" y="950" text-anchor="middle" fill="#999" font-size="11">Routing rules and sample questions are defined in sql/agent/09_create_agent.sql</text>
+  <text x="600" y="968" text-anchor="middle" fill="#aaa" font-size="10">10 Cortex Analyst | 6 Cortex Search | 11 Custom UDFs = 27 Tools</text>
+</svg>

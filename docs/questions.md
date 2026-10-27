@@ -4,7 +4,9 @@
 
 # Boston Dynamics Intelligence Agent — Test Questions
 
-This document contains 35+ complex test questions to validate the BOSTON_DYNAMICS_AGENT across all tool types: Cortex Analyst (text-to-SQL), Cortex Search (RAG), and custom UDF functions.
+This document contains 65 test questions to validate the BOSTON_DYNAMICS_AGENT across all tool types: Cortex Analyst (text-to-SQL), Cortex Search (RAG), custom UDF functions and ML scores. Questions 1-45 cover fleet operations; 46-65 cover Customer 360.
+
+Customer names below exist in the synthetic data. Equinor and Samsung Electronics are scored high churn risk; Maersk Logistics and Nissan Assembly are scored high expansion. Automated check: `python3 scripts/test_agent.py`.
 
 ---
 
@@ -127,3 +129,63 @@ This document contains 35+ complex test questions to validate the BOSTON_DYNAMIC
 44. **Give me an executive summary of the entire Boston Dynamics fleet: health score, active robots, open incidents, maintenance spending, and top risks.**
 
 45. **What are the top 3 actions we should take immediately to improve fleet reliability?**
+
+---
+
+## Customer 360: Account Briefs
+
+46. **Give me a Customer 360 brief for Siemens Energy before my renewal call.** *(GetCustomer360)*
+
+47. **What is going on with Equinor? Summarize their health, usage trend, open tickets and recent interaction notes.** *(GetCustomer360 + InteractionSearch)*
+
+48. **What were the main topics in the last QBR with Samsung Electronics?** *(InteractionSearch)*
+
+---
+
+## Customer 360: Churn and Health
+
+49. **Which customers are at the highest risk of churning, and how much ARR is at risk?** *(GetChurnRiskList)*
+
+50. **What are the top risk drivers for our high-risk accounts?** *(GetChurnRiskList)*
+
+51. **Give me a book-of-business health summary: active customers, total ARR, ARR at high churn risk, and health band distribution.** *(GetAccountHealthSummary)*
+
+52. **Show the average health score by customer segment as a bar chart.** *(Customer360Analytics)*
+
+53. **Which customers have usage down more than 20% versus the prior 90 days?** *(Customer360Analytics)*
+
+---
+
+## Customer 360: Renewals and Revenue
+
+54. **Show renewals due in the next 90 days with their churn risk and health score as a table.** *(GetRenewalCalendar)*
+
+55. **What is total ARR by segment and industry?** *(Customer360Analytics)*
+
+56. **Show the monthly invoiced amount and overdue amount for the past 12 months as a line chart.** *(RevenueAnalytics)*
+
+57. **Which customers have the highest late-payment rate in the past 12 months?** *(RevenueAnalytics)*
+
+---
+
+## Customer 360: Support and Sentiment
+
+58. **What is the support SLA attainment by ticket priority?** *(SupportAnalytics)*
+
+59. **Which customers had the most high-priority tickets in the past 90 days?** *(SupportAnalytics)*
+
+60. **What are detractors saying in recent NPS comments?** *(CustomerFeedbackSearch)*
+
+61. **Show NPS by customer segment as a bar chart.** *(Customer360Analytics)*
+
+62. **Find support tickets about robots failing to localize on mission routes. Which customers report them, and how often was SLA missed?** *(SupportTicketSearch + SupportAnalytics)*
+
+---
+
+## Customer 360: Expansion and Pipeline
+
+63. **Which customers have the best expansion opportunities, and why?** *(GetExpansionOpportunities)*
+
+64. **What is the open pipeline by opportunity type and stage, and what is our win rate on renewals?** *(PipelineAnalytics)*
+
+65. **What is our playbook for saving an at-risk account, and which current accounts should we apply it to?** *(KnowledgeSearch + GetChurnRiskList)*

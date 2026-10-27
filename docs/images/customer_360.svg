@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shLg">
+      <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="#ffffff"/>
+  <text x="600" y="40" text-anchor="middle" fill="#1a1a2e" font-size="26" font-weight="bold">Customer 360 Data Model</text>
+  <text x="600" y="65" text-anchor="middle" fill="#666" font-size="13">Six data domains + fleet signals + ML scores in one view per customer | BD_INTELLIGENCE</text>
+
+  <rect x="40" y="110" width="300" height="110" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="190" y="134" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Contracts and Revenue</text>
+  <text x="190" y="151" text-anchor="middle" fill="#888" font-size="9">RAW.CONTRACTS | RAW.INVOICES</text>
+  <text x="190" y="172" text-anchor="middle" fill="#444" font-size="10">219 contracts | 1,962 invoices</text>
+  <text x="190" y="189" text-anchor="middle" fill="#444" font-size="10">ARR, terms, renewal dates</text>
+  <text x="190" y="206" text-anchor="middle" fill="#444" font-size="10">Late payments, overdue balance</text>
+
+  <rect x="40" y="250" width="300" height="110" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="190" y="274" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Support Tickets</text>
+  <text x="190" y="291" text-anchor="middle" fill="#888" font-size="9">RAW.SUPPORT_TICKETS</text>
+  <text x="190" y="312" text-anchor="middle" fill="#444" font-size="10">2,849 tickets</text>
+  <text x="190" y="329" text-anchor="middle" fill="#444" font-size="10">Priority, SLA breach, escalations</text>
+  <text x="190" y="346" text-anchor="middle" fill="#444" font-size="10">Resolution hours, ticket CSAT</text>
+
+  <rect x="40" y="390" width="300" height="110" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="190" y="414" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">NPS and CSAT Surveys</text>
+  <text x="190" y="431" text-anchor="middle" fill="#888" font-size="9">RAW.SURVEYS</text>
+  <text x="190" y="452" text-anchor="middle" fill="#444" font-size="10">1,200 survey responses</text>
+  <text x="190" y="469" text-anchor="middle" fill="#444" font-size="10">Promoters, passives, detractors</text>
+  <text x="190" y="486" text-anchor="middle" fill="#444" font-size="10">Verbatim comments (searchable)</text>
+
+  <rect x="860" y="110" width="300" height="110" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1010" y="134" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Product Usage</text>
+  <text x="1010" y="151" text-anchor="middle" fill="#888" font-size="9">RAW.PRODUCT_USAGE_DAILY</text>
+  <text x="1010" y="172" text-anchor="middle" fill="#444" font-size="10">36,500 customer-days</text>
+  <text x="1010" y="189" text-anchor="middle" fill="#444" font-size="10">Active robots, utilization</text>
+  <text x="1010" y="206" text-anchor="middle" fill="#444" font-size="10">Missions, autonomy, op hours</text>
+
+  <rect x="860" y="250" width="300" height="110" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1010" y="274" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Sales Pipeline</text>
+  <text x="1010" y="291" text-anchor="middle" fill="#888" font-size="9">RAW.OPPORTUNITIES</text>
+  <text x="1010" y="312" text-anchor="middle" fill="#444" font-size="10">356 opportunities</text>
+  <text x="1010" y="329" text-anchor="middle" fill="#444" font-size="10">Renewal, upsell, new site</text>
+  <text x="1010" y="346" text-anchor="middle" fill="#444" font-size="10">Stage, amount, win rate</text>
+
+  <rect x="860" y="390" width="300" height="110" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1010" y="414" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Interactions and Contacts</text>
+  <text x="1010" y="431" text-anchor="middle" fill="#888" font-size="9">RAW.INTERACTIONS | RAW.CONTACTS</text>
+  <text x="1010" y="452" text-anchor="middle" fill="#444" font-size="10">2,567 interactions | 400 contacts</text>
+  <text x="1010" y="469" text-anchor="middle" fill="#444" font-size="10">QBRs, calls, emails, site visits</text>
+  <text x="1010" y="486" text-anchor="middle" fill="#444" font-size="10">Sentiment, notes (searchable)</text>
+
+  <line x1="340" y1="165" x2="438" y2="165" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="436,161 446,165 436,169" fill="#e8530e"/>
+  <line x1="340" y1="305" x2="438" y2="305" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="436,301 446,305 436,309" fill="#e8530e"/>
+  <line x1="340" y1="445" x2="438" y2="445" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="436,441 446,445 436,449" fill="#e8530e"/>
+  <line x1="860" y1="165" x2="762" y2="165" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="764,161 754,165 764,169" fill="#e8530e"/>
+  <line x1="860" y1="305" x2="762" y2="305" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="764,301 754,305 764,309" fill="#e8530e"/>
+  <line x1="860" y1="445" x2="762" y2="445" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="764,441 754,445 764,449" fill="#e8530e"/>
+
+  <rect x="450" y="100" width="300" height="410" rx="14" fill="#eaf7fc" stroke="#29b5e8" stroke-width="2" filter="url(#shLg)"/>
+  <text x="600" y="128" text-anchor="middle" fill="#0e7fad" font-size="17" font-weight="bold">CUSTOMER</text>
+  <text x="600" y="146" text-anchor="middle" fill="#29b5e8" font-size="10">ANALYTICS.CUSTOMER_360 | 100 accounts</text>
+  <line x1="465" y1="156" x2="735" y2="156" stroke="#b3e5fc" stroke-width="1"/>
+  <text x="600" y="176" text-anchor="middle" fill="#444" font-size="10">Segment, industry, CSM, lifecycle</text>
+  <text x="600" y="194" text-anchor="middle" fill="#444" font-size="10">ARR, active contracts, renewal date</text>
+  <text x="600" y="212" text-anchor="middle" fill="#444" font-size="10">Late payment %, overdue amount</text>
+  <text x="600" y="230" text-anchor="middle" fill="#444" font-size="10">Open tickets, SLA breaches</text>
+  <text x="600" y="248" text-anchor="middle" fill="#444" font-size="10">Latest NPS and CSAT</text>
+  <text x="600" y="266" text-anchor="middle" fill="#444" font-size="10">Utilization, active robots</text>
+  <text x="600" y="284" text-anchor="middle" fill="#444" font-size="10">Open pipeline by type</text>
+  <text x="600" y="302" text-anchor="middle" fill="#444" font-size="10">Last interaction and sentiment</text>
+  <line x1="465" y1="314" x2="735" y2="314" stroke="#b3e5fc" stroke-width="0.5"/>
+  <text x="600" y="332" text-anchor="middle" fill="#0e7fad" font-size="10" font-weight="bold">Fleet signals</text>
+  <text x="600" y="350" text-anchor="middle" fill="#444" font-size="10">Robots, sites, incidents, downtime</text>
+  <text x="600" y="368" text-anchor="middle" fill="#444" font-size="10">Robot mix: Atlas, Spot, Stretch</text>
+
+  <rect x="470" y="385" width="260" height="110" rx="8" fill="#f3f0ff" stroke="#7b61ff" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="600" y="406" text-anchor="middle" fill="#5a3ec8" font-size="12" font-weight="bold">ML Scores (Model Registry)</text>
+  <text x="600" y="422" text-anchor="middle" fill="#888" font-size="9">ANALYTICS.CUSTOMER_ML_SCORES</text>
+  <text x="600" y="442" text-anchor="middle" fill="#444" font-size="10">Churn risk: probability + tier</text>
+  <text x="600" y="459" text-anchor="middle" fill="#444" font-size="10">Health score 0-100 + band</text>
+  <text x="600" y="476" text-anchor="middle" fill="#444" font-size="10">Expansion propensity + tier</text>
+  <text x="600" y="490" text-anchor="middle" fill="#888" font-size="9">Top SHAP drivers per account</text>
+
+  <line x1="600" y1="510" x2="600" y2="532" stroke="#29b5e8" stroke-width="2"/>
+  <polygon points="596,530 604,530 600,540" fill="#29b5e8"/>
+
+  <rect x="400" y="540" width="400" height="60" rx="12" fill="#e8530e" filter="url(#shLg)"/>
+  <text x="600" y="566" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">BOSTON_DYNAMICS_AGENT</text>
+  <text x="600" y="586" text-anchor="middle" fill="#ffe0cc" font-size="10">5 Analyst views | 3 Search services | 5 UDFs for Customer 360</text>
+
+  <line x1="600" y1="600" x2="600" y2="625" stroke="#888" stroke-width="2"/>
+  <line x1="165" y1="625" x2="1035" y2="625" stroke="#888" stroke-width="2"/>
+  <line x1="165" y1="625" x2="165" y2="642" stroke="#888" stroke-width="2"/>
+  <polygon points="161,640 169,640 165,650" fill="#888"/>
+  <line x1="455" y1="625" x2="455" y2="642" stroke="#888" stroke-width="2"/>
+  <polygon points="451,640 459,640 455,650" fill="#888"/>
+  <line x1="745" y1="625" x2="745" y2="642" stroke="#888" stroke-width="2"/>
+  <polygon points="741,640 749,640 745,650" fill="#888"/>
+  <line x1="1035" y1="625" x2="1035" y2="642" stroke="#888" stroke-width="2"/>
+  <polygon points="1031,640 1039,640 1035,650" fill="#888"/>
+
+  <rect x="40" y="650" width="250" height="70" rx="8" fill="#fff" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="165" y="676" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">Churn Early Warning</text>
+  <text x="165" y="696" text-anchor="middle" fill="#555" font-size="10">$5.15M ARR at high risk</text>
+  <rect x="330" y="650" width="250" height="70" rx="8" fill="#fff" stroke="#7b61ff" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="455" y="676" text-anchor="middle" fill="#5a3ec8" font-size="12" font-weight="bold">Expansion Plays</text>
+  <text x="455" y="696" text-anchor="middle" fill="#555" font-size="10">Upsell and new site targets</text>
+  <rect x="620" y="650" width="250" height="70" rx="8" fill="#fff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="745" y="676" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">Renewal Prep</text>
+  <text x="745" y="696" text-anchor="middle" fill="#555" font-size="10">18 renewals in next 90 days</text>
+  <rect x="910" y="650" width="250" height="70" rx="8" fill="#fff" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1035" y="676" text-anchor="middle" fill="#007a31" font-size="12" font-weight="bold">Account Briefs</text>
+  <text x="1035" y="696" text-anchor="middle" fill="#555" font-size="10">90 active accounts | $50.9M ARR</text>
+
+  <text x="600" y="760" text-anchor="middle" fill="#999" font-size="11">Synthetic data: 100 customers (60% healthy, 20% expanding, 10% at risk, 10% churned) with correlated signals</text>
+  <text x="600" y="778" text-anchor="middle" fill="#aaa" font-size="10">Figures as of the latest deployment run | scripts/test_agent.py verifies the Customer 360 questions</text>
+</svg>

@@ -1,123 +1,165 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="Segoe UI, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 940" font-family="Segoe UI, Arial, sans-serif">
   <defs>
-    <filter id="shadow" x="-4%" y="-4%" width="110%" height="115%">
-      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.48"/>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12"/>
     </filter>
-    <filter id="textSh" x="-5%" y="-10%" width="115%" height="130%">
-      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    <filter id="shLg">
+      <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.15"/>
     </filter>
-    <linearGradient id="snowflakeBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#29B5E8;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#1B9CD9;stop-opacity:1"/>
-    </linearGradient>
   </defs>
+  <rect width="1200" height="940" fill="#ffffff"/>
+  <text x="600" y="40" text-anchor="middle" fill="#1a1a2e" font-size="26" font-weight="bold">Boston Dynamics Intelligence Agent Architecture</text>
+  <text x="600" y="65" text-anchor="middle" fill="#666" font-size="13">Snowflake Intelligence + Cortex AI | Fleet Operations + Customer 360</text>
 
-  <rect width="1200" height="820" fill="#FFFFFF"/>
+  <rect x="350" y="85" width="500" height="50" rx="10" fill="#29b5e8" filter="url(#sh)"/>
+  <text x="600" y="116" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Users: Engineers, Fleet Ops, CSMs, Sales, Executives</text>
 
-  <text x="600" y="42" text-anchor="middle" fill="#1A2744" font-size="24" font-weight="bold" filter="url(#textSh)">Boston Dynamics &#x2014; Snowflake Intelligence Architecture</text>
-  <line x1="250" y1="54" x2="950" y2="54" stroke="#29B5E8" stroke-width="2" opacity="0.5"/>
+  <line x1="600" y1="135" x2="600" y2="165" stroke="#29b5e8" stroke-width="2"/>
+  <polygon points="596,163 604,163 600,173" fill="#29b5e8"/>
 
-  <!-- DATA SOURCES label -->
-  <text x="80" y="90" fill="#546E7A" font-size="13" font-weight="bold" letter-spacing="2" filter="url(#textSh)">DATA SOURCES</text>
+  <rect x="350" y="175" width="500" height="65" rx="12" fill="#e8530e" filter="url(#shLg)"/>
+  <text x="600" y="202" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">BOSTON_DYNAMICS_AGENT</text>
+  <text x="600" y="224" text-anchor="middle" fill="#ffe0cc" font-size="12">Snowflake Intelligence Agent | 27 Tools | Natural Language Interface</text>
 
-  <!-- Source box 1: Atlas -->
-  <rect x="40" y="105" width="170" height="75" rx="8" fill="#2E7D32" filter="url(#shadow)"/>
-  <text x="125" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Atlas Telemetry</text>
-  <text x="125" y="155" text-anchor="middle" fill="#C8E6C9" font-size="11">Humanoid Sensors</text>
+  <line x1="450" y1="240" x2="160" y2="275" stroke="#29b5e8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="530" y1="240" x2="450" y2="275" stroke="#00a843" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="670" y1="240" x2="740" y2="275" stroke="#e8530e" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="750" y1="240" x2="1040" y2="275" stroke="#7b61ff" stroke-width="1.5" stroke-dasharray="5,3"/>
 
-  <!-- Source box 2: Spot -->
-  <rect x="230" y="105" width="170" height="75" rx="8" fill="#2E7D32" filter="url(#shadow)"/>
-  <text x="315" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Spot Telemetry</text>
-  <text x="315" y="155" text-anchor="middle" fill="#C8E6C9" font-size="11">Quadruped Sensors</text>
+  <rect x="20" y="275" width="280" height="240" rx="10" fill="#eaf7fc" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="160" y="300" text-anchor="middle" fill="#0e7fad" font-size="14" font-weight="bold">Cortex Analyst (10)</text>
+  <text x="160" y="318" text-anchor="middle" fill="#29b5e8" font-size="11">Text-to-SQL | Semantic Views</text>
+  <line x1="30" y1="328" x2="290" y2="328" stroke="#b3e5fc" stroke-width="1"/>
+  <text x="35" y="346" fill="#444" font-size="10">BD_FLEET_OPERATIONS_SV</text>
+  <text x="35" y="362" fill="#444" font-size="10">BD_TELEMETRY_ANALYTICS_SV</text>
+  <text x="35" y="378" fill="#444" font-size="10">BD_MAINTENANCE_INTELLIGENCE_SV</text>
+  <text x="35" y="394" fill="#444" font-size="10">BD_MAINTENANCE_TRENDS_SV</text>
+  <text x="35" y="410" fill="#444" font-size="10">BD_INCIDENT_ANALYSIS_SV</text>
+  <text x="35" y="430" fill="#0e7fad" font-size="10" font-weight="bold">BD_CUSTOMER_360_SV</text>
+  <text x="35" y="446" fill="#0e7fad" font-size="10" font-weight="bold">BD_REVENUE_SV</text>
+  <text x="35" y="462" fill="#0e7fad" font-size="10" font-weight="bold">BD_SUPPORT_SV</text>
+  <text x="35" y="478" fill="#0e7fad" font-size="10" font-weight="bold">BD_PIPELINE_SV</text>
+  <text x="35" y="494" fill="#0e7fad" font-size="10" font-weight="bold">BD_PRODUCT_USAGE_SV</text>
 
-  <!-- Source box 3: Stretch -->
-  <rect x="420" y="105" width="170" height="75" rx="8" fill="#2E7D32" filter="url(#shadow)"/>
-  <text x="505" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Stretch Telemetry</text>
-  <text x="505" y="155" text-anchor="middle" fill="#C8E6C9" font-size="11">Warehouse Robot</text>
+  <rect x="320" y="275" width="260" height="240" rx="10" fill="#edf9f0" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="450" y="300" text-anchor="middle" fill="#007a31" font-size="14" font-weight="bold">Cortex Search (6)</text>
+  <text x="450" y="318" text-anchor="middle" fill="#00a843" font-size="11">RAG | Semantic Search</text>
+  <line x1="330" y1="328" x2="570" y2="328" stroke="#b9f6ca" stroke-width="1"/>
+  <text x="335" y="346" fill="#444" font-size="10">BD_KNOWLEDGE_SEARCH</text>
+  <text x="335" y="362" fill="#444" font-size="10">BD_MAINTENANCE_SEARCH</text>
+  <text x="335" y="378" fill="#444" font-size="10">BD_INCIDENT_SEARCH</text>
+  <text x="335" y="398" fill="#007a31" font-size="10" font-weight="bold">BD_INTERACTION_SEARCH</text>
+  <text x="335" y="414" fill="#007a31" font-size="10" font-weight="bold">BD_SUPPORT_TICKET_SEARCH</text>
+  <text x="335" y="430" fill="#007a31" font-size="10" font-weight="bold">BD_CUSTOMER_FEEDBACK_SEARCH</text>
+  <line x1="330" y1="446" x2="570" y2="446" stroke="#b9f6ca" stroke-width="0.5"/>
+  <text x="335" y="464" fill="#666" font-size="10">KB articles, maintenance and</text>
+  <text x="335" y="480" fill="#666" font-size="10">incident text, QBR / call notes,</text>
+  <text x="335" y="496" fill="#666" font-size="10">tickets, NPS / CSAT verbatims</text>
 
-  <!-- Source box 4: Maintenance -->
-  <rect x="610" y="105" width="170" height="75" rx="8" fill="#455A64" filter="url(#shadow)"/>
-  <text x="695" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Maintenance Logs</text>
-  <text x="695" y="155" text-anchor="middle" fill="#CFD8DC" font-size="11">Service Records</text>
+  <rect x="600" y="275" width="280" height="240" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="740" y="300" text-anchor="middle" fill="#b33f08" font-size="14" font-weight="bold">Custom Tools (11 UDFs)</text>
+  <text x="740" y="318" text-anchor="middle" fill="#e8530e" font-size="11">Fleet Health | Customer 360</text>
+  <line x1="610" y1="328" x2="870" y2="328" stroke="#ffd4bf" stroke-width="1"/>
+  <text x="615" y="346" fill="#444" font-size="10">AGENT_GET_FLEET_HEALTH</text>
+  <text x="615" y="361" fill="#444" font-size="10">AGENT_GET_ANOMALY_SUMMARY</text>
+  <text x="615" y="376" fill="#444" font-size="10">AGENT_GET_PREDICTIVE_MAINTENANCE</text>
+  <text x="615" y="391" fill="#444" font-size="10">AGENT_GET_MAINTENANCE_COST_SUMMARY</text>
+  <text x="615" y="406" fill="#444" font-size="10">AGENT_GET_INCIDENT_REPORT</text>
+  <text x="615" y="421" fill="#444" font-size="10">AGENT_GET_RUL_ESTIMATES</text>
+  <text x="615" y="440" fill="#b33f08" font-size="10" font-weight="bold">AGENT_GET_CUSTOMER_360</text>
+  <text x="615" y="455" fill="#b33f08" font-size="10" font-weight="bold">AGENT_GET_CHURN_RISK_LIST</text>
+  <text x="615" y="470" fill="#b33f08" font-size="10" font-weight="bold">AGENT_GET_EXPANSION_OPPORTUNITIES</text>
+  <text x="615" y="485" fill="#b33f08" font-size="10" font-weight="bold">AGENT_GET_RENEWAL_CALENDAR</text>
+  <text x="615" y="500" fill="#b33f08" font-size="10" font-weight="bold">AGENT_GET_ACCOUNT_HEALTH_SUMMARY</text>
 
-  <!-- Source box 5: Customer -->
-  <rect x="800" y="105" width="170" height="75" rx="8" fill="#455A64" filter="url(#shadow)"/>
-  <text x="885" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Customer Data</text>
-  <text x="885" y="155" text-anchor="middle" fill="#CFD8DC" font-size="11">Deployments &amp; Sites</text>
+  <rect x="900" y="275" width="280" height="240" rx="10" fill="#f3f0ff" stroke="#7b61ff" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1040" y="300" text-anchor="middle" fill="#5a3ec8" font-size="14" font-weight="bold">ML Model Registry (5)</text>
+  <text x="1040" y="318" text-anchor="middle" fill="#7b61ff" font-size="11">BD_INTELLIGENCE.ML</text>
+  <line x1="910" y1="328" x2="1170" y2="328" stroke="#d4c8ff" stroke-width="1"/>
+  <text x="915" y="346" fill="#444" font-size="10">BD_PREDICTIVE_MAINTENANCE</text>
+  <text x="915" y="362" fill="#444" font-size="10">BD_REMAINING_USEFUL_LIFE</text>
+  <text x="915" y="382" fill="#5a3ec8" font-size="10" font-weight="bold">BD_CHURN_RISK</text>
+  <text x="915" y="398" fill="#5a3ec8" font-size="10" font-weight="bold">BD_CUSTOMER_HEALTH_SCORE</text>
+  <text x="915" y="414" fill="#5a3ec8" font-size="10" font-weight="bold">BD_EXPANSION_PROPENSITY</text>
+  <line x1="910" y1="430" x2="1170" y2="430" stroke="#d4c8ff" stroke-width="0.5"/>
+  <text x="915" y="448" fill="#666" font-size="10">Batch scores written to</text>
+  <text x="915" y="464" fill="#666" font-size="10">ANALYTICS.CUSTOMER_ML_SCORES</text>
+  <text x="915" y="480" fill="#666" font-size="10">Joined into CUSTOMER_360</text>
+  <text x="915" y="496" fill="#666" font-size="10">+ Z-score anomaly detection</text>
 
-  <!-- Source box 6: KB -->
-  <rect x="990" y="105" width="170" height="75" rx="8" fill="#455A64" filter="url(#shadow)"/>
-  <text x="1075" y="135" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Knowledge Base</text>
-  <text x="1075" y="155" text-anchor="middle" fill="#CFD8DC" font-size="11">Docs &amp; Procedures</text>
+  <rect x="15" y="540" width="1170" height="320" rx="12" fill="#f8f9fa" stroke="#dde1e6" stroke-width="1" filter="url(#sh)"/>
+  <text x="600" y="566" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="bold">DATA LAYER: BD_INTELLIGENCE.RAW</text>
 
-  <!-- Arrows from sources to Snowflake platform -->
-  <path d="M125,180 L125,220 L580,220 L580,265" stroke="#4CAF50" stroke-width="2" fill="none"/>
-  <path d="M315,180 L315,225 L580,225 L580,265" stroke="#4CAF50" stroke-width="2" fill="none"/>
-  <path d="M505,180 L505,230 L580,230 L580,265" stroke="#4CAF50" stroke-width="2" fill="none"/>
-  <path d="M695,180 L695,225 L620,225 L620,265" stroke="#78909C" stroke-width="2" fill="none"/>
-  <path d="M885,180 L885,220 L620,220 L620,265" stroke="#78909C" stroke-width="2" fill="none"/>
-  <path d="M1075,180 L1075,215 L620,215 L620,265" stroke="#78909C" stroke-width="2" fill="none"/>
+  <text x="30" y="590" fill="#555" font-size="10" font-weight="bold">FLEET OPERATIONS</text>
+  <rect x="30" y="598" width="180" height="75" rx="8" fill="#fff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="120" y="620" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">ROBOTS</text>
+  <text x="120" y="640" text-anchor="middle" fill="#555" font-size="10">600 Atlas, Spot, Stretch</text>
+  <text x="120" y="655" text-anchor="middle" fill="#555" font-size="10">200 Deployment Sites</text>
+  <rect x="222" y="598" width="180" height="75" rx="8" fill="#fff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="312" y="620" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">ROBOT_TELEMETRY</text>
+  <text x="312" y="640" text-anchor="middle" fill="#555" font-size="10">150,000 Readings</text>
+  <text x="312" y="655" text-anchor="middle" fill="#555" font-size="10">12 Months of Sensors</text>
+  <rect x="414" y="598" width="180" height="75" rx="8" fill="#fff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="504" y="620" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">COMPONENTS</text>
+  <text x="504" y="640" text-anchor="middle" fill="#555" font-size="10">3,000 Parts</text>
+  <text x="504" y="655" text-anchor="middle" fill="#555" font-size="10">Wear, Status, RUL</text>
+  <rect x="606" y="598" width="180" height="75" rx="8" fill="#fff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="696" y="620" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">MAINTENANCE</text>
+  <text x="696" y="640" text-anchor="middle" fill="#555" font-size="10">6,000 Service Records</text>
+  <text x="696" y="655" text-anchor="middle" fill="#555" font-size="10">Costs, Parts, Technicians</text>
+  <rect x="798" y="598" width="180" height="75" rx="8" fill="#fff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="888" y="620" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">INCIDENTS</text>
+  <text x="888" y="640" text-anchor="middle" fill="#555" font-size="10">~1,400 Incidents</text>
+  <text x="888" y="655" text-anchor="middle" fill="#555" font-size="10">Severity, Root Cause</text>
+  <rect x="990" y="598" width="180" height="75" rx="8" fill="#fff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1080" y="620" text-anchor="middle" fill="#0e7fad" font-size="12" font-weight="bold">KNOWLEDGE BASE</text>
+  <text x="1080" y="640" text-anchor="middle" fill="#555" font-size="10">25 Articles + Playbooks</text>
+  <text x="1080" y="655" text-anchor="middle" fill="#555" font-size="10">30 Firmware Releases</text>
 
-  <text x="600" y="252" text-anchor="middle" fill="#2E7D32" font-size="11" font-weight="bold" filter="url(#textSh)">Streaming Ingestion</text>
+  <text x="30" y="696" fill="#b33f08" font-size="10" font-weight="bold">CUSTOMER 360 (NEW)</text>
+  <rect x="30" y="704" width="180" height="75" rx="8" fill="#fff" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="120" y="726" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">CUSTOMERS</text>
+  <text x="120" y="746" text-anchor="middle" fill="#555" font-size="10">100 Accounts, 3 Segments</text>
+  <text x="120" y="761" text-anchor="middle" fill="#555" font-size="10">400 Contacts</text>
+  <rect x="222" y="704" width="180" height="75" rx="8" fill="#fff" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="312" y="726" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">CONTRACTS</text>
+  <text x="312" y="746" text-anchor="middle" fill="#555" font-size="10">219 Contracts, ARR</text>
+  <text x="312" y="761" text-anchor="middle" fill="#555" font-size="10">~2,000 Invoices</text>
+  <rect x="414" y="704" width="180" height="75" rx="8" fill="#fff" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="504" y="726" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">SUPPORT_TICKETS</text>
+  <text x="504" y="746" text-anchor="middle" fill="#555" font-size="10">~2,900 Tickets</text>
+  <text x="504" y="761" text-anchor="middle" fill="#555" font-size="10">Priority, SLA, CSAT</text>
+  <rect x="606" y="704" width="180" height="75" rx="8" fill="#fff" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="696" y="726" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">SURVEYS</text>
+  <text x="696" y="746" text-anchor="middle" fill="#555" font-size="10">1,200 NPS / CSAT</text>
+  <text x="696" y="761" text-anchor="middle" fill="#555" font-size="10">Verbatim Comments</text>
+  <rect x="798" y="704" width="180" height="75" rx="8" fill="#fff" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="888" y="726" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">PRODUCT_USAGE</text>
+  <text x="888" y="746" text-anchor="middle" fill="#555" font-size="10">36,500 Customer-Days</text>
+  <text x="888" y="761" text-anchor="middle" fill="#555" font-size="10">Utilization, Autonomy</text>
+  <rect x="990" y="704" width="180" height="75" rx="8" fill="#fff" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="1080" y="726" text-anchor="middle" fill="#b33f08" font-size="12" font-weight="bold">PIPELINE &amp; NOTES</text>
+  <text x="1080" y="746" text-anchor="middle" fill="#555" font-size="10">~350 Opportunities</text>
+  <text x="1080" y="761" text-anchor="middle" fill="#555" font-size="10">~2,500 Interactions</text>
 
-  <!-- SNOWFLAKE PLATFORM outer box -->
-  <rect x="60" y="265" width="1080" height="280" rx="12" fill="#F0F4F8" stroke="#29B5E8" stroke-width="2" filter="url(#shadow)"/>
-  <text x="600" y="294" text-anchor="middle" fill="#1565C0" font-size="16" font-weight="bold">SNOWFLAKE DATA CLOUD &#x2014; BD_INTELLIGENCE</text>
+  <text x="600" y="806" text-anchor="middle" fill="#555" font-size="10" font-weight="bold">ANALYTICAL VIEWS (BD_INTELLIGENCE.ANALYTICS)</text>
+  <rect x="28" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#29b5e8" stroke-width="1" filter="url(#sh)"/>
+  <text x="96" y="836" text-anchor="middle" fill="#0e7fad" font-size="10">Fleet Overview</text>
+  <rect x="172" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#29b5e8" stroke-width="1" filter="url(#sh)"/>
+  <text x="240" y="836" text-anchor="middle" fill="#0e7fad" font-size="10">Telemetry Daily</text>
+  <rect x="316" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#29b5e8" stroke-width="1" filter="url(#sh)"/>
+  <text x="384" y="836" text-anchor="middle" fill="#0e7fad" font-size="10">Maintenance Trends</text>
+  <rect x="460" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#29b5e8" stroke-width="1" filter="url(#sh)"/>
+  <text x="528" y="836" text-anchor="middle" fill="#0e7fad" font-size="10">Incidents + Components</text>
+  <rect x="604" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#e8530e" stroke-width="1" filter="url(#sh)"/>
+  <text x="672" y="836" text-anchor="middle" fill="#b33f08" font-size="10">Customer 360</text>
+  <rect x="748" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#e8530e" stroke-width="1" filter="url(#sh)"/>
+  <text x="816" y="836" text-anchor="middle" fill="#b33f08" font-size="10">Revenue + Usage</text>
+  <rect x="892" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#e8530e" stroke-width="1" filter="url(#sh)"/>
+  <text x="960" y="836" text-anchor="middle" fill="#b33f08" font-size="10">Pipeline + Support</text>
+  <rect x="1036" y="816" width="136" height="30" rx="6" fill="#fff" stroke="#7b61ff" stroke-width="1" filter="url(#sh)"/>
+  <text x="1104" y="836" text-anchor="middle" fill="#5a3ec8" font-size="10">ML Feature Snapshots</text>
 
-  <!-- RAW Schema -->
-  <rect x="90" y="310" width="240" height="100" rx="8" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1" filter="url(#shadow)"/>
-  <text x="210" y="336" text-anchor="middle" fill="#37474F" font-size="13" font-weight="bold">RAW Schema</text>
-  <text x="210" y="358" text-anchor="middle" fill="#546E7A" font-size="11">robot_telemetry</text>
-  <text x="210" y="376" text-anchor="middle" fill="#546E7A" font-size="11">maintenance_records</text>
-  <text x="210" y="394" text-anchor="middle" fill="#546E7A" font-size="11">customer_deployments</text>
-
-  <!-- ANALYTICS Schema -->
-  <rect x="360" y="310" width="240" height="100" rx="8" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1" filter="url(#shadow)"/>
-  <text x="480" y="336" text-anchor="middle" fill="#37474F" font-size="13" font-weight="bold">ANALYTICS Schema</text>
-  <text x="480" y="358" text-anchor="middle" fill="#546E7A" font-size="11">Analytical Views</text>
-  <text x="480" y="376" text-anchor="middle" fill="#546E7A" font-size="11">Semantic Views</text>
-  <text x="480" y="394" text-anchor="middle" fill="#546E7A" font-size="11">ML Prediction Views</text>
-
-  <!-- Cortex Services -->
-  <rect x="630" y="310" width="240" height="100" rx="8" fill="#E3F2FD" stroke="#42A5F5" stroke-width="1" filter="url(#shadow)"/>
-  <text x="750" y="336" text-anchor="middle" fill="#1565C0" font-size="13" font-weight="bold">Cortex Services</text>
-  <text x="750" y="356" text-anchor="middle" fill="#1976D2" font-size="11">BD_KNOWLEDGE_SEARCH</text>
-  <text x="750" y="374" text-anchor="middle" fill="#1976D2" font-size="11">BD_MAINTENANCE_SEARCH</text>
-  <text x="750" y="392" text-anchor="middle" fill="#1976D2" font-size="11">BD_INCIDENT_SEARCH</text>
-
-  <!-- Warehouse -->
-  <rect x="900" y="310" width="210" height="100" rx="8" fill="#E8F5E9" stroke="#66BB6A" stroke-width="1" filter="url(#shadow)"/>
-  <text x="1005" y="336" text-anchor="middle" fill="#2E7D32" font-size="13" font-weight="bold">Compute</text>
-  <text x="1005" y="358" text-anchor="middle" fill="#388E3C" font-size="11">BOSTON_DYNAMICS_WH</text>
-  <text x="1005" y="376" text-anchor="middle" fill="#388E3C" font-size="11">X-SMALL / Auto-Scale</text>
-  <text x="1005" y="394" text-anchor="middle" fill="#388E3C" font-size="11">Auto-Suspend 300s</text>
-
-  <!-- Agent Functions -->
-  <rect x="90" y="430" width="500" height="60" rx="8" fill="#EFEBE9" stroke="#8D6E63" stroke-width="1" filter="url(#shadow)"/>
-  <text x="340" y="455" text-anchor="middle" fill="#4E342E" font-size="13" font-weight="bold">Agent Functions (SQL UDFs)</text>
-  <text x="340" y="475" text-anchor="middle" fill="#6D4C41" font-size="10">fleet_health | anomaly_summary | maintenance_schedule | predictive_insights</text>
-
-  <!-- Knowledge Base Search -->
-  <rect x="610" y="430" width="500" height="60" rx="8" fill="#EDE7F6" stroke="#7E57C2" stroke-width="1" filter="url(#shadow)"/>
-  <text x="860" y="455" text-anchor="middle" fill="#4527A0" font-size="13" font-weight="bold">Knowledge Base Search</text>
-  <text x="860" y="475" text-anchor="middle" fill="#5E35B1" font-size="10">BD_KNOWLEDGE_SEARCH &#x2014; Procedures, Specs &amp; Documentation</text>
-
-  <!-- Arrow down to Agent -->
-  <path d="M600,545 L600,585" stroke="#29B5E8" stroke-width="3" fill="none"/>
-  <polygon points="600,590 594,580 606,580" fill="#29B5E8"/>
-
-  <!-- AGENT BOX -->
-  <rect x="270" y="595" width="660" height="100" rx="12" fill="url(#snowflakeBlue)" filter="url(#shadow)"/>
-  <text x="600" y="630" text-anchor="middle" fill="white" font-size="18" font-weight="bold">BOSTON_DYNAMICS_AGENT</text>
-  <text x="600" y="654" text-anchor="middle" fill="#E0F7FA" font-size="12">Snowflake Intelligence &#x2014; Natural Language Interface</text>
-  <text x="600" y="676" text-anchor="middle" fill="#B2EBF2" font-size="11">Cortex Analyst (Text-to-SQL) | Cortex Search (RAG) | Custom UDFs | ML Predictions</text>
-
-  <!-- Arrow to Users -->
-  <path d="M600,695 L600,725" stroke="#546E7A" stroke-width="2" fill="none"/>
-  <polygon points="600,730 594,720 606,720" fill="#546E7A"/>
-
-  <!-- Users -->
-  <rect x="320" y="735" width="560" height="60" rx="8" fill="#37474F" filter="url(#shadow)"/>
-  <text x="600" y="760" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Users: Engineers | Operations | Fleet Managers | Executives</text>
-  <text x="600" y="780" text-anchor="middle" fill="#B0BEC5" font-size="11">Natural Language Queries via Snowflake Intelligence UI</text>
+  <text x="600" y="895" text-anchor="middle" fill="#999" font-size="11">Boston Dynamics | Snowflake Intelligence | Atlas, Spot and Stretch Fleet | 100 Customers</text>
+  <text x="600" y="913" text-anchor="middle" fill="#aaa" font-size="10">Powered by Snowflake Cortex Agent + Cortex Analyst + Cortex Search + Snowflake Model Registry</text>
 </svg>

@@ -45,6 +45,10 @@ Ask a question that produces a chart or table. The agent's sample questions are 
 | Show a stacked bar chart of maintenance events by type for each robot model. | Stacked bar chart |
 | Show the remaining useful life in days for all components in Degraded status as a horizontal bar chart. | Horizontal bar chart |
 | Show a heatmap-style table of average vibration levels by robot model and deployment site. | Heatmap table |
+| Show renewals due in the next 90 days with their churn risk as a table. | Table (Customer 360) |
+| Show NPS by customer segment as a bar chart. | Bar chart (Customer 360) |
+| Show the monthly invoiced revenue and overdue amount trend for the past 12 months as a line chart. | Line chart (Customer 360) |
+| Show the average health score by customer segment as a bar chart. | Bar chart (Customer 360) |
 
 Wait for the agent to return the response with an interactive chart or table.
 
@@ -168,3 +172,8 @@ Use these questions to build a starter set of artifacts for your team:
 9. **Maintenance Type Breakdown** — "Show a stacked bar chart of maintenance events by type for each robot model."
 10. **Component Urgency Tracker** — "Show the remaining useful life for all Degraded components as a horizontal bar chart."
 11. **Vibration Heatmap** — "Show a heatmap-style table of average vibration levels by robot model and deployment site."
+12. **Renewal Watchlist** — "Show renewals due in the next 90 days with their churn risk as a table."
+13. **NPS by Segment** — "Show NPS by customer segment as a bar chart."
+14. **Revenue and Collections** — "Show the monthly invoiced revenue and overdue amount trend for the past 12 months as a line chart."
+15. **ARR at Risk** — "Which customers are at the highest risk of churning, and how much ARR is at risk? Show as a table."
+16. **Expansion Targets** — "Show the top expansion opportunities with their propensity and current ARR as a table."

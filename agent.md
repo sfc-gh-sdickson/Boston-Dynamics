@@ -200,10 +200,9 @@ CREATE OR REPLACE AGENT {AGENT_NAME}
 
     # Cortex Search resource
     SearchName:
-      name: "{DATABASE}.{SCHEMA}.{SEARCH_SERVICE_NAME}"
-      max_results: "10"
-      title_column: "column_name"
-      id_column: "id_column"
+      search_service: "{DATABASE}.{SCHEMA}.{SEARCH_SERVICE_NAME}"
+      max_results: 10
+      columns: ["COLUMN_A", "COLUMN_B"]
 
     # Custom Function resource
     FunctionName:
@@ -271,8 +270,8 @@ $$;
 - Used `RETURNS VARIANT` instead of `RETURNS OBJECT` for `OBJECT_CONSTRUCT`
 - Used `LANGUAGE SQL` clause which is invalid for SQL UDFs
 - Used `type: "procedure"` instead of `type: "function"` for agent tools
-- Used `search_service:` instead of `name:` for Cortex Search resources
-- Used JSON format instead of YAML for agent specification
+- Used `name:` instead of `search_service:` for Cortex Search resources (verified: the deployed agent in `sql/agent/09_create_agent.sql` uses `search_service`)
+- Note: the specification may be YAML or JSON; `sql/agent/09_create_agent.sql` uses JSON and deploys correctly
 
 ### 2. COMPLETE ALL FILES BEFORE STOPPING
 

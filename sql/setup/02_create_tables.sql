@@ -5,7 +5,9 @@
   Execution Order: 2 of 9
   Description: Creates all tables in the RAW schema for robot telemetry,
                maintenance, components, customers, deployments, incidents,
-               and the knowledge base.
+               and the knowledge base, plus Customer 360 tables (contacts,
+               contracts, invoices, support tickets, surveys, product usage,
+               opportunities, interactions).
 =============================================================================*/
 
 USE DATABASE BD_INTELLIGENCE;
@@ -57,6 +59,7 @@ CREATE OR REPLACE TABLE COMPONENTS (
     CURRENT_RUNTIME_HOURS   FLOAT       DEFAULT 0,
     STATUS              VARCHAR(20)     NOT NULL,
     LAST_INSPECTION_DATE    DATE,
+    INSPECTION_RUL_DAYS     INTEGER,    -- field engineer remaining-useful-life estimate at last inspection
     CONSTRAINT PK_COMPONENTS PRIMARY KEY (COMPONENT_ID)
 );
 
@@ -87,6 +90,14 @@ CREATE OR REPLACE TABLE CUSTOMERS (
     CONTRACT_END_DATE   DATE,
     ACCOUNT_MANAGER     VARCHAR(100),
     SUPPORT_TIER        VARCHAR(20),
+    -- Customer 360 enrichment
+    SEGMENT             VARCHAR(30),
+    ANNUAL_REVENUE_USD  NUMBER(18,0),
+    EMPLOYEE_COUNT      INTEGER,
+    CUSTOMER_SINCE      DATE,
+    CSM_NAME            VARCHAR(100),
+    HQ_CITY             VARCHAR(100),
+    LIFECYCLE_STAGE     VARCHAR(30),
     CONSTRAINT PK_CUSTOMERS PRIMARY KEY (CUSTOMER_ID)
 );
 
@@ -143,4 +154,124 @@ CREATE OR REPLACE TABLE FIRMWARE_RELEASES (
     IS_CRITICAL         BOOLEAN         DEFAULT FALSE,
     AFFECTED_COMPONENTS VARCHAR(500),
     CONSTRAINT PK_FIRMWARE PRIMARY KEY (RELEASE_ID)
+);
+
+-- ============================================================================
+-- CUSTOMER 360 TABLES
+-- ============================================================================
+
+CREATE OR REPLACE TABLE CONTACTS (
+    CONTACT_ID          VARCHAR(50)     NOT NULL,
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    FULL_NAME           VARCHAR(200)    NOT NULL,
+    TITLE               VARCHAR(200),
+    CONTACT_ROLE        VARCHAR(50),
+    EMAIL               VARCHAR(200),
+    PHONE               VARCHAR(50),
+    IS_PRIMARY          BOOLEAN         DEFAULT FALSE,
+    CONSTRAINT PK_CONTACTS PRIMARY KEY (CONTACT_ID)
+);
+
+CREATE OR REPLACE TABLE CONTRACTS (
+    CONTRACT_ID         VARCHAR(50)     NOT NULL,
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    CONTRACT_TYPE       VARCHAR(50)     NOT NULL,
+    PRODUCT_LINE        VARCHAR(50),
+    START_DATE          DATE            NOT NULL,
+    END_DATE            DATE            NOT NULL,
+    ARR_USD             NUMBER(18,2),
+    TCV_USD             NUMBER(18,2),
+    ROBOT_QUANTITY      INTEGER,
+    AUTO_RENEW          BOOLEAN,
+    STATUS              VARCHAR(30)     NOT NULL,
+    CONSTRAINT PK_CONTRACTS PRIMARY KEY (CONTRACT_ID)
+);
+
+CREATE OR REPLACE TABLE INVOICES (
+    INVOICE_ID          VARCHAR(50)     NOT NULL,
+    CONTRACT_ID         VARCHAR(50)     NOT NULL,
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    INVOICE_DATE        DATE            NOT NULL,
+    DUE_DATE            DATE            NOT NULL,
+    AMOUNT_USD          NUMBER(18,2)    NOT NULL,
+    PAID_DATE           DATE,
+    PAYMENT_STATUS      VARCHAR(20)     NOT NULL,
+    DAYS_LATE           INTEGER,
+    CONSTRAINT PK_INVOICES PRIMARY KEY (INVOICE_ID)
+);
+
+CREATE OR REPLACE TABLE SUPPORT_TICKETS (
+    TICKET_ID           VARCHAR(50)     NOT NULL,
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    CONTACT_ID          VARCHAR(50),
+    ROBOT_ID            VARCHAR(50),
+    CATEGORY            VARCHAR(50)     NOT NULL,
+    PRIORITY            VARCHAR(20)     NOT NULL,
+    CHANNEL             VARCHAR(30),
+    SUBJECT             VARCHAR(500),
+    DESCRIPTION         VARCHAR(4000),
+    STATUS              VARCHAR(20)     NOT NULL,
+    OPENED_AT           TIMESTAMP_NTZ   NOT NULL,
+    CLOSED_AT           TIMESTAMP_NTZ,
+    RESOLUTION_HOURS    FLOAT,
+    SLA_MET             BOOLEAN,
+    CSAT_SCORE          INTEGER,
+    ASSIGNED_TO         VARCHAR(100),
+    CONSTRAINT PK_SUPPORT_TICKETS PRIMARY KEY (TICKET_ID)
+);
+
+CREATE OR REPLACE TABLE SURVEYS (
+    SURVEY_ID           VARCHAR(50)     NOT NULL,
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    CONTACT_ID          VARCHAR(50),
+    SURVEY_TYPE         VARCHAR(20)     NOT NULL,
+    SCORE               INTEGER         NOT NULL,
+    NPS_CATEGORY        VARCHAR(20),
+    VERBATIM            VARCHAR(4000),
+    RESPONSE_DATE       DATE            NOT NULL,
+    CONSTRAINT PK_SURVEYS PRIMARY KEY (SURVEY_ID)
+);
+
+CREATE OR REPLACE TABLE PRODUCT_USAGE_DAILY (
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    USAGE_DATE          DATE            NOT NULL,
+    ACTIVE_ROBOTS       INTEGER,
+    OPERATING_HOURS     FLOAT,
+    MISSIONS_COMPLETED  INTEGER,
+    AUTONOMY_PCT        FLOAT,
+    FEATURES_USED       INTEGER,
+    APP_LOGINS          INTEGER,
+    CONSTRAINT PK_PRODUCT_USAGE PRIMARY KEY (CUSTOMER_ID, USAGE_DATE)
+);
+
+CREATE OR REPLACE TABLE OPPORTUNITIES (
+    OPPORTUNITY_ID      VARCHAR(50)     NOT NULL,
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    OPPORTUNITY_NAME    VARCHAR(300),
+    OPPORTUNITY_TYPE    VARCHAR(30)     NOT NULL,
+    PRODUCT_LINE        VARCHAR(50),
+    STAGE               VARCHAR(30)     NOT NULL,
+    AMOUNT_USD          NUMBER(18,2),
+    PROBABILITY_PCT     INTEGER,
+    CREATED_DATE        DATE,
+    CLOSE_DATE          DATE,
+    OWNER               VARCHAR(100),
+    IS_CLOSED           BOOLEAN,
+    IS_WON              BOOLEAN,
+    LOSS_REASON         VARCHAR(200),
+    CONSTRAINT PK_OPPORTUNITIES PRIMARY KEY (OPPORTUNITY_ID)
+);
+
+CREATE OR REPLACE TABLE INTERACTIONS (
+    INTERACTION_ID      VARCHAR(50)     NOT NULL,
+    CUSTOMER_ID         VARCHAR(50)     NOT NULL,
+    CONTACT_ID          VARCHAR(50),
+    INTERACTION_TYPE    VARCHAR(30)     NOT NULL,
+    INTERACTION_DATE    DATE            NOT NULL,
+    OWNER               VARCHAR(100),
+    SUBJECT             VARCHAR(500),
+    SUMMARY             VARCHAR(8000),
+    SENTIMENT           VARCHAR(20),
+    NEXT_STEPS          VARCHAR(2000),
+    CONSTRAINT PK_INTERACTIONS PRIMARY KEY (INTERACTION_ID)
 );
