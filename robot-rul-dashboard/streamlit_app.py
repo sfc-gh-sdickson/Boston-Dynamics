@@ -28,7 +28,7 @@ def load_rul_data():
     return df
 
 
-st.title("Remaining Useful Life — All Robots")
+st.title("Remaining Useful Life")
 st.caption("Estimated remaining days per component, grouped by robot")
 
 df = load_rul_data()
