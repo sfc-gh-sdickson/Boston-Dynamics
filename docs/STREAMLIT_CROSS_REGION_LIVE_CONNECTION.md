@@ -1,3 +1,5 @@
+<img src="Snowflake_Logo.svg" width="200">
+
 # Deploying a Streamlit App in `us-east4` with a Live Connection to Data in `us-central1`
 
 > **Status:** Reference design. The service specification `secrets` syntax, `ALTER SERVICE` upgrade behaviour and egress IP lookup were checked against current Snowflake documentation (October 2026). This pattern has not been deployed as part of this repo, so test it in your own accounts before production use.
