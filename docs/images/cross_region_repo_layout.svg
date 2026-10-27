@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 380" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="1000" height="380" fill="#ffffff"/>
+  <text x="500" y="38" text-anchor="middle" fill="#1a1a2e" font-size="22" font-weight="bold">Cross-Region App: Repository Layout</text>
+  <text x="500" y="60" text-anchor="middle" fill="#666" font-size="12">Files used to build the image and create the SPCS service</text>
+
+  <rect x="350" y="85" width="300" height="60" rx="10" fill="#e8530e" filter="url(#sh)"/>
+  <text x="500" y="112" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">streamlit-cross-region/</text>
+  <text x="500" y="131" text-anchor="middle" fill="#ffe3d6" font-size="10">Project root</text>
+
+  <line x1="500" y1="145" x2="500" y2="180" stroke="#e8530e" stroke-width="1.5"/>
+  <line x1="140" y1="180" x2="860" y2="180" stroke="#e8530e" stroke-width="1.5"/>
+  <line x1="140" y1="180" x2="140" y2="210" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="136,208 144,208 140,218" fill="#e8530e"/>
+  <line x1="380" y1="180" x2="380" y2="210" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="376,208 384,208 380,218" fill="#e8530e"/>
+  <line x1="620" y1="180" x2="620" y2="210" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="616,208 624,208 620,218" fill="#e8530e"/>
+  <line x1="860" y1="180" x2="860" y2="210" stroke="#e8530e" stroke-width="1.5"/>
+  <polygon points="856,208 864,208 860,218" fill="#e8530e"/>
+
+  <rect x="40" y="218" width="200" height="120" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="140" y="244" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">app/</text>
+  <text x="140" y="268" text-anchor="middle" fill="#444" font-size="10">streamlit_app.py</text>
+  <text x="140" y="286" text-anchor="middle" fill="#444" font-size="10">requirements.txt</text>
+  <text x="140" y="310" text-anchor="middle" fill="#888" font-size="9">UI + remote connection code</text>
+
+  <rect x="280" y="218" width="200" height="120" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="380" y="244" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">Dockerfile</text>
+  <text x="380" y="268" text-anchor="middle" fill="#444" font-size="10">python:3.11-slim base</text>
+  <text x="380" y="286" text-anchor="middle" fill="#444" font-size="10">Runs Streamlit on 8501</text>
+  <text x="380" y="310" text-anchor="middle" fill="#888" font-size="9">Build for linux/amd64</text>
+
+  <rect x="520" y="218" width="200" height="120" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="620" y="244" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">spec.yaml</text>
+  <text x="620" y="268" text-anchor="middle" fill="#444" font-size="10">Container image and env</text>
+  <text x="620" y="286" text-anchor="middle" fill="#444" font-size="10">Secret mount, endpoint</text>
+  <text x="620" y="310" text-anchor="middle" fill="#888" font-size="9">Uploaded to stage @SPECS</text>
+
+  <rect x="760" y="218" width="200" height="120" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="860" y="244" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">README.md</text>
+  <text x="860" y="268" text-anchor="middle" fill="#444" font-size="10">This deployment guide</text>
+  <text x="860" y="286" text-anchor="middle" fill="#444" font-size="10">Setup, deploy, troubleshoot</text>
+  <text x="860" y="310" text-anchor="middle" fill="#888" font-size="9">No secrets or keys</text>
+</svg>

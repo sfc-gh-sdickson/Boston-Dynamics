@@ -225,9 +225,27 @@ See [docs/questions.md](docs/questions.md). Examples:
 
 ---
 
+## Remote Streamlit Deployment
+
+Run a Streamlit app in one region against live data in another, with no replication. The reference design hosts the app on Snowpark Container Services in a GCP `us-east4` account and queries a GCP `us-central1` account over a key-pair service-user connection.
+
+![Cross-region Streamlit architecture](docs/images/cross_region_architecture.svg)
+
+| | |
+|---|---|
+| Use it when | The app needs always-current data and result sets are small (dashboards, aggregates, lookups) |
+| Avoid it when | Queries pull large result sets, or every interaction needs low latency; use replication or a listing with auto-fulfillment instead |
+| Cost | Compute in both accounts plus cross-region egress on result data |
+| Security | `TYPE = SERVICE` user with key-pair auth, read-only role, private key held in a Snowflake secret, egress limited to the DATA account host |
+
+Full guide (setup SQL for both accounts, app code, Dockerfile, service spec, deploy, update, security checklist and troubleshooting): [docs/STREAMLIT_CROSS_REGION_LIVE_CONNECTION.md](docs/STREAMLIT_CROSS_REGION_LIVE_CONNECTION.md). Section 11 maps it to this repo's Robot RUL dashboard.
+
+---
+
 ## Documentation
 
 - [Agent Setup Guide](docs/AGENT_SETUP.md): step-by-step deployment
 - [Deployment Summary](docs/DEPLOYMENT_SUMMARY.md): inventory of deployed objects
 - [Test Questions](docs/questions.md): fleet and Customer 360 questions
+- [Remote Streamlit Deployment](docs/STREAMLIT_CROSS_REGION_LIVE_CONNECTION.md): cross-region Streamlit on SPCS with a live connection
 - [Build Log](BUILD_LOG.md): Customer 360 build history and verification

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+    <filter id="shLg">
+      <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="740" fill="#ffffff"/>
+  <text x="600" y="40" text-anchor="middle" fill="#1a1a2e" font-size="26" font-weight="bold">Cross-Region Streamlit with a Live Connection</text>
+  <text x="600" y="65" text-anchor="middle" fill="#666" font-size="13">Streamlit on SPCS in GCP us-east4 queries data in GCP us-central1 with no replication</text>
+
+  <!-- Users -->
+  <rect x="460" y="85" width="280" height="50" rx="10" fill="#29b5e8" filter="url(#sh)"/>
+  <text x="600" y="116" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">App users (browser)</text>
+  <line x1="600" y1="135" x2="600" y2="220" stroke="#29b5e8" stroke-width="2"/>
+  <polygon points="596,218 604,218 600,228" fill="#29b5e8"/>
+  <text x="612" y="158" fill="#1d7fa6" font-size="10">HTTPS, Snowflake sign-in</text>
+
+  <!-- APP account panel -->
+  <rect x="60" y="170" width="1080" height="225" rx="14" fill="#f2fafe" stroke="#29b5e8" stroke-width="1.5" filter="url(#shLg)"/>
+  <text x="84" y="196" fill="#1d7fa6" font-size="14" font-weight="bold">APP account | GCP us-east4</text>
+
+  <rect x="140" y="230" width="280" height="130" rx="10" fill="#ffffff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="280" y="256" text-anchor="middle" fill="#1d7fa6" font-size="13" font-weight="bold">Snowflake secret</text>
+  <text x="280" y="275" text-anchor="middle" fill="#888" font-size="9">CENTRAL_SVC_PRIVATE_KEY</text>
+  <text x="280" y="298" text-anchor="middle" fill="#444" font-size="10">GENERIC_STRING holding rsa_key.p8</text>
+  <text x="280" y="316" text-anchor="middle" fill="#444" font-size="10">Injected as env var REMOTE_PRIVATE_KEY</text>
+  <text x="280" y="334" text-anchor="middle" fill="#444" font-size="10">Never in git, image or spec</text>
+
+  <line x1="420" y1="295" x2="450" y2="295" stroke="#29b5e8" stroke-width="1.5"/>
+  <polygon points="450,291 460,295 450,299" fill="#29b5e8"/>
+
+  <rect x="460" y="230" width="280" height="130" rx="10" fill="#fff3ed" stroke="#e8530e" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="600" y="256" text-anchor="middle" fill="#b33f08" font-size="13" font-weight="bold">SPCS service</text>
+  <text x="600" y="275" text-anchor="middle" fill="#888" font-size="9">STREAMLIT_CROSS_REGION</text>
+  <text x="600" y="298" text-anchor="middle" fill="#444" font-size="10">Streamlit container on port 8501</text>
+  <text x="600" y="316" text-anchor="middle" fill="#444" font-size="10">Compute pool STREAMLIT_POOL</text>
+  <text x="600" y="334" text-anchor="middle" fill="#444" font-size="10">Public endpoint, service role access</text>
+
+  <line x1="740" y1="295" x2="770" y2="295" stroke="#29b5e8" stroke-width="1.5"/>
+  <polygon points="770,291 780,295 770,299" fill="#29b5e8"/>
+
+  <rect x="780" y="230" width="280" height="130" rx="10" fill="#ffffff" stroke="#29b5e8" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="920" y="256" text-anchor="middle" fill="#1d7fa6" font-size="13" font-weight="bold">External access integration</text>
+  <text x="920" y="275" text-anchor="middle" fill="#888" font-size="9">CENTRAL_SNOWFLAKE_EAI</text>
+  <text x="920" y="298" text-anchor="middle" fill="#444" font-size="10">Network rule: EGRESS, HOST_PORT</text>
+  <text x="920" y="316" text-anchor="middle" fill="#444" font-size="10">org-data_acct.snowflakecomputing.com:443</text>
+  <text x="920" y="334" text-anchor="middle" fill="#444" font-size="10">Allows only the DATA account host</text>
+
+  <!-- Cross-region hop -->
+  <line x1="920" y1="360" x2="920" y2="500" stroke="#e8530e" stroke-width="2"/>
+  <polygon points="916,498 924,498 920,508" fill="#e8530e"/>
+  <text x="934" y="418" fill="#b33f08" font-size="11" font-weight="bold">Cross-region hop</text>
+  <text x="934" y="434" fill="#666" font-size="10">TLS on 443, key-pair JWT auth</text>
+
+  <!-- DATA account panel -->
+  <rect x="60" y="445" width="1080" height="215" rx="14" fill="#f1faf4" stroke="#00a843" stroke-width="1.5" filter="url(#shLg)"/>
+  <text x="84" y="471" fill="#007a30" font-size="14" font-weight="bold">DATA account | GCP us-central1</text>
+
+  <rect x="820" y="508" width="200" height="120" rx="10" fill="#ffffff" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="920" y="534" text-anchor="middle" fill="#007a30" font-size="13" font-weight="bold">Service user</text>
+  <text x="920" y="553" text-anchor="middle" fill="#888" font-size="9">SVC_STREAMLIT_EAST4</text>
+  <text x="920" y="576" text-anchor="middle" fill="#444" font-size="10">TYPE = SERVICE</text>
+  <text x="920" y="594" text-anchor="middle" fill="#444" font-size="10">Key-pair auth, no password</text>
+
+  <line x1="820" y1="568" x2="795" y2="568" stroke="#00a843" stroke-width="1.5"/>
+  <polygon points="795,564 785,568 795,572" fill="#00a843"/>
+
+  <rect x="585" y="508" width="200" height="120" rx="10" fill="#ffffff" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="685" y="534" text-anchor="middle" fill="#007a30" font-size="13" font-weight="bold">Read-only role</text>
+  <text x="685" y="553" text-anchor="middle" fill="#888" font-size="9">STREAMLIT_REMOTE_READER</text>
+  <text x="685" y="576" text-anchor="middle" fill="#444" font-size="10">USAGE + SELECT only</text>
+  <text x="685" y="594" text-anchor="middle" fill="#444" font-size="10">Scope to secure views</text>
+
+  <line x1="585" y1="568" x2="560" y2="568" stroke="#00a843" stroke-width="1.5"/>
+  <polygon points="560,564 550,568 560,572" fill="#00a843"/>
+
+  <rect x="350" y="508" width="200" height="120" rx="10" fill="#ffffff" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="450" y="534" text-anchor="middle" fill="#007a30" font-size="13" font-weight="bold">Warehouse</text>
+  <text x="450" y="553" text-anchor="middle" fill="#888" font-size="9">STREAMLIT_REMOTE_WH</text>
+  <text x="450" y="576" text-anchor="middle" fill="#444" font-size="10">XSMALL</text>
+  <text x="450" y="594" text-anchor="middle" fill="#444" font-size="10">AUTO_SUSPEND = 60</text>
+
+  <line x1="350" y1="568" x2="325" y2="568" stroke="#00a843" stroke-width="1.5"/>
+  <polygon points="325,564 315,568 325,572" fill="#00a843"/>
+
+  <rect x="115" y="508" width="200" height="120" rx="10" fill="#ffffff" stroke="#00a843" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="215" y="534" text-anchor="middle" fill="#007a30" font-size="13" font-weight="bold">Source database</text>
+  <text x="215" y="553" text-anchor="middle" fill="#888" font-size="9">SRC_DB schemas and views</text>
+  <text x="215" y="576" text-anchor="middle" fill="#444" font-size="10">Data stays in us-central1</text>
+  <text x="215" y="594" text-anchor="middle" fill="#444" font-size="10">Always current, no lag</text>
+
+  <text x="600" y="695" text-anchor="middle" fill="#666" font-size="12">Results return over the same connection. Compute is billed in both accounts, and cross-region egress is billed on result data.</text>
+</svg>
