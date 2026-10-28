@@ -1,4 +1,4 @@
-<img src="Snowflake_Logo.svg" width="200">
+<img src="docs/images/Boston_Dynamics_Logo.svg" width="221">
 
 # Boston Dynamics — Snowflake Intelligence Agent
 
