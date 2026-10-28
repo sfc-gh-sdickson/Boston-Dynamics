@@ -1,0 +1,59 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 368" width="1800" height="368">
+	<title>animated-boston-dynamics-logo</title>
+	<style>
+		.body { fill: #2b2d33; }
+		.panel { fill: #4a4e57; }
+		.visor { fill: none; stroke: #29b5e8; stroke-width: 7; }
+		.word { fill: #2b2d33; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 700; }
+		/* Wave for 3s, then rest; repeats every 20s */
+		.waving-arm {
+			transform-origin: 252px 112px;
+			animation: wave 20s ease-in-out infinite;
+		}
+		@keyframes wave {
+			0%    { transform: rotate(0deg); }
+			2.5%  { transform: rotate(32deg); }
+			5%    { transform: rotate(6deg); }
+			7.5%  { transform: rotate(32deg); }
+			10%   { transform: rotate(6deg); }
+			12.5% { transform: rotate(24deg); }
+			15%   { transform: rotate(0deg); }
+			100%  { transform: rotate(0deg); }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.waving-arm { animation: none; }
+		}
+	</style>
+	<g id="Atlas-Icon">
+		<!-- Waving arm (drawn first so the torso overlaps the shoulder joint) -->
+		<g class="waving-arm">
+			<rect class="body" x="239" y="24" width="26" height="92" rx="13"/>
+			<circle class="body" cx="252" cy="20" r="18"/>
+			<rect class="panel" x="244" y="52" width="16" height="30" rx="8"/>
+		</g>
+		<!-- Resting arm -->
+		<circle class="body" cx="116" cy="112" r="18"/>
+		<rect class="body" x="103" y="112" width="26" height="104" rx="13"/>
+		<rect class="panel" x="108" y="150" width="16" height="30" rx="8"/>
+		<circle class="body" cx="116" cy="222" r="15"/>
+		<!-- Head with ring visor -->
+		<circle class="body" cx="184" cy="50" r="36"/>
+		<circle class="visor" cx="184" cy="50" r="21"/>
+		<rect class="body" x="172" y="82" width="24" height="18" rx="6"/>
+		<!-- Torso -->
+		<circle class="body" cx="252" cy="112" r="19"/>
+		<rect class="body" x="132" y="96" width="104" height="122" rx="28"/>
+		<rect class="panel" x="152" y="114" width="64" height="42" rx="14"/>
+		<!-- Pelvis and legs -->
+		<rect class="body" x="142" y="212" width="84" height="36" rx="15"/>
+		<rect class="body" x="146" y="244" width="32" height="104" rx="15"/>
+		<rect class="body" x="190" y="244" width="32" height="104" rx="15"/>
+		<rect class="panel" x="154" y="276" width="16" height="30" rx="8"/>
+		<rect class="panel" x="198" y="276" width="16" height="30" rx="8"/>
+		<rect class="body" x="134" y="340" width="48" height="20" rx="9"/>
+		<rect class="body" x="186" y="340" width="48" height="20" rx="9"/>
+	</g>
+	<g id="Wordmark">
+		<text class="word" x="420" y="228" font-size="124" textLength="1330" lengthAdjust="spacingAndGlyphs">BOSTON DYNAMICS</text>
+	</g>
+</svg>
