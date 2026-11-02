@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="snowflake-source" content="cortex-agent-authored" />
+  <title>CXO Daily Brief: October 2026 MTD</title>
+  <script type="application/json" id="snowflake-report-metadata">
+  {
+    "generated": "2026-11-02",
+    "intent": "CXO Daily Brief: MTD vs prior month across Sales, Operations, Finance, Customer",
+    "parameters": {
+      "mtdWindow": "2026-10-01..2026-10-27",
+      "priorWindow": "2026-09-01..2026-09-27",
+      "note": "Latest data available is 2026-10-27, so MTD = Oct 1-27, compared like-for-like with Sep 1-27. On refresh, set the window to the latest data date."
+    },
+    "dataSources": [
+      { "type": "query", "warehouse": "AICOLLEGE", "database": "BD_INTELLIGENCE", "schema": "RAW",
+        "tables": ["INVOICES","OPPORTUNITIES","CONTRACTS","INCIDENTS","MAINTENANCE_RECORDS","ROBOTS","SUPPORT_TICKETS","SURVEYS"] }
+    ],
+    "sections": [
+      { "id": "kpis", "title": "Headline KPIs",
+        "dataSources": [{ "type": "query", "sql": "Per window (s,e): SUM(INVOICES.amount_usd) by invoice_date; SUM by paid_date; SUM(OPPORTUNITIES.amount_usd) WHERE is_won AND close_date in window; COUNT_IF(is_won)/COUNT(*) WHERE is_closed; COUNT(INCIDENTS), SUM(downtime_minutes)/60 by reported_at; SUM(MAINTENANCE_RECORDS.cost_usd) by performed_at; COUNT(SUPPORT_TICKETS), AVG(sla_met::int), AVG(csat_score) by opened_at; NPS = (%Promoter-%Detractor) from SURVEYS WHERE survey_type='NPS'" }],
+        "producerNotes": "Values inlined in the KPI const in the script." },
+      { "id": "sales", "title": "Sales & revenue",
+        "dataSources": [{ "type": "query", "sql": "SELECT product_line, COUNT(*), SUM(amount_usd) FROM BD_INTELLIGENCE.RAW.OPPORTUNITIES WHERE is_won AND close_date BETWEEN '2026-10-01' AND '2026-10-27' GROUP BY 1; SELECT stage, SUM(amount_usd) FROM BD_INTELLIGENCE.RAW.OPPORTUNITIES WHERE NOT is_closed GROUP BY 1; SELECT status, SUM(arr_usd) FROM BD_INTELLIGENCE.RAW.CONTRACTS GROUP BY 1" }] },
+      { "id": "finance", "title": "Finance",
+        "dataSources": [{ "type": "query", "sql": "Cumulative SUM(amount_usd) FROM BD_INTELLIGENCE.RAW.INVOICES by day-of-month for Oct vs Sep 2026; SELECT payment_status, COUNT(*), SUM(amount_usd) FROM BD_INTELLIGENCE.RAW.INVOICES WHERE payment_status IN ('Open','Overdue') GROUP BY 1" }] },
+      { "id": "operations", "title": "Operations",
+        "dataSources": [{ "type": "query", "sql": "SELECT severity, COUNT(*), SUM(downtime_minutes)/60 FROM BD_INTELLIGENCE.RAW.INCIDENTS WHERE reported_at::date BETWEEN '2026-10-01' AND '2026-10-27' GROUP BY 1; daily COUNT(*) of incidents; SELECT status, COUNT(*) FROM BD_INTELLIGENCE.RAW.ROBOTS GROUP BY 1" }] },
+      { "id": "customer", "title": "Customer",
+        "dataSources": [{ "type": "query", "sql": "SELECT category, COUNT(*), AVG(sla_met::int) FROM BD_INTELLIGENCE.RAW.SUPPORT_TICKETS WHERE opened_at::date BETWEEN '2026-10-01' AND '2026-10-27' GROUP BY 1; daily ticket COUNT(*); SELECT nps_category, COUNT(*) FROM BD_INTELLIGENCE.RAW.SURVEYS WHERE survey_type='NPS' AND response_date BETWEEN '2026-10-01' AND '2026-10-27' GROUP BY 1" }] }
+    ]
+  }
+  </script>
+  <style>
+    :root { color-scheme: light dark; --muted: light-dark(#64748b,#94a3b8); --card: light-dark(#f8fafc,#111827); --line: light-dark(#e2e8f0,#334155);
+            --good: light-dark(#15803d,#4ade80); --bad: light-dark(#b91c1c,#f87171); }
+    body { font-family: -apple-system, system-ui, sans-serif; max-width: 1040px; width: 100%; box-sizing: border-box;
+           margin: 0 auto; padding: clamp(16px, 4vw, 28px); color: light-dark(#1f2937,#e5e7eb); line-height: 1.5; }
+    h1, h2, h3 { color: light-dark(#0f172a,#f1f5f9); margin-bottom: .3em; }
+    h1 { margin-top: 0; }
+    h2 { border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-top: 36px; }
+    .sub { color: var(--muted); margin-top: 0; }
+    img, svg { max-width: 100%; height: auto; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 16px 0; }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+    .kpi .area { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .kpi .label { font-size: 13px; }
+    .kpi .val { font-size: 24px; font-weight: 700; }
+    .kpi .delta { font-size: 12px; }
+    .up { color: var(--good); } .down { color: var(--bad); } .flat { color: var(--muted); }
+    .insights { background: var(--card); border-left: 4px solid light-dark(#2563eb,#60a5fa); border-radius: 6px; padding: 10px 18px; }
+    .insights li { margin: 6px 0; }
+    .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .chart-box { position: relative; width: 100%; height: 280px; }
+    .chart-box > canvas { width: 100% !important; height: 100% !important; }
+    .table-wrap { overflow-x: auto; margin: 12px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
+    td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+    th { background: light-dark(#f1f5f9,#1f2937); font-weight: 600; }
+    .note { font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <h1>CXO Daily Brief</h1>
+  <p class="sub">Month-to-date: <strong>Oct 1–27, 2026</strong> vs. Sep 1–27, 2026 · Source: BD_INTELLIGENCE.RAW · Generated Nov 2, 2026</p>
+  <p class="note">The latest data in the source is dated Oct 27, 2026. November has no records yet, so this brief covers October MTD compared with the same days in September.</p>
+
+  <h2 id="kpis">Headline KPIs</h2>
+  <div class="kpis" id="kpi-grid"></div>
+
+  <h2 id="insights">Key insights</h2>
+  <div class="insights">
+    <ul>
+      <li><strong>Revenue is growing, but deals are harder to close.</strong> Closed-won bookings reached $9.15M (+4.0%) and billings $3.80M (+4.6%). The win rate fell from 85.7% to 70.5%, so more of the deals that closed were lost.</li>
+      <li><strong>Cash collection is strong.</strong> Collections of $4.05M (+11.3%) exceeded billings. Receivables still stand at $4.16M, including $0.74M overdue across 16 invoices.</li>
+      <li><strong>Operational load is rising.</strong> Incidents rose 17% to 129 and downtime 25% to 2,307 hours. Maintenance spend rose 26% to $1.40M. Of the 129 incidents, 23 were Critical.</li>
+      <li><strong>Support is the top risk.</strong> Tickets rose 47% to 301 and SLA attainment fell to 58.4%. CSAT dropped from 3.76 to 3.47. Tickets spiked on Oct 26–27 (24 and 27 per day, against about 11 normally), which may signal an emerging fleet-wide issue.</li>
+      <li><strong>The pipeline looks healthy.</strong> $40.6M is open, including $14.7M in Commit. Contracted ARR (active plus renewed) is $99.0M. The first NPS wave scored +33 (n=90).</li>
+    </ul>
+  </div>
+
+  <h2 id="sales">Sales &amp; revenue</h2>
+  <div class="grid2">
+    <div><h3>Closed-won by product line (MTD)</h3><div class="chart-box"><canvas id="c-won"></canvas></div></div>
+    <div><h3>Open pipeline by stage</h3><div class="chart-box"><canvas id="c-pipe"></canvas></div></div>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Product line</th><th class="n">Deals won</th><th class="n">Amount</th><th class="n">Share</th></tr></thead>
+    <tbody id="t-won"></tbody>
+  </table></div>
+
+  <h2 id="finance">Finance</h2>
+  <div class="grid2">
+    <div><h3>Cumulative billings: Oct vs Sep</h3><div class="chart-box"><canvas id="c-bill"></canvas></div></div>
+    <div>
+      <h3>Receivables &amp; contract base</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Item</th><th class="n">Count</th><th class="n">Amount</th></tr></thead>
+        <tbody>
+          <tr><td>Open invoices</td><td class="n">93</td><td class="n">$3.43M</td></tr>
+          <tr><td>Overdue invoices</td><td class="n">16</td><td class="n">$0.74M</td></tr>
+          <tr><td>Maintenance cost (MTD)</td><td class="n">–</td><td class="n">$1.40M</td></tr>
+          <tr><td>ARR: active contracts</td><td class="n">–</td><td class="n">$50.89M</td></tr>
+          <tr><td>ARR: renewed contracts</td><td class="n">–</td><td class="n">$48.16M</td></tr>
+          <tr><td>ARR: churned (lifetime)</td><td class="n">–</td><td class="n">$5.42M</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <h2 id="operations">Operations</h2>
+  <div class="grid2">
+    <div><h3>Daily incidents (Oct)</h3><div class="chart-box"><canvas id="c-inc"></canvas></div></div>
+    <div><h3>Fleet status (600 robots)</h3><div class="chart-box"><canvas id="c-fleet"></canvas></div></div>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Severity</th><th class="n">Incidents</th><th class="n">Downtime (hrs)</th></tr></thead>
+    <tbody id="t-sev"></tbody>
+  </table></div>
+
+  <h2 id="customer">Customer</h2>
+  <div class="grid2">
+    <div><h3>Daily support tickets (Oct)</h3><div class="chart-box"><canvas id="c-tix"></canvas></div></div>
+    <div><h3>NPS mix (Oct, n=90)</h3><div class="chart-box"><canvas id="c-nps"></canvas></div></div>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Ticket category</th><th class="n">Tickets</th><th class="n">SLA met</th></tr></thead>
+    <tbody id="t-tix"></tbody>
+  </table></div>
+
+  <p class="note">Definitions: Billed = invoices dated in the window. Collected = invoices paid in the window. Win rate = won ÷ closed deals with a close date in the window. NPS = %Promoters − %Detractors. There were no NPS responses in September, so NPS has no prior-month comparison.</p>
+
+  <script src="/libs/chart.js@4.4.4/chart.umd.js"></script>
+  <script>
+    const KPI = [
+      { area: 'Sales',     label: 'Closed-won bookings', cur: 9145000,  prev: 8791000,  fmt: 'usd', good: 'up' },
+      { area: 'Sales',     label: 'Win rate',            cur: 0.7045,   prev: 0.8571,   fmt: 'pct', good: 'up' },
+      { area: 'Finance',   label: 'Billed',              cur: 3799167,  prev: 3633292,  fmt: 'usd', good: 'up' },
+      { area: 'Finance',   label: 'Collected',           cur: 4054083,  prev: 3643917,  fmt: 'usd', good: 'up' },
+      { area: 'Operations',label: 'Incidents',           cur: 129,      prev: 110,      fmt: 'int', good: 'down' },
+      { area: 'Operations',label: 'Downtime (hrs)',      cur: 2307,     prev: 1851,     fmt: 'int', good: 'down' },
+      { area: 'Operations',label: 'Maintenance cost',    cur: 1398185,  prev: 1107193,  fmt: 'usd', good: 'down' },
+      { area: 'Customer',  label: 'Support tickets',     cur: 301,      prev: 205,      fmt: 'int', good: 'down' },
+      { area: 'Customer',  label: 'SLA attainment',      cur: 0.5837,   prev: 0.6108,   fmt: 'pct', good: 'up' },
+      { area: 'Customer',  label: 'CSAT (1–5)',          cur: 3.47,     prev: 3.76,     fmt: 'dec', good: 'up' },
+      { area: 'Customer',  label: 'NPS',                 cur: 33,       prev: null,     fmt: 'int', good: 'up' }
+    ];
+    const fmt = (v, f) => f === 'usd' ? (v >= 1e6 ? '$' + (v / 1e6).toFixed(2) + 'M' : '$' + (v / 1e3).toFixed(0) + 'K')
+      : f === 'pct' ? (v * 100).toFixed(1) + '%' : f === 'dec' ? v.toFixed(2) : Math.round(v).toLocaleString();
+    const grid = document.getElementById('kpi-grid');
+    KPI.forEach(k => {
+      const el = document.createElement('div'); el.className = 'kpi';
+      let delta = 'No prior-month data', cls = 'flat';
+      if (k.prev !== null) {
+        const d = k.cur - k.prev;
+        delta = k.fmt === 'pct' ? (d >= 0 ? '+' : '') + (d * 100).toFixed(1) + ' pts'
+          : (d >= 0 ? '+' : '') + (d / k.prev * 100).toFixed(1) + '%';
+        delta += ' vs Sep';
+        cls = (d > 0) === (k.good === 'up') ? 'up' : 'down';
+      }
+      [['area', k.area], ['label', k.label], ['val', fmt(k.cur, k.fmt)], ['delta ' + cls, delta]].forEach(([c, t]) => {
+        const s = document.createElement('div'); s.className = c; s.textContent = t; el.appendChild(s);
+      });
+      grid.appendChild(el);
+    });
+
+    function fillTable(id, rows) {
+      const tb = document.getElementById(id);
+      rows.forEach(r => {
+        const tr = document.createElement('tr');
+        r.forEach((c, i) => { const td = document.createElement('td'); td.textContent = c; if (i) td.className = 'n'; tr.appendChild(td); });
+        tb.appendChild(tr);
+      });
+    }
+    const won = [['Spot', 18, 4432000], ['Atlas', 5, 3012000], ['Stretch', 8, 1701000]];
+    const wonTot = won.reduce((a, r) => a + r[2], 0);
+    fillTable('t-won', won.map(r => [r[0], r[1], fmt(r[2], 'usd'), (r[2] / wonTot * 100).toFixed(0) + '%']));
+    fillTable('t-sev', [['Critical', 23, 356.6], ['High', 39, 795.5], ['Medium', 38, 682.0], ['Low', 29, 472.5]].map(r => [r[0], r[1], r[2].toFixed(1)]));
+    fillTable('t-tix', [['Battery', 47, 52.9], ['Navigation', 43, 59.5], ['Software', 40, 43.3], ['Training', 38, 81.3], ['Connectivity', 38, 52.0],
+      ['Hardware', 34, 57.7], ['Billing', 32, 56.0], ['Integration', 29, 62.5]].map(r => [r[0], r[1], r[2].toFixed(1) + '%']));
+
+    const opts = { responsive: true, maintainAspectRatio: false };
+    const days = Array.from({ length: 27 }, (_, i) => i + 1);
+    const usdAxis = { ticks: { callback: v => '$' + (v / 1e6).toFixed(1) + 'M' } };
+
+    new Chart(document.getElementById('c-won'), { type: 'bar',
+      data: { labels: won.map(r => r[0]), datasets: [{ label: 'Closed-won ($)', data: won.map(r => r[2]), backgroundColor: '#2563eb' }] },
+      options: { ...opts, plugins: { legend: { display: false } }, scales: { y: usdAxis } } });
+
+    new Chart(document.getElementById('c-pipe'), { type: 'bar',
+      data: { labels: ['Discovery', 'Qualification', 'Proposal', 'Negotiation', 'Commit'],
+        datasets: [{ label: 'Open pipeline ($)', data: [2952000, 5743000, 6082000, 11100000, 14684000], backgroundColor: '#0891b2' }] },
+      options: { ...opts, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: usdAxis } } });
+
+    new Chart(document.getElementById('c-bill'), { type: 'line',
+      data: { labels: days, datasets: [
+        { label: 'Oct 2026', data: [100000,231667,321042,403542,488542,488542,841875,964375,1052500,1082500,1132500,1216667,1346667,1538333,1709167,1747292,1984167,2255417,2686250,2924792,3160833,3423333,3423333,3705833,3759167,3781667,3799167], borderColor: '#2563eb', tension: .2 },
+        { label: 'Sep 2026', data: [100000,231667,321042,403542,453542,453542,797375,919875,1008000,1038000,1088000,1172167,1302167,1438833,1609667,1647792,1884667,2155917,2576000,2810417,2994958,3257458,3257458,3539958,3593292,3615792,3633292], borderColor: '#94a3b8', borderDash: [5, 4], tension: .2 }
+      ] }, options: { ...opts, scales: { y: usdAxis, x: { title: { display: true, text: 'Day of month' } } } } });
+
+    new Chart(document.getElementById('c-inc'), { type: 'bar',
+      data: { labels: days, datasets: [{ label: 'Incidents', data: [5,4,7,4,3,5,6,6,3,1,2,3,2,7,8,5,8,5,3,2,4,4,6,5,6,7,8], backgroundColor: '#dc2626' }] },
+      options: { ...opts, plugins: { legend: { display: false } } } });
+
+    new Chart(document.getElementById('c-fleet'), { type: 'doughnut',
+      data: { labels: ['Active', 'Idle', 'Maintenance', 'Decommissioned'],
+        datasets: [{ data: [414, 72, 36, 78], backgroundColor: ['#16a34a', '#f59e0b', '#dc2626', '#94a3b8'] }] }, options: opts });
+
+    new Chart(document.getElementById('c-tix'), { type: 'bar',
+      data: { labels: days, datasets: [{ label: 'Tickets', data: [6,7,9,11,13,9,7,8,7,12,11,4,15,3,10,11,12,6,11,9,13,23,9,12,12,24,27], backgroundColor: '#7c3aed' }] },
+      options: { ...opts, plugins: { legend: { display: false } } } });
+
+    new Chart(document.getElementById('c-nps'), { type: 'doughnut',
+      data: { labels: ['Promoter', 'Passive', 'Detractor'], datasets: [{ data: [40, 40, 10], backgroundColor: ['#16a34a', '#f59e0b', '#dc2626'] }] }, options: opts });
+  </script>
+</body>
+</html>
